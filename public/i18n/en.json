@@ -1,0 +1,45 @@
+{
+    "navigation": {
+        "about": "About me",
+        "skills": "Skill set",
+        "projects": "My work"
+    },
+    "intro": {
+        "title": "Frontend Developer",
+        "subtitle": "Hi! I'm Simon"
+    },
+    "about": {
+        "title": "Let’s work together",
+        "subtitle": "I am",
+        "location": "currently in Borken (Westphalia)",
+        "workSytle": "available for part-time remote jobs",
+        "lifeStyle": "soon traveling the world",
+        "description1": "Placeholder",
+        "description2": "Placeholder"
+    },
+    "skills": {
+        "title": "Skill set"
+    },
+    "projects": {
+        "title": "My work",
+        "subtitle": "Explore my work – try projects live and see my skills in action."
+    },
+    "references": {
+        "title": "Looking for a team player?",
+        "subtitle": "Here’s what colleagues say about me"
+    },
+    "contact": {
+        "title": "Contact",
+        "subtitle": "Got a project that needs momentum?",
+        "description": "Placeholder",
+        "underline": "Looking for a frontend developer? Let’s get in touch!",
+        "name": "Your name",
+        "email": "Your email",
+        "message": "Your message",
+        "send": "Let’s connect ;)",
+        "privacyPolicy": "I have read and agree to the privacy policy.",
+        "success": "Your message was sent successfully!",
+        "error": "There was an error sending your message."
+    }
+  }
+  

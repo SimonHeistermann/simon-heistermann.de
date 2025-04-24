@@ -1,0 +1,44 @@
+{
+    "navigation": {
+        "about": "Über mich",
+        "skills": "Skillset",
+        "projects": "Meine Projekte"
+    },
+    "intro": {
+        "title": "Frontend Entwickler",
+        "subtitle": "Hi! Ich bin Simon"
+    },
+    "about" : {
+        "title": "Lass uns zusammenarbeiten",
+        "subtitle": "Ich bin",
+        "location": "aktuell in Borken (Wesftfalen)",
+        "workSytle": "verfügbar für Teilzeit Remote-Jobs",
+        "lifeStyle": "bald auf Weltreise",
+        "description1": "Platzhalter",
+        "description2": "Platzhalter"
+    },
+    "skills": {
+        "title": "Skillset"
+    },
+    "projects": {
+        "title": "Meine Projekte",
+        "subtitle": "Stöbern Sie durch meine Projekte - testen Sie sie live und sehen Sie meine Skills im Einsatz."
+    },
+    "references" : {
+        "title": "Auf der Suche nach einem Teamplayer?",
+        "subtitle": "Das sagen Kollegen über mich"
+    },
+    "contact": {
+        "title": "Kontakt",
+        "subtitle" : "Ein Projekt, das Bewegung braucht?",
+        "description": "Platzhalter",
+        "underline": "Frontend-Entwickler gesucht? Schreib mir!",
+        "name": "Ihr Name",
+        "email": "Ihre E-Mail",
+        "message": "Ihre Nachricht",
+        "send": "Let’s connect ;)",
+        "privacyPolicy": "Ich habe die Datenschutzerklärung gelesen und stimme zu.",
+        "success": "Deine Nachricht wurde erfolgreich gesendet!",
+        "error": "Es gab einen Fehler beim Senden deiner Nachricht."
+    }
+}
