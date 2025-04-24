@@ -1,0 +1,62 @@
+@use "sass:string"
+
+$font-path: './../../public/fonts/'
+$font-family-montserrat: 'Montserrat'
+
+@mixin montserrat-face($weight, $style: normal, $filename)
+    @font-face
+        font-display: swap
+        font-family: $font-family-montserrat
+        font-style: $style
+        font-weight: $weight
+        src: url('#{$font-path}#{$filename}.woff2') format('woff2')
+
+$montserrat-fonts: (
+    100: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-100',
+    100 italic: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-100italic',
+    200: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-200',
+    200 italic: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-200italic',
+    300: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-300',
+    300 italic: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-300italic',
+    400: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-regular',
+    400 italic: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-italic',
+    500: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-500',
+    500 italic: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-500italic',
+    600: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-600',
+    600 italic: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-600italic',
+    700: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-700',
+    700 italic: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-700italic',
+    800: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-800',
+    800 italic: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-800italic',
+    900: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-900',
+    900 italic: 'montserrat-v29-cyrillic_cyrillic-ext_latin_latin-ext_vietnamese-900italic'
+)
+
+@each $key, $filename in $montserrat-fonts
+    $weight: if(string.index($key + '', ' '), string.slice($key + '', 1, string.index($key + '', ' ') - 1), $key)
+    $style: if(string.index($key + '', ' '), string.slice($key + '', string.index($key + '', ' ') + 1), 'normal')
+    @include montserrat-face($weight, $style, $filename)
+
+$font-path: './../../public/fonts/'
+$font-family-baloo: 'Baloo 2'
+
+@mixin baloo-face($weight, $style: normal, $filename)
+    @font-face
+        font-display: swap
+        font-family: $font-family-baloo
+        font-style: $style
+        font-weight: $weight
+        src: url('#{$font-path}#{$filename}.woff2') format('woff2')
+
+$baloo-fonts: (
+    400: 'baloo-2-v21-devanagari_latin_latin-ext_vietnamese-regular',
+    500: 'baloo-2-v21-devanagari_latin_latin-ext_vietnamese-500',
+    600: 'baloo-2-v21-devanagari_latin_latin-ext_vietnamese-600',
+    700: 'baloo-2-v21-devanagari_latin_latin-ext_vietnamese-700',
+    800: 'baloo-2-v21-devanagari_latin_latin-ext_vietnamese-800'
+)
+
+@each $key, $filename in $baloo-fonts
+    $weight: if(string.index($key + '', ' '), string.slice($key + '', 1, string.index($key + '', ' ') - 1), $key)
+    $style: if(string.index($key + '', ' '), string.slice($key + '', string.index($key + '', ' ') + 1), 'normal')
+    @include baloo-face($weight, $style, $filename)

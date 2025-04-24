@@ -5,8 +5,9 @@
         "projects": "My work"
     },
     "intro": {
-        "title": "Frontend Developer",
-        "subtitle": "Hi! I'm Simon"
+        "title1": "FRONTEND",
+        "title2": "DEVELOPER",
+        "subtitle": "Hi! I am Simon"
     },
     "about": {
         "title": "Let’s work together",

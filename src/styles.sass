@@ -1,1 +1,58 @@
-/* You can add global styles to this file, and also import other style files */
+@use './styles/fonts'
+@use './styles/colors'
+
+$standardWidth: min(100%, 1920px)
+$standardInlinePadding: clamp(20px, 6vw, 77px)
+
+@mixin displayFlex($ai: center, $jc: center, $g: 0px) 
+    display: flex
+    align-items: $ai
+    justify-content: $jc
+    gap: $g
+
+@mixin fontMontserrat($fw: 300, $lh: 120%, $fs: 23px, $ls: 0)
+    font-size: $fs
+    font-family: var(--fontfamily-montserrat)
+    font-weight: $fw
+    line-height: $lh
+    letter-spacing: $ls
+    text-decoration: none
+
+* 
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+html
+    scroll-behavior: smooth
+    font-size: 16px
+
+body
+    cursor: none !important
+
+a
+    cursor: pointer
+    &:hover, &:active
+        cursor: pointer
+
+
+button
+    border: unset
+    cursor: pointer
+    &:hover, &:active
+        cursor: pointer
+
+.d__none
+    display: none
+
+.d__flex
+    display: flex
+
+
+:root
+    --fontfamily-montserrat: 'Montserrat'
+    --fontfamily-baloo: 'Baloo 2'
+
+
+
+        

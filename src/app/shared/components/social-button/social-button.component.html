@@ -1,0 +1,13 @@
+<a [href]="link" target="_blank" rel="noopener noreferrer">
+    <button
+      class="social__btn"
+      (mouseenter)="onMouseEnter()"
+      (mouseleave)="onMouseLeave()"
+    >
+      <img *ngIf="!isHovered" class="bg default" [src]="defaultImage" alt="default" />
+      <img *ngIf="isHovered" class="bg hover" [src]="hoverImage" alt="hover" />
+    </button>
+</a>
+  
+  
+  

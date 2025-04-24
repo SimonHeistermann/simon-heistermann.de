@@ -1,0 +1,18 @@
+<header [class.header__hidden]="isHeaderHidden">
+    <div>
+      <button></button>
+      <nav>
+        <div>
+          <a href="#about">About me</a>
+          <a href="#skills">Skill set</a>
+          <a href="#projects">My Work</a>
+        </div>
+        <div class="change__language">
+          <button (click)="selectLanguage('de')" [class.selected]="selectedLanguage === 'de'">DE</button>
+          <span>/</span>
+          <button (click)="selectLanguage('en')" [class.selected]="selectedLanguage === 'en'">EN</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+  

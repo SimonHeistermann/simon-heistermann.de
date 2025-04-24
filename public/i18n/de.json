@@ -2,10 +2,11 @@
     "navigation": {
         "about": "Über mich",
         "skills": "Skillset",
-        "projects": "Meine Projekte"
+        "projects": "Projekte"
     },
     "intro": {
-        "title": "Frontend Entwickler",
+        "title1": "FRONTEND",
+        "title2": "ENTWICKLER",
         "subtitle": "Hi! Ich bin Simon"
     },
     "about" : {
