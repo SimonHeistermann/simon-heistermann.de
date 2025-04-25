@@ -4,12 +4,11 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { TranslationService } from '../../../../core/services/translation-service/translation.service';
 import { SocialButtonComponent } from '../../../../shared/components/social-button/social-button.component';
-import { MouseFollowerComponent } from '../../../../shared/mouse-follower/mouse-follower.component';
 import { TypedAnimationService } from '../../../../core/services/typed-animation-service/typed-animation.service';
 
 @Component({
   selector: 'app-intro',
-  imports: [CommonModule, TranslateModule, SocialButtonComponent, MouseFollowerComponent],
+  imports: [CommonModule, TranslateModule, SocialButtonComponent],
   templateUrl: './intro.component.html',
   styleUrl: './intro.component.sass'
 })
