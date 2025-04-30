@@ -1,0 +1,34 @@
+@use './../../../../../styles' as *;
+
+section
+    background: var(--gradient-project)
+    height: 80vh
+    width: 100%
+    @include displayFlex()
+
+    > div
+        @include displayFlex($g: 64px)
+        flex-direction: column
+        width: $standardWidth
+        height: 100%
+        position: relative
+        padding-inline: $standardInlinePadding
+
+h2
+    font-family: var(--fontfamily-baloo)
+    font-size: 96px
+    line-height: 100%
+    letter-spacing: 1
+    color: white
+    will-change: transform
+    transition: transform 0.2s ease
+  
+    &:hover 
+        transform: scale(1.02)
+
+.skills
+    @include displayFlex($g: 104px)
+    width: 100%
+    overflow: hidden
+    position: relative
+    flex-wrap: wrap

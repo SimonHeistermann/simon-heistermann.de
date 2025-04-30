@@ -10,16 +10,18 @@
         "subtitle": "Hi! I am Simon"
     },
     "about": {
-        "title": "Let’s work together",
+        "title1": "Let’s work",
+        "title2": "together",
         "subtitle": "I am",
         "location": "currently in Borken (Westphalia)",
-        "workSytle": "available for part-time remote jobs",
+        "workStyle": "available for part-time remote jobs",
         "lifeStyle": "soon traveling the world",
         "description1": "Placeholder",
         "description2": "Placeholder"
     },
     "skills": {
-        "title": "Skill set"
+        "title": "Skill set",
+        "growthText": "I have a special interest in learning"
     },
     "projects": {
         "title": "My work",

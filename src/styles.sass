@@ -5,18 +5,18 @@ $standardWidth: min(100%, 1920px)
 $standardInlinePadding: clamp(20px, 6vw, 77px)
 
 @mixin displayFlex($ai: center, $jc: center, $g: 0px) 
-    display: flex
+    display: flex !important
     align-items: $ai
-    justify-content: $jc
-    gap: $g
+    justify-content: $jc 
+    gap: $g 
 
 @mixin fontMontserrat($fw: 300, $lh: 120%, $fs: 23px, $ls: 0)
-    font-size: $fs
-    font-family: var(--fontfamily-montserrat)
-    font-weight: $fw
-    line-height: $lh
-    letter-spacing: $ls
-    text-decoration: none
+    font-size: $fs !important
+    font-family: var(--fontfamily-montserrat) !important
+    font-weight: $fw !important 
+    line-height: $lh !important
+    letter-spacing: $ls !important
+    text-decoration: none !important
 
 * 
     margin: 0
@@ -51,8 +51,10 @@ button
 
 
 :root
-    --fontfamily-montserrat: 'Montserrat'
-    --fontfamily-baloo: 'Baloo 2'
+    --fontfamily-montserrat: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+    --fontfamily-baloo: 'Baloo 2', cursive, 'Segoe UI', system-ui, sans-serif
+    --fontfamily-poppins: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif
+
 
 
 

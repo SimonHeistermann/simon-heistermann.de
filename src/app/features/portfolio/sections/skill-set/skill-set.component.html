@@ -1,1 +1,11 @@
-<p>skill-set works!</p>
+<section>
+    <div>
+      <h2>{{ 'skills.title' | translate }}</h2>
+      <div class="skills">
+        @for (skill of mySkills; track index; let index = $index) {
+          <app-skill [skillName]="skill"></app-skill>
+        }
+      </div>
+    </div>
+  </section>
+  

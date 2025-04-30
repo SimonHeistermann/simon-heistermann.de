@@ -10,16 +10,18 @@
         "subtitle": "Hi! Ich bin Simon"
     },
     "about" : {
-        "title": "Lass uns zusammenarbeiten",
+        "title1": "Lass uns",
+        "title2": "zusammen-arbeiten",
         "subtitle": "Ich bin",
         "location": "aktuell in Borken (Wesftfalen)",
-        "workSytle": "verfügbar für Teilzeit Remote-Jobs",
+        "workStyle": "verfügbar für Teilzeit Remote-Jobs",
         "lifeStyle": "bald auf Weltreise",
         "description1": "Platzhalter",
         "description2": "Platzhalter"
     },
     "skills": {
-        "title": "Skillset"
+        "title": "Skillset",
+        "growthText": "Ich habe Interesse am Lernen von"
     },
     "projects": {
         "title": "Meine Projekte",

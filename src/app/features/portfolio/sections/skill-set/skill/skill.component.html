@@ -1,0 +1,30 @@
+<div 
+    class="container"
+    [ngClass]="{ 'growth__skill': skillName === 'Personal Growth' }"
+>
+    <div 
+        class="skill__icon" 
+        [ngStyle]="{ 'background': 'url(' + getIconPath() + ')' }"
+        draggable="false"
+        role="img" 
+        [attr.aria-label]="skillName">
+    </div>
+    <span>{{skillName}}</span>
+
+    <div class="growth__popup" *ngIf="skillName === 'Personal Growth'" [class.visible]="isHovered">
+        <div class="popup__content">
+            <p>{{ 'skills.growthText' | translate}}</p>
+            <div class="tech__icons">
+                <div class="tech__icon">
+                    <div class="react__icon"></div>
+                    <span>React</span>
+                </div>
+                <div class="tech__icon">
+                    <div class="vue__icon"></div>
+                    <span>Vue Js</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

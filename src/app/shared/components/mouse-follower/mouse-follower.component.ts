@@ -55,7 +55,11 @@ export class MouseFollowerComponent implements OnInit, OnDestroy {
     return [
       document.querySelector('.ellipse__3'),
       document.querySelector('.main__text h1'),
-      document.querySelector('.main__text h2')
+      document.querySelector('.main__text h2'),
+      document.querySelector('.ellipse__5'),
+      document.querySelector('.ellipse__6'),
+      document.querySelector('.content__left h2'),
+      document.querySelector('.content__left h3')
     ].filter(el => el !== null) as HTMLElement[];
   }
 

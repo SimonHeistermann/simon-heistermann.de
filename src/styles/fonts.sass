@@ -60,3 +60,41 @@ $baloo-fonts: (
     $weight: if(string.index($key + '', ' '), string.slice($key + '', 1, string.index($key + '', ' ') - 1), $key)
     $style: if(string.index($key + '', ' '), string.slice($key + '', string.index($key + '', ' ') + 1), 'normal')
     @include baloo-face($weight, $style, $filename)
+
+$font-path: './../../public/fonts/'
+$font-family-poppins: 'Poppins'
+
+@mixin poppins-face($weight, $style: normal, $filename)
+    @font-face
+        font-display: swap
+        font-family: $font-family-poppins
+        font-style: $style
+        font-weight: $weight
+        src: url('#{$font-path}#{$filename}.woff2') format('woff2')
+
+$poppins-fonts: (
+    100: 'poppins-v23-devanagari_latin_latin-ext-100',
+    100 italic: 'poppins-v23-devanagari_latin_latin-ext-100italic',
+    200: 'poppins-v23-devanagari_latin_latin-ext-200',
+    200 italic: 'poppins-v23-devanagari_latin_latin-ext-200italic',
+    300: 'poppins-v23-devanagari_latin_latin-ext-300',
+    300 italic: 'poppins-v23-devanagari_latin_latin-ext-300italic',
+    400: 'poppins-v23-devanagari_latin_latin-ext-regular',
+    400 italic: 'poppins-v23-devanagari_latin_latin-ext-italic',
+    500: 'poppins-v23-devanagari_latin_latin-ext-500',
+    500 italic: 'poppins-v23-devanagari_latin_latin-ext-500italic',
+    600: 'poppins-v23-devanagari_latin_latin-ext-600',
+    600 italic: 'poppins-v23-devanagari_latin_latin-ext-600italic',
+    700: 'poppins-v23-devanagari_latin_latin-ext-700',
+    700 italic: 'poppins-v23-devanagari_latin_latin-ext-700italic',
+    800: 'poppins-v23-devanagari_latin_latin-ext-800',
+    800 italic: 'poppins-v23-devanagari_latin_latin-ext-800italic',
+    900: 'poppins-v23-devanagari_latin_latin-ext-900',
+    900 italic: 'poppins-v23-devanagari_latin_latin-ext-900italic'
+)
+
+@each $key, $filename in $poppins-fonts
+    $key-str: $key + ''
+    $weight: if(string.index($key-str, ' '), string.slice($key-str, 1, string.index($key-str, ' ') - 1), $key)
+    $style: if(string.index($key-str, ' '), string.slice($key-str, string.index($key-str, ' ') + 1), 'normal')
+    @include poppins-face($weight, $style, $filename)

@@ -1,0 +1,138 @@
+@use './../../../../../../styles' as *;
+    
+.container
+    height: calc(13.89vh + 11px)
+    width: 86px
+    @include displayFlex($jc: flex-end, $g: 10px)
+    flex-direction: column
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1)
+    position: relative
+    cursor: pointer
+
+    &:hover, &:focus, &:active
+        gap: 21px
+        > span
+            font-weight: 700 !important
+            transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1)
+
+        > .growth__popup
+            opacity: 1
+            visibility: visible
+            transition: all 125ms ease-in-out
+        
+    > span
+        @include fontMontserrat($fs: 16px)
+        color: white
+        text-overflow: ellipsis
+        overflow: hidden
+        white-space: nowrap
+        flex-shrink: 0
+        transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1)
+
+    > .skill__icon
+        width: 100%
+        height: 100%
+        background-size: auto !important
+        background-repeat: no-repeat !important
+        background-position: bottom !important
+        user-select: none
+        transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1)
+        will-change: transform
+
+        &:hover
+            transform: scale(1.05)
+
+.growth__skill
+    > div
+        width: 75px
+        height: 75px
+        filter: drop-shadow(0 4px 6px #00000073) !important
+
+    &:hover, &:focus, &:active
+        gap: 10px !important
+
+    > span
+        text-shadow: 0 4px 9px #00000073 !important
+
+.growth__popup 
+    @include displayFlex()
+    position: absolute
+    top: -9.6vh
+    left: 36px
+    background: url('/icons/speach_bubble.png')
+    background-size: contain
+    background-repeat: no-repeat
+    background-position: center
+    filter: drop-shadow(0 4px 4px #00000040)
+    width: 169px !important
+    height: 142px !important
+    opacity: 0
+    visibility: hidden
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out
+    pointer-events: none
+    z-index: 100
+    
+
+.popup__content 
+    @include displayFlex($g: 8px)
+    flex-direction: column
+    text-align: center
+    width: 100%
+    height: 100%
+    padding-bottom: 16px
+    
+    > p
+        font-family: var(--fontfamily-poppins)
+        font-weight: 300
+        color: black
+        font-size: 16px
+        text-overflow: ellipsis
+        overflow: hidden
+        flex-shrink: 0
+        line-height: 112%
+        letter-spacing: 0
+        text-align: center
+        height: 38px
+
+.tech__icons 
+    display: flex
+    justify-content: center
+    gap: 16px
+
+
+.tech__icon 
+    @include displayFlex($g: 5px)
+    flex-direction: column
+    
+    > span 
+        font-family: var(--fontfamily-poppins)
+        font-weight: 700
+        line-height: 108%
+        letter-spacing: 0
+        text-align: center
+        font-size: 12px
+        color: black
+
+.react__icon 
+    width: 32px
+    height: 32px
+    background-image: url('/icons/react_icon.png')
+    background-size: contain
+    background-repeat: no-repeat
+    background-position: center
+    user-select: none   
+
+    &:hover
+        transform: scale(1.1)
+
+.vue__icon 
+    width: 32px
+    height: 32px
+    background-image: url('/icons/vue_js_icon.png')
+    background-size: contain
+    background-repeat: no-repeat
+    background-position: center
+    user-select: none
+
+    &:hover
+        transform: scale(1.1)

@@ -2,12 +2,153 @@
 
 section
     background: white
-    height: 75vh
+    height: 80vh
     width: 100%
     @include displayFlex()
 
     > div
+        @include displayFlex($g: 64px)
         width: $standardWidth
         height: 100%
         position: relative
         padding-inline: $standardInlinePadding
+
+.ellipse__5
+    position: absolute
+    top: -103px
+    width: 206px
+    height: 206px
+    border-radius: 50%
+    background: var(--gradient-radial-project)
+    z-index: 0
+
+.ellipse__6
+    position: absolute
+    right: 360px
+    top: 27px
+    width: 82px
+    height: 82px
+    border-radius: 50%
+    background: var(--gradient-radial-project)
+
+.content__left
+    @include displayFlex($g: 40px)
+    flex-direction: column
+    width: 50%
+    height: 100%
+    overflow: hidden
+
+    .left__container
+        width: 100%
+        @include displayFlex($g: 32px)
+        flex-direction: column
+        overflow: hidden
+
+
+h2
+    font-family: var(--fontfamily-baloo)
+    font-size: 121px
+    line-height: 100%
+    letter-spacing: 1
+    color: var(--color-primary)
+
+h3
+    font-family: var(--fontfamily-baloo)
+    font-size: 45px
+    line-height: 100%
+    letter-spacing: 1
+    color: var(--color-primary)
+    horizontal-alignmennt: center
+
+.title__box
+    @include displayFlex($ai: flex-start)
+    flex-direction: column !important
+    width: 100% !important
+
+.availability__icons
+    @include displayFlex($jc: space-between)
+    width: 100%
+    gap: 48px
+
+    > div
+        @include displayFlex($ai: flex-end)
+        gap: 10px
+
+        > div
+            @include displayFlex($jc: flex-end, $ai: flex-end)
+            overflow: hidden
+            cursor: pointer
+            flex-shrink: 0
+            user-select: none
+            position: relative
+
+            > img
+                width: auto
+                height: auto
+                object-fit: contain
+                object-position: center
+                pointer-events: none
+                user-select: none
+
+            > img:first-child
+                display: block
+
+            > img:last-child
+                display: none
+
+            &:hover, &:focus, &:active
+                > img:first-child
+                    display: none
+                
+                > img:last-child
+                    display: block
+
+            &:nth-child(1)
+                width: 62px
+                height: 56px
+            &:nth-child(2)
+                width: 33px
+                height: 48px
+            &:nth-child(3)
+                width: 32px
+                height: 53px
+
+        > span
+            @include fontMontserrat($fs: 18px)
+            color: var(--color-primary)
+            text-overflow: ellipsis
+            overflow: hidden
+            max-height: 65px
+            
+.content__right
+    @include displayFlex($ai: flex-start, $g: 40px)
+    align-items: flex-start !important
+    flex-direction: column
+    width: 50%
+    height: 100%
+    overflow: hidden
+
+
+
+.texts
+    @include displayFlex($ai: flex-start, $g: 24px)
+    flex-direction: column
+    width: 100%
+
+    > p
+        @include fontMontserrat()
+        color: black
+        text-align: start
+        text-justify: inter-word
+        text-overflow: ellipsis
+        overflow: hidden
+
+.ellipse__5, .ellipse__6, .content__left h2, .content__left h3
+    will-change: transform
+    transition: transform 0.2s ease
+  
+    &:hover 
+        transform: scale(1.02)
+    
+
+    
