@@ -2,13 +2,75 @@
 
 section
     background:  white
-    height: 100vh
     width: 100%
     @include displayFlex()
 
     > div
-        @include displayFlex($g: 64px)
+        @include displayFlex()
         width: $standardWidth
         height: 100%
         position: relative
+        padding: 160px 0px
         padding-inline: $standardInlinePadding
+
+.ellipse__7
+    position: absolute
+    top: 80px
+    left: 40%
+    width: 108.75px
+    height: 108.75px
+    border-radius: 50%
+    background: radial-gradient(circle at 15% 15%, #5988FF 0%, #5988FF 40%, #0043F0 95%)
+    z-index: 2
+
+.ellipse__8
+    position: absolute
+    right: $standardInlinePadding
+    top: 200px
+    width: 183px
+    height: 183px
+    border-radius: 50%
+    background: var(--gradient-radial-project)
+    z-index: 2
+
+.content
+    @include displayFlex($g: 32px)
+    flex-direction: column
+    width: 100%
+    height: 100%
+    position: relative
+
+.title__and__text
+    @include displayFlex($ai: flex-start, $g: 32px)
+    flex-direction: column
+    width: 100%
+    
+    > h2
+        font-family: var(--fontfamily-baloo)
+        font-size: 96px
+        line-height: 100%
+        letter-spacing: 1
+        font-weight: 700
+        color: var(--color-primary)
+        overflow: hidden
+
+    > p
+        @include fontMontserrat()
+        color: black
+        max-width: 50%
+        overflow: hidden
+        text-align: start
+        text-justify: inter-word
+
+.ellipse__7, .ellipse__8, .title__and__text h2
+    will-change: transform
+    transition: transform 0.2s ease
+  
+    &:hover 
+        transform: scale(1.02)
+    
+.projects
+    @include displayFlex($g: 64px)
+    flex-direction: column
+    width: 100%
+    
