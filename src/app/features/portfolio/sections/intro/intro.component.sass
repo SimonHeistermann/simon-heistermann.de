@@ -97,11 +97,21 @@ h3
     z-index: 2
     @include fontMontserrat()
     color: var(--color-primary)
+    transition: transform 0.3s ease-out
+    will-change: transform
+
+    > span
+        margin-bottom: 5px
+        transition: opacity 0.3s ease-out 
+        position: relative
 
     > div
         border: 1px solid var(--color-primary)
         height: 30.56vh
         border-radius: 2px 2px 0px 0px
+        transition: height 0.3s ease-out 
+        will-change: height
+        transform-origin: bottom center
 
 .social__media
     position: absolute
@@ -122,4 +132,3 @@ h3
 .typed-cursor
     display: none !important
     opacity: 0 !important
-    

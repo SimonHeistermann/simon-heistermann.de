@@ -126,14 +126,12 @@ h3
     flex-direction: column
     width: 50%
     height: 100%
-    overflow: hidden
-
-
 
 .texts
     @include displayFlex($ai: flex-start, $g: 24px)
     flex-direction: column
     width: 100%
+    overflow: hidden
 
     > p
         @include fontMontserrat()
@@ -150,5 +148,45 @@ h3
     &:hover 
         transform: scale(1.02)
     
+.send__message__button 
+    position: relative
+    padding: 15px 30px
+    font-size: 23px
+    font-family: var(--fontfamily-poppins)
+    line-height: 120%
+    letter-spacing: 0
+    font-weight: 300
+    color: #5988FF
+    background-color: transparent
+    border: 2px solid #5988FF
+    border-radius: 10px
+    overflow: hidden
+    min-width: 200px
+    text-align: center
+    transition: all 0.3s ease
+    box-shadow: 5px 5px 15px 0px #00000026
+
+    &:hover 
+        color: white
+        z-index: 1
+        transform: scale(1.05)
+        
+    &::before 
+        content: ''
+        position: absolute
+        top: 0
+        left: -130%
+        width: 120%
+        height: 100%
+        background: linear-gradient(90deg, #5988FF 0%, #0043F0 100%)
+        transform: skewX(-30deg)
+        transition: all 0.3s ease
+        z-index: -1
+
+.send__message__button:hover::before
+    transform: skewX(-30deg) translateX(100%) scale(1.05)
+    
+        
+        
 
     

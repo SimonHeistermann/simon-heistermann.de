@@ -1,4 +1,5 @@
 <header 
+  [@initialLoad]="shouldShowInitialAnimation ? '' : null"
   [class.header__hidden]="isHeaderHidden" 
   [class.header__hovered]="shouldApplyHoverStyle()"
   (mouseenter)="onHeaderMouseEnter()" 
