@@ -1,6 +1,5 @@
 export interface Skill {
-    nameDe: string;
-    nameEn: string;
-    iconUrl?: string;
-    // categrory: string;
+    category: string;
+    hasLearnedSkill: boolean;
+    name: string;
 }

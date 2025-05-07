@@ -22,7 +22,8 @@
     },
     "skills": {
         "title": "Skillset",
-        "growthText": "Ich habe Interesse am Lernen von"
+        "growthText": "Ich habe Interesse am Lernen von",
+        "growthTitle": "Wachstumsmentalität"
     },
     "projects": {
         "title": "Meine Projekte",

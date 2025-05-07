@@ -10,7 +10,7 @@ section
         width: $standardWidth
         height: 100%
         position: relative
-        padding: 80px 0px
+        padding: 100px 0px
         padding-inline: $standardInlinePadding
 
 .ellipse__5
@@ -123,7 +123,7 @@ h3
             max-height: 65px
             
 .content__right
-    @include displayFlex($ai: flex-start, $g: 40px)
+    @include displayFlex($ai: flex-start, $jc: space-between, $g: 40px)
     align-items: flex-start !important
     flex-direction: column
     width: 50%
@@ -172,6 +172,7 @@ h3
         color: white
         z-index: 1
         transform: scale(1.05)
+        border: unset
         
     &::before 
         content: ''

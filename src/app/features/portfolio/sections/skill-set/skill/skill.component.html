@@ -1,6 +1,6 @@
 <div 
     class="container"
-    [ngClass]="{ 'growth__skill': skillName === 'Personal Growth' }"
+    [ngClass]="{ 'growth__skill': skillName === 'Growth mindset' }"
 >
     <div 
         class="skill__icon" 
@@ -9,9 +9,9 @@
         role="img" 
         [attr.aria-label]="skillName">
     </div>
-    <span>{{skillName}}</span>
+    <span>{{ skillName === 'Growth mindset' ? ('skills.growthTitle' | translate) : skillName }}</span>
 
-    <div class="growth__popup" *ngIf="skillName === 'Personal Growth'" [class.visible]="isHovered">
+    <div class="growth__popup" *ngIf="skillName === 'Growth mindset'" [class.visible]="isHovered">
         <div class="popup__content">
             <p>{{ 'skills.growthText' | translate}}</p>
             <div class="tech__icons">
