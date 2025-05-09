@@ -8,7 +8,12 @@
                 <p>Explore a selection of my work here - Interact with projects to see my skills in action.</p>
             </div>
             <div class="projects">
-                <app-project></app-project>
+                @for (project of projects; let index = $index; track index) {
+                    <app-project
+                        [project]="project" 
+                        [layout]="index % 2 === 0 ? 'left' : 'right'"
+                    ></app-project>
+                }
             </div>
         </div>
     </div>

@@ -1,0 +1,111 @@
+@use './../../../../../../styles' as *;
+
+.project__card
+    @include displayFlex($ai: flex-end, $jc: space-between)
+    width: 100%
+
+    &.right__layout
+        flex-direction: row-reverse
+    
+
+.project__info
+    @include displayFlex($ai: flex-start ,$g: 32px )
+    flex-direction: column
+    flex: 1
+    max-width: 50%
+
+.project__infotext
+    @include displayFlex($ai: flex-start ,$g: 15px )
+    flex-direction: column
+
+h3
+    font-family: var(--fontfamily-baloo)
+    font-weight: 700
+    font-size: 45px
+    line-height: 120%
+    letter-spacing: 0
+    color: var(--color-primary)
+
+.project__technologies
+    @include displayFlex($g: 4px)
+    
+    > span
+        @include fontMontserrat()
+        color: var(--color-primary)
+        
+
+.project__description
+    @include fontMontserrat($fs: 16px)
+    color: black
+
+.github__btn__box
+    @include displayFlex($jc: flex-start)
+    height: 62px
+
+.github__btn 
+    position: relative
+    padding: 15px 30px
+    font-size: 23px
+    font-family: var(--fontfamily-poppins)
+    line-height: 120%
+    letter-spacing: 0
+    font-weight: 300
+    color: #5988FF
+    background-color: transparent
+    border: 2px solid #5988FF
+    border-radius: 10px
+    overflow: hidden
+    min-width: 200px
+    text-align: center
+    transition: all 0.3s ease
+    box-shadow: 5px 5px 15px 0px #00000026
+
+    &:hover 
+        color: white
+        z-index: 1
+        transform: scale(1.05)
+        border: unset
+        
+    &::before 
+        content: ''
+        position: absolute
+        top: 0
+        left: -130%
+        width: 120%
+        height: 100%
+        background: linear-gradient(90deg, #5988FF 0%, #0043F0 100%)
+        transform: skewX(-30deg)
+        transition: all 0.3s ease
+        z-index: -1
+
+.github__btn:hover::before
+    transform: skewX(-30deg) translateX(100%) scale(1.05)
+
+// .project__media
+// 	flex: 1
+// 	max-width: 50%
+// 	border-radius: 12px
+// 	overflow: hidden
+// 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)
+// 	cursor: pointer
+// 	transition: transform 0.3s ease, box-shadow 0.3s ease
+
+// 	&:hover
+// 		transform: translateY(-5px)
+// 		box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15)
+
+// .project__image, .project__video
+// 	width: 100%
+// 	height: auto
+// 	object-fit: cover
+// 	display: block
+
+// @media (max-width: 768px)
+// 	.project__card
+// 		flex-direction: column
+
+// 		&.right__layout
+// 			flex-direction: column
+
+// 	.project__info, .project__media
+// 		max-width: 100%
