@@ -6,14 +6,16 @@ import { AboutComponent } from './sections/about/about.component';
 import { MouseFollowerComponent } from '../../shared/components/mouse-follower/mouse-follower.component';
 import { SkillSetComponent } from './sections/skill-set/skill-set.component';
 import { ProjectsComponent } from './sections/projects/projects.component';
+import { ReferencesComponent } from "./sections/references/references.component";
+import { ContactComponent } from "./sections/contact/contact.component";
 
 @Component({
   selector: 'app-portfolio',
   imports: [
-    IntroComponent, CommonModule, HeaderComponent, 
+    IntroComponent, CommonModule, HeaderComponent,
     AboutComponent, MouseFollowerComponent, SkillSetComponent,
-    ProjectsComponent
-  ],
+    ProjectsComponent, ReferencesComponent, ContactComponent
+],
   templateUrl: './portfolio.component.html',
   styleUrl: './portfolio.component.sass'
 })

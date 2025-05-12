@@ -2,6 +2,11 @@
     <div>
         <div class="ellipse__7"></div>
         <div class="ellipse__8"></div>
+        <div class="ellipse__4"></div>
+        <div class="ellipse__9"></div>
+        <div class="ellipse__10"></div>
+        <div class="ellipse__11"></div>
+        <div class="ellipse__12"></div>
         <div class="content">
             <div class="title__and__text">
                 <h2>My work</h2>
@@ -11,7 +16,7 @@
                 @for (project of projects; let index = $index; track index) {
                     <app-project
                         [project]="project" 
-                        [layout]="index % 2 === 0 ? 'left' : 'right'"
+                        [layout]="index % 2 === 0 ? 'right' : 'left'"
                     ></app-project>
                 }
             </div>

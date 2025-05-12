@@ -3,7 +3,9 @@
 section
     background: white
     width: 100%
+    max-width: 100vw
     @include displayFlex()
+    overflow: hidden
 
     > div
         @include displayFlex($g: 64px)
@@ -12,6 +14,7 @@ section
         position: relative
         padding: 100px 0px
         padding-inline: $standardInlinePadding
+        overflow: hidden
 
 .ellipse__5
     position: absolute

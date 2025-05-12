@@ -37,13 +37,25 @@
         "title": "Kontakt",
         "subtitle" : "Ein Projekt, das Bewegung braucht?",
         "description": "Platzhalter",
-        "underline": "Frontend-Entwickler gesucht? Schreib mir!",
+        "underline": "Frontend-Entwickler gesucht?",
+        "underline_b_tag": "Schreib mir!",
         "name": "Ihr Name",
         "email": "Ihre E-Mail",
         "message": "Ihre Nachricht",
         "send": "Let’s connect ;)",
-        "privacyPolicy": "Ich habe die Datenschutzerklärung gelesen und stimme zu.",
-        "success": "Deine Nachricht wurde erfolgreich gesendet!",
-        "error": "Es gab einen Fehler beim Senden deiner Nachricht."
+        "privacyPolicy_1": "Ich habe die",
+        "privacyPolicy_2": "Datenschutzerklärung",
+        "privacyPolicy_3": "gelesen und stimme zu.",
+        "errors": {
+            "name": "Ihr Name ist erforderlich.",
+            "nameToShort": "Mindestens 2 Zeichen.",
+            "email": "Ihre E-Mail-Adresse ist erforderlich.",
+            "emailInvalid": "Ungültiges E-Mail-Format.",
+            "message": "Ihre Nachricht ist erforderlich.",
+            "messageToShort": "Mindestens 10 Zeichen.",
+            "privacyPolicy": "Bitte akzeptieren Sie die Datenschutzerklärung."
+        },
+        "success": "Ihre Nachricht wurde erfolgreich gesendet!",
+        "error": "Es gab einen Fehler beim Senden Ihrer Nachricht."
     }
 }

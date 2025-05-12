@@ -1,0 +1,53 @@
+<div class="content">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="inputs">
+            <div class="form__group">
+                <label for="name">{{ 'contact.name' | translate }}</label>
+                <input type="text" formControlName="name" placeholder="{{ 'contact.name' | translate }}" id="name" />
+                <div class="error" *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.invalid">
+                    <small *ngIf="contactForm.get('name')?.errors?.['required']">{{ 'contact.errors.name' | translate }}</small>
+                    <small *ngIf="contactForm.get('name')?.errors?.['minlength']">{{ 'contact.errors.nameToShort' | translate }}</small>
+                </div>
+              </div>
+            
+              <div class="form__group">
+                <label for="email">{{ 'contact.email' | translate }}</label>
+                <input type="email" formControlName="email" placeholder="{{ 'contact.email' | translate }}" id="email" />
+                <div class="error" *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid">
+                    <small *ngIf="contactForm.get('email')?.errors?.['required']">{{ 'contact.errors.email' | translate }}</small>
+                    <small *ngIf="contactForm.get('email')?.errors?.['email']">{{ 'contact.errors.emailInvalid' | translate }}</small>
+                </div>
+              </div>
+            
+              <div class="form__group form__message">
+                <label for="message">{{ 'contact.message' | translate }}</label>
+                <textarea formControlName="message" placeholder="{{ 'contact.message' | translate }}" id="message"></textarea>
+                <div class="error" *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.invalid">
+                    <small *ngIf="contactForm.get('message')?.errors?.['required']">{{ 'contact.errors.message' | translate }}</small>
+                    <small *ngIf="contactForm.get('message')?.errors?.['minlength']">{{ 'contact.errors.messageToShort' | translate }}</small>
+                </div>
+              </div>
+        </div>
+        <div class="form__bottom">
+            <div class="form__group checkbox__group">
+                <label>
+                    <input class="checkbox" type="checkbox" formControlName="agreedToTerms">
+                    <span class="custom__checkbox"></span>
+                    <span>
+                        {{ 'contact.privacyPolicy_1' | translate }} <a href="#" target="_blank">{{ 'contact.privacyPolicy_2' | translate }}</a> {{ 'contact.privacyPolicy_3' | translate }}
+                    </span>
+                </label>
+                <div class="error" *ngIf="contactForm.get('agreedToTerms')?.touched && contactForm.get('agreedToTerms')?.invalid">
+                    <small>{{ 'contact.errors.privacyPolicy' | translate }}</small>
+                </div>
+            </div>
+            <div class="button__box">
+                <button type="submit" [disabled]="contactForm.invalid">
+                    {{ 'contact.send' | translate }}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+  

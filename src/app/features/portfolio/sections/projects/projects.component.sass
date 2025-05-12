@@ -1,9 +1,26 @@
 @use './../../../../../styles' as *;
 
+@mixin gradient-circle($width, $top, $left: null, $right: null, $transform: null, $gradient: var(--gradient-radial-project))
+    position: absolute
+    width: #{$width}px
+    height: #{$width}px
+    top: #{$top}px
+    @if $left != null
+        left: #{$left}
+    @if $right != null
+        right: #{$right}
+    border-radius: 50%
+    background: $gradient
+    z-index: 2
+    @if $transform != null
+        transform: #{$transform}
+
 section
     background:  white
     width: 100%
+    max-width: 100vw
     @include displayFlex()
+    overflow: hidden
 
     > div
         @include displayFlex()
@@ -13,28 +30,30 @@ section
         padding: 160px 0px
         padding-inline: $standardInlinePadding
 
-.ellipse__7
-    position: absolute
-    top: 80px
-    left: 40%
-    width: 108.75px
-    height: 108.75px
-    border-radius: 50%
-    background: radial-gradient(circle at 15% 15%, #5988FF 0%, #5988FF 40%, #0043F0 95%)
-    z-index: 2
-
-.ellipse__8
-    position: absolute
-    right: $standardInlinePadding
-    top: 200px
-    width: 183px
-    height: 183px
-    border-radius: 50%
-    background: var(--gradient-radial-project)
-    z-index: 2
+.ellipse
+  &__7
+    @include gradient-circle(108.75, 80, $left: 40%)
+  
+  &__8
+    @include gradient-circle(183, 200, $right: $standardInlinePadding)
+  
+  &__4
+    @include gradient-circle(393.32, 540, $left: -196.66px, $transform: rotate(81.57deg))
+  
+  &__9
+    @include gradient-circle(652.16, 900, $right: -196.66px, $transform: rotate(81.57deg))
+  
+  &__10
+    @include gradient-circle(51, 1340, $left: $standardInlinePadding)
+  
+  &__11
+    @include gradient-circle(237.84, 1800, $left: calc($standardInlinePadding + 32px), $transform: rotate(81.57deg))
+  
+  &__12
+    @include gradient-circle(98, 2200, $right: calc($standardInlinePadding - 60px))
 
 .content
-    @include displayFlex($g: 32px)
+    @include displayFlex($g: 48px)
     flex-direction: column
     width: 100%
     height: 100%
@@ -62,7 +81,8 @@ section
         text-align: start
         text-justify: inter-word
 
-.ellipse__7, .ellipse__8, .title__and__text h2
+.ellipse__7, .ellipse__8, .ellipse__4, .ellipse__9, 
+.ellipse__10, .ellipse__11, .ellipse__12, .title__and__text h2
     will-change: transform
     transition: transform 0.2s ease
   
@@ -70,7 +90,7 @@ section
         transform: scale(1.02)
     
 .projects
-    @include displayFlex($g: 64px)
+    @include displayFlex($g: 160px)
     flex-direction: column
     width: 100%
 

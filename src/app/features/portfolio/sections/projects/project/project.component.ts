@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Project } from '../../../../../core/models/project.interface';
 import { Subscription } from 'rxjs';
@@ -20,6 +20,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
   isHovering = false;
   currentLang: string = 'de';
   private langSubscription!: Subscription;
+  @ViewChild('videoPlayer') videoPlayer?: ElementRef<HTMLVideoElement>;
+  private videoPreloaded = false;
+
 
   constructor(
     private router: Router, 
@@ -34,6 +37,21 @@ export class ProjectComponent implements OnInit, OnDestroy {
     if (!this.project) {
       console.error('Project input is required!');
     }
+    if (this.project.videoUrl) {
+      this.preloadVideo();
+    }
+  }
+
+  preloadVideo(): void {
+    if (this.videoPreloaded || !this.project.videoUrl) return;
+    const video = new HTMLVideoElement();
+    video.preload = 'auto';
+    video.muted = true;
+    video.src = this.project.videoUrl;
+    video.load();
+    video.onloadeddata = () => {
+      this.videoPreloaded = true;
+    };
   }
 
   ngOnDestroy(): void {
@@ -45,6 +63,14 @@ export class ProjectComponent implements OnInit, OnDestroy {
   onMouseEnter(): void {
     if (this.project.videoUrl) {
       this.isHovering = true;
+      setTimeout(() => {
+        if (this.videoPlayer && this.videoPlayer.nativeElement) {
+          this.videoPlayer.nativeElement.currentTime = 0;
+          this.videoPlayer.nativeElement.play().catch(err => {
+            console.warn('Autoplay not allowed:', err);
+          });
+        }
+      }, 0);
     }
   }
 

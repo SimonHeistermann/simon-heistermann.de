@@ -37,12 +37,24 @@
         "title": "Contact",
         "subtitle": "Got a project that needs momentum?",
         "description": "Placeholder",
-        "underline": "Looking for a frontend developer? Let’s get in touch!",
+        "underline": "Looking for a frontend developer?",
+        "underline_b_tag": "Let’s get in touch!",
         "name": "Your name",
         "email": "Your email",
         "message": "Your message",
         "send": "Let’s connect ;)",
-        "privacyPolicy": "I have read and agree to the privacy policy.",
+        "privacyPolicy_1": "I've read the",
+        "privacyPolicy_2": "privacy policy",
+        "privacyPolicy_3": "and agree to the processing of my data as outlined.",
+        "errors": {
+            "name": "Your name is required.",
+            "nameToShort": "At least 2 characters.",
+            "email": "Your email is required.",
+            "emailInvalid": "Invalid email format.",
+            "message": "Your message is required.",
+            "messageToShort": "At leats 10 characters.",
+            "privacyPolicy": "Please accept the privacy policy."
+        },
         "success": "Your message was sent successfully!",
         "error": "There was an error sending your message."
     }
