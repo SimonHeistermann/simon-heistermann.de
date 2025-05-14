@@ -1,0 +1,23 @@
+<div class="form__overlay">
+    <div class="overlay__content" *ngIf="submitting">
+        <div class="spinner"></div>
+        <span>{{ 'contact.sending' | translate }}</span>
+    </div>
+
+    <div class="form__feedback" *ngIf="submitSuccess" role="alert">
+        <div class="form__success__message">
+            <img src="/icons/paper_plane_icon_white.png" alt="" aria-hidden="true" draggable="false">
+            {{ 'contact.successMessage' | translate }}
+        </div>
+    </div>
+    
+    <div class="form__feedback" *ngIf="submitError" role="alert">
+        <div class="form__error__message">
+            <img src="/icons/error_icon_white.png" alt="" aria-hidden="true" draggable="false">
+            {{ 'contact.errorMessage' | translate }}
+            <button type="button" class="form__retry__button" (click)="onRetry()">
+                {{ 'contact.retry' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

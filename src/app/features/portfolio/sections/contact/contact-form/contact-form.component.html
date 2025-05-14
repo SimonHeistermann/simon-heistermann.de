@@ -1,5 +1,11 @@
 <div class="content">
-    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+    <form 
+    [formGroup]="contactForm" 
+    (ngSubmit)="onSubmit()"
+    [ngClass]="{'submitting': submitting || submitSuccess || submitError}"
+    novalidate 
+    aria-labelledby="contact-form-title">
+        <h2 id="contact-form-title" class="visually__hidden">{{ 'contact.formTitle' | translate }}</h2>
         <div class="inputs">
             <div class="form__group" [ngClass]="{
                 'error__state': contactForm.get('name')?.touched && contactForm.get('name')?.invalid, 
@@ -7,17 +13,23 @@
                 'has__content': contactForm.get('name')?.value
             }">
                 <label for="name">{{ 'contact.name' | translate }}</label>
-                <input type="text" formControlName="name" placeholder="{{ 'contact.name' | translate }}" id="name" />
+                <input type="text" 
+                       formControlName="name" 
+                       placeholder="{{ 'contact.name' | translate }}" 
+                       id="name" 
+                       autocomplete="name"
+                       [attr.aria-invalid]="contactForm.get('name')?.touched && contactForm.get('name')?.invalid"
+                       [attr.aria-describedby]="(contactForm.get('name')?.touched && contactForm.get('name')?.invalid) ? 'name-error' : null" />
 
-                <div class="status__icon error__icon">
-                    <img src="/icons/wrong_form_icon.png" alt="!">
+                <div class="status__icon error__icon" aria-hidden="true">
+                    <img src="/icons/wrong_form_icon.png" alt="">
                 </div>
 
-                <div class="status__icon success__icon">
-                    <img src="/icons/correct_form_icon.png" alt="✓">
+                <div class="status__icon success__icon" aria-hidden="true">
+                    <img src="/icons/correct_form_icon.png" alt="">
                 </div>
 
-                <div class="error" *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.invalid">
+                <div class="error" *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.invalid" id="name-error">
                     <small *ngIf="contactForm.get('name')?.errors?.['required']">{{ 'contact.errors.name' | translate }}</small>
                     <small *ngIf="contactForm.get('name')?.errors?.['minlength']">{{ 'contact.errors.nameToShort' | translate }}</small>
                 </div>
@@ -29,17 +41,23 @@
                 'has__content': contactForm.get('email')?.value
             }">
                 <label for="email">{{ 'contact.email' | translate }}</label>
-                <input type="email" formControlName="email" placeholder="{{ 'contact.email' | translate }}" id="email" />
+                <input type="email" 
+                       formControlName="email" 
+                       placeholder="{{ 'contact.email' | translate }}" 
+                       id="email" 
+                       autocomplete="email"
+                       [attr.aria-invalid]="contactForm.get('email')?.touched && contactForm.get('email')?.invalid"
+                       [attr.aria-describedby]="(contactForm.get('email')?.touched && contactForm.get('email')?.invalid) ? 'email-error' : null" />
                 
-                <div class="status__icon error__icon">
-                    <img src="/icons/wrong_form_icon.png" alt="!">
+                <div class="status__icon error__icon" aria-hidden="true">
+                    <img src="/icons/wrong_form_icon.png" alt="">
                 </div>
 
-                <div class="status__icon success__icon">
-                    <img src="/icons/correct_form_icon.png" alt="✓">
+                <div class="status__icon success__icon" aria-hidden="true">
+                    <img src="/icons/correct_form_icon.png" alt="">
                 </div>
 
-                <div class="error" *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid">
+                <div class="error" *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid" id="email-error">
                     <small *ngIf="contactForm.get('email')?.errors?.['required']">{{ 'contact.errors.email' | translate }}</small>
                     <small *ngIf="contactForm.get('email')?.errors?.['email']">{{ 'contact.errors.emailInvalid' | translate }}</small>
                 </div>
@@ -51,50 +69,69 @@
                 'has__content': contactForm.get('message')?.value
             }">
                 <label for="message">{{ 'contact.message' | translate }}</label>
-                <textarea formControlName="message" placeholder="{{ 'contact.message' | translate }}" id="message"></textarea>
+                <textarea formControlName="message" 
+                          placeholder="{{ 'contact.message' | translate }}" 
+                          id="message"
+                          [attr.aria-invalid]="contactForm.get('message')?.touched && contactForm.get('message')?.invalid"
+                          [attr.aria-describedby]="(contactForm.get('message')?.touched && contactForm.get('message')?.invalid) ? 'message-error' : null"></textarea>
 
-                <div class="status__icon error__icon">
-                    <img src="/icons/wrong_form_icon.png" alt="!">
+                <div class="status__icon error__icon" aria-hidden="true">
+                    <img src="/icons/wrong_form_icon.png" alt="">
                 </div>
 
-                <div class="status__icon success__icon">
-                    <img src="/icons/correct_form_icon.png" alt="✓">
+                <div class="status__icon success__icon" aria-hidden="true">
+                    <img src="/icons/correct_form_icon.png" alt="">
                 </div>
 
-                <div class="error" *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.invalid">
+                <div class="error" *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.invalid" id="message-error">
                     <small *ngIf="contactForm.get('message')?.errors?.['required']">{{ 'contact.errors.message' | translate }}</small>
                     <small *ngIf="contactForm.get('message')?.errors?.['minlength']">{{ 'contact.errors.messageToShort' | translate }}</small>
                 </div>
             </div>
 
-            <!-- Honeypot -->
-            <div class="form__group honeypot" style="display: none;">
+            <div class="form__group honeypot" aria-hidden="true">
                 <label for="website">Website</label>
-                <input type="text" formControlName="website" id="website" autocomplete="off">
+                <input type="text" name="website" formControlName="website" id="website" tabindex="-1" autocomplete="off">
             </div>
         </div>
         <div class="form__bottom">
             <div class="form__group">
                 <div class="checkbox__group">
                     <label>
-                        <input id="privacy_policy" name="privacy_policy" class="checkbox" type="checkbox" formControlName="agreedToTerms">
-                        <span class="custom__checkbox"></span>
+                        <input id="privacy_policy" 
+                               name="privacy_policy" 
+                               class="checkbox" 
+                               type="checkbox" 
+                               formControlName="agreedToTerms"
+                               [attr.aria-invalid]="contactForm.get('agreedToTerms')?.touched && contactForm.get('agreedToTerms')?.invalid"
+                               [attr.aria-describedby]="(contactForm.get('agreedToTerms')?.touched && contactForm.get('agreedToTerms')?.invalid) ? 'privacy-error' : null">
+                        <span class="custom__checkbox" aria-hidden="true"></span>
                         <span class="text">
-                            {{ 'contact.privacyPolicy_1' | translate }} <a href="#" target="_blank">{{ 'contact.privacyPolicy_2' | translate }}</a> {{ 'contact.privacyPolicy_3' | translate }}
+                            {{ 'contact.privacyPolicy_1' | translate }} <a href="/privacy-policy" target="_blank">{{ 'contact.privacyPolicy_2' | translate }}</a> {{ 'contact.privacyPolicy_3' | translate }}
                         </span>
                     </label>
-                    <div class="error" *ngIf="contactForm.get('agreedToTerms')?.touched && contactForm.get('agreedToTerms')?.invalid">
+                    <div class="error" *ngIf="contactForm.get('agreedToTerms')?.touched && contactForm.get('agreedToTerms')?.invalid" id="privacy-error">
                         <small>{{ 'contact.errors.privacyPolicy' | translate }}</small>
                     </div>
                 </div>
             </div>
             <div class="button__box">
-                <button type="submit" [disabled]="contactForm.invalid">
-                    {{ 'contact.send' | translate }}
+                <button type="submit" 
+                        [disabled]="contactForm.invalid || submitting"
+                        [attr.aria-busy]="submitting">
+                    <span *ngIf="!submitting">{{ 'contact.send' | translate }}</span>
+                    <span *ngIf="submitting">{{ 'contact.sending' | translate }}</span>
                 </button>
             </div>
         </div>
     </form>
+    <app-contact-form-overlay 
+        *ngIf="submitting || submitSuccess || submitError"
+        [submitting]="submitting"
+        [submitSuccess]="submitSuccess"
+        [submitError]="submitError"
+        (retry)="onSubmit()">
+    </app-contact-form-overlay>
 </div>
 
   

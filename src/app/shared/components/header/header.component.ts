@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, Inject, PLATFORM_ID, Input } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslationService } from '../../../core/services/translation-service/translation.service';
 import { Subscription } from 'rxjs';
@@ -38,6 +38,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private langSubscription!: Subscription;
 
+  @Input() isOverlayActive: boolean = false;
+
   constructor(
     @Inject(PLATFORM_ID) platformId: Object, 
     private translationService: TranslationService, 
@@ -63,6 +65,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private checkScrollPosition(): void {
     const scrollTop = this.getScrollTop();
     this.hasScrolled = scrollTop >= this.SCROLL_THRESHOLD;
+    if (this.isOverlayActive) {
+      this.isHeaderHidden = true;
+      return;
+    }
     if (this.initialPageLoad && this.pageLoadedWithScroll) {
       this.isHeaderHidden = false;
     } else {

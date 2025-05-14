@@ -39,6 +39,7 @@
         }
     },
     "contact": {
+        "formTitle": "Contact Form",
         "title": "Contact",
         "subtitle": "Got a project that needs momentum?",
         "description": "Encourage people to contact you and describe what role you are interested in. Show that you will add value to their projects through your work.",
@@ -48,6 +49,7 @@
         "email": "Your email",
         "message": "Your message",
         "send": "Let’s connect ;)",
+        "sending": "Sending...",
         "privacyPolicy_1": "I've read the",
         "privacyPolicy_2": "privacy policy",
         "privacyPolicy_3": "and agree to the processing of my data as outlined.",
@@ -60,8 +62,9 @@
             "messageToShort": "At leats 10 characters.",
             "privacyPolicy": "Please accept the privacy policy."
         },
-        "success": "Your message was sent successfully!",
-        "error": "There was an error sending your message."
+        "successMessage": "Your message was sent successfully!",
+        "errorMessage": "There was an error sending your message.",
+        "retry": "Try again"
     }
   }
   

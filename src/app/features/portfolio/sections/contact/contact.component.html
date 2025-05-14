@@ -21,7 +21,7 @@
                     <div class="ellipse__11"></div>
                 </div>
                 <div class="content__right">
-                    <app-contact-form></app-contact-form>
+                    <app-contact-form (formStatusChange)="onFormStatusChange($event)"></app-contact-form>
                 </div>
             </div>
         </div>

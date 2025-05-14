@@ -32,13 +32,14 @@
     "references" : {
         "title": "Auf der Suche nach einem Teamplayer?",
         "subtitle": "Das sagen Kollegen über mich",
-        "reference1": {
+        "1": {
             "name": "Jana Schüler",
             "project": "Projekt Kochwelt",
             "text": "Simon ist eine freundliche, aufgeschlossene und äußerst verlässliche Person. Seine Kommunikation ist stets ruhig, strukturiert und produktiv. Dank seines engagierten Einsatzes konnten wir unser Projekt termingerecht, reibungslos und ohne unnötigen Stress abschließen. Ich würde ihn jederzeit wieder für ein Gruppenprojekt wählen."
         }
     },
     "contact": {
+        "formTitle": "Kontaktformular",
         "title": "Kontakt",
         "subtitle" : "Ein Projekt, das Bewegung braucht?",
         "description": "Platzhalter",
@@ -48,6 +49,7 @@
         "email": "Ihre E-Mail",
         "message": "Ihre Nachricht",
         "send": "Let’s connect ;)",
+        "sending": "Wird gesendet...",
         "privacyPolicy_1": "Ich habe die",
         "privacyPolicy_2": "Datenschutzerklärung",
         "privacyPolicy_3": "gelesen und stimme zu.",
@@ -60,7 +62,9 @@
             "messageToShort": "Mindestens 10 Zeichen.",
             "privacyPolicy": "Bitte akzeptieren Sie die Datenschutzerklärung."
         },
-        "success": "Ihre Nachricht wurde erfolgreich gesendet!",
-        "error": "Es gab einen Fehler beim Senden Ihrer Nachricht."
+        "successMessage": "Ihre Nachricht wurde erfolgreich gesendet!",
+        "errorMessage": "Es gab einen Fehler beim Senden Ihrer Nachricht.",
+        "retry": "Erneut versuchen"
+
     }
 }

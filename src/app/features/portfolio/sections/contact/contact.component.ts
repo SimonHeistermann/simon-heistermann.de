@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '../../../../core/services/translation-service/translation.service';
 import { Subscription } from 'rxjs';
@@ -15,6 +15,12 @@ export class ContactComponent implements OnInit, OnDestroy {
   currentLang: string = 'de';
   private langSubscription!: Subscription;
   scrollDisabled: boolean = false;
+
+  @Output() formOverlayStatus = new EventEmitter<{
+    submitting: boolean;
+    submitSuccess: boolean;
+    submitError: boolean;
+  }>();
 
   constructor(
     private translationService: TranslationService
@@ -43,4 +49,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     requestAnimationFrame(checkScroll);
   }
 
+  onFormStatusChange(status: { submitting: boolean; submitSuccess: boolean; submitError: boolean }) {
+    this.formOverlayStatus.emit(status);
+  }
 }

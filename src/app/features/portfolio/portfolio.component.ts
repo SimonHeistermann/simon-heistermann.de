@@ -8,6 +8,7 @@ import { SkillSetComponent } from './sections/skill-set/skill-set.component';
 import { ProjectsComponent } from './sections/projects/projects.component';
 import { ReferencesComponent } from "./sections/references/references.component";
 import { ContactComponent } from "./sections/contact/contact.component";
+type FormOverlayStatus = { submitting: boolean; submitSuccess: boolean; submitError: boolean };
 
 @Component({
   selector: 'app-portfolio',
@@ -20,5 +21,14 @@ import { ContactComponent } from "./sections/contact/contact.component";
   styleUrl: './portfolio.component.sass'
 })
 export class PortfolioComponent {
+
+  formOverlayStatus: FormOverlayStatus = { submitting: false, submitSuccess: false, submitError: false };
+
+  constructor() {}
+
+  onFormOverlayStatusChanged(status: FormOverlayStatus): void {
+    this.formOverlayStatus = status;
+  }
+  
 
 }
