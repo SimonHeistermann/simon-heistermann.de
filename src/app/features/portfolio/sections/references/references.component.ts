@@ -3,11 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '../../../../core/services/translation-service/translation.service';
 import { Subscription } from 'rxjs';
+import { ReferenceComponent } from "./reference/reference.component";
 
 @Component({
   selector: 'app-references',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, ReferenceComponent],
   templateUrl: './references.component.html',
   styleUrl: './references.component.sass'
 })

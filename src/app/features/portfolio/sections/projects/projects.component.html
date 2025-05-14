@@ -1,4 +1,4 @@
-<section>
+<section #projectsSection>
     <div>
         <div class="ellipse__7"></div>
         <div class="ellipse__8"></div>
@@ -19,6 +19,12 @@
                         [layout]="index % 2 === 0 ? 'right' : 'left'"
                     ></app-project>
                 }
+            </div>
+        </div>
+        <div class="scroll__container">
+            <div class="scroll__box top-scroll" #scrollBox>
+                <div #scrollLine></div>
+                <span #scrollText>SCROLL</span>
             </div>
         </div>
     </div>

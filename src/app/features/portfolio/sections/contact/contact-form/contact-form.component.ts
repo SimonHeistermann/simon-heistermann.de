@@ -4,7 +4,8 @@ import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { TranslationService } from '../../../../../core/services/translation-service/translation.service';
-import { ContactMessage } from '../../../../../core/models/contact-message.interface';
+import { ContactService } from '../../../../../core/services/contact-service/contact.service';
+import { ContactData } from '../../../../../core/models/contact-data.interface';
 
 @Component({
   selector: 'app-contact-form',
@@ -17,10 +18,14 @@ export class ContactFormComponent implements OnInit, OnDestroy {
   contactForm!: FormGroup;
   currentLang: string = 'de';
   private langSubscription!: Subscription;
+  submitting = false;
+  submitSuccess = false;
+  submitError = false;
 
   constructor(
     private fb: FormBuilder,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private contactService: ContactService
   ) {}
 
   ngOnInit(): void {
@@ -33,6 +38,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]],
       message: ['', [Validators.required, Validators.minLength(10)]],
       agreedToTerms: [false, [Validators.requiredTrue]],
+      website: ['']
     });
   }
 
@@ -40,15 +46,38 @@ export class ContactFormComponent implements OnInit, OnDestroy {
     this.langSubscription?.unsubscribe();
   }
 
-  onSubmit() {
-    if (this.contactForm.valid) {
-      const message: ContactMessage = this.contactForm.value;
-      console.log('Formular erfolgreich abgesendet:', message);
-      // TODO: Sende Daten an API
-      this.contactForm.reset();
+  onSubmit(): void {
+    if (this.isFormValid()) {
+      if (this.contactService.isSpamEntry(this.contactForm.get('website')?.value)) {
+        return;
+      }
+      this.sendFormData();
     } else {
       this.contactForm.markAllAsTouched();
     }
+  }
+  
+  isFormValid(): boolean {
+    return this.contactForm.valid;
+  }
+  
+  sendFormData(): void {
+    const contactData: ContactData = this.contactForm.value;
+    this.submitting = true;
+    
+    this.contactService.sendContactData(contactData).subscribe({
+      next: () => {
+        this.submitSuccess = true;
+        this.contactForm.reset();
+      },
+      error: (error) => {
+        console.error('Fehler beim Senden des Formulars:', error);
+        this.submitError = true;
+      },
+      complete: () => {
+        this.submitting = false;
+      }
+    });
   }
 }
 

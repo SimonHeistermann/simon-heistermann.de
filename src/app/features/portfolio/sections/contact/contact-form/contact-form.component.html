@@ -1,44 +1,91 @@
 <div class="content">
     <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
         <div class="inputs">
-            <div class="form__group">
+            <div class="form__group" [ngClass]="{
+                'error__state': contactForm.get('name')?.touched && contactForm.get('name')?.invalid, 
+                'success__state': contactForm.get('name')?.valid && contactForm.get('name')?.dirty,
+                'has__content': contactForm.get('name')?.value
+            }">
                 <label for="name">{{ 'contact.name' | translate }}</label>
                 <input type="text" formControlName="name" placeholder="{{ 'contact.name' | translate }}" id="name" />
+
+                <div class="status__icon error__icon">
+                    <img src="/icons/wrong_form_icon.png" alt="!">
+                </div>
+
+                <div class="status__icon success__icon">
+                    <img src="/icons/correct_form_icon.png" alt="✓">
+                </div>
+
                 <div class="error" *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.invalid">
                     <small *ngIf="contactForm.get('name')?.errors?.['required']">{{ 'contact.errors.name' | translate }}</small>
                     <small *ngIf="contactForm.get('name')?.errors?.['minlength']">{{ 'contact.errors.nameToShort' | translate }}</small>
                 </div>
-              </div>
+            </div>
             
-              <div class="form__group">
+            <div class="form__group" [ngClass]="{
+                'error__state': contactForm.get('email')?.touched && contactForm.get('email')?.invalid, 
+                'success__state': contactForm.get('email')?.valid && contactForm.get('email')?.dirty,
+                'has__content': contactForm.get('email')?.value
+            }">
                 <label for="email">{{ 'contact.email' | translate }}</label>
                 <input type="email" formControlName="email" placeholder="{{ 'contact.email' | translate }}" id="email" />
+                
+                <div class="status__icon error__icon">
+                    <img src="/icons/wrong_form_icon.png" alt="!">
+                </div>
+
+                <div class="status__icon success__icon">
+                    <img src="/icons/correct_form_icon.png" alt="✓">
+                </div>
+
                 <div class="error" *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid">
                     <small *ngIf="contactForm.get('email')?.errors?.['required']">{{ 'contact.errors.email' | translate }}</small>
                     <small *ngIf="contactForm.get('email')?.errors?.['email']">{{ 'contact.errors.emailInvalid' | translate }}</small>
                 </div>
-              </div>
+            </div>
             
-              <div class="form__group form__message">
+            <div class="form__group form__message" [ngClass]="{
+                'error__state': contactForm.get('message')?.touched && contactForm.get('message')?.invalid, 
+                'success__state': contactForm.get('message')?.valid && contactForm.get('message')?.dirty,
+                'has__content': contactForm.get('message')?.value
+            }">
                 <label for="message">{{ 'contact.message' | translate }}</label>
                 <textarea formControlName="message" placeholder="{{ 'contact.message' | translate }}" id="message"></textarea>
+
+                <div class="status__icon error__icon">
+                    <img src="/icons/wrong_form_icon.png" alt="!">
+                </div>
+
+                <div class="status__icon success__icon">
+                    <img src="/icons/correct_form_icon.png" alt="✓">
+                </div>
+
                 <div class="error" *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.invalid">
                     <small *ngIf="contactForm.get('message')?.errors?.['required']">{{ 'contact.errors.message' | translate }}</small>
                     <small *ngIf="contactForm.get('message')?.errors?.['minlength']">{{ 'contact.errors.messageToShort' | translate }}</small>
                 </div>
-              </div>
+            </div>
+
+            <!-- Honeypot -->
+            <div class="form__group honeypot" style="display: none;">
+                <label for="website">Website</label>
+                <input type="text" formControlName="website" id="website" autocomplete="off">
+            </div>
         </div>
         <div class="form__bottom">
-            <div class="form__group checkbox__group">
-                <label>
-                    <input class="checkbox" type="checkbox" formControlName="agreedToTerms">
-                    <span class="custom__checkbox"></span>
-                    <span>
-                        {{ 'contact.privacyPolicy_1' | translate }} <a href="#" target="_blank">{{ 'contact.privacyPolicy_2' | translate }}</a> {{ 'contact.privacyPolicy_3' | translate }}
-                    </span>
-                </label>
-                <div class="error" *ngIf="contactForm.get('agreedToTerms')?.touched && contactForm.get('agreedToTerms')?.invalid">
-                    <small>{{ 'contact.errors.privacyPolicy' | translate }}</small>
+            <div class="form__group">
+                <div class="checkbox__group">
+                    <label>
+                        <input id="privacy_policy" name="privacy_policy" class="checkbox" type="checkbox" formControlName="agreedToTerms">
+                        <span class="custom__checkbox"></span>
+                        <span class="text">
+                            {{ 'contact.privacyPolicy_1' | translate }} <a href="#" target="_blank">{{ 'contact.privacyPolicy_2' | translate }}</a> {{ 'contact.privacyPolicy_3' | translate }}
+                        </span>
+                    </label>
+                    <div class="error" *ngIf="contactForm.get('agreedToTerms')?.touched && contactForm.get('agreedToTerms')?.invalid">
+                        <small>{{ 'contact.errors.privacyPolicy' | translate }}</small>
+                    </div>
                 </div>
             </div>
             <div class="button__box">

@@ -31,12 +31,17 @@
     },
     "references": {
         "title": "Looking for a team player?",
-        "subtitle": "Here’s what colleagues say about me"
+        "subtitle": "Here’s what colleagues say about me",
+        "1": {
+            "name": "Jana Schüler",
+            "project": "Project cooking world",
+            "text": "Simon is a friendly, approachable, and highly dependable individual. His communication is always calm, well-structured, and productive. Thanks to his dedicated contributions, we completed our project on time, seamlessly, and without unnecessary stress. I would gladly choose him for any group project again."
+        }
     },
     "contact": {
         "title": "Contact",
         "subtitle": "Got a project that needs momentum?",
-        "description": "Placeholder",
+        "description": "Encourage people to contact you and describe what role you are interested in. Show that you will add value to their projects through your work.",
         "underline": "Looking for a frontend developer?",
         "underline_b_tag": "Let’s get in touch!",
         "name": "Your name",

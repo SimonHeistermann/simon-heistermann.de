@@ -14,6 +14,7 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
 export class ContactComponent implements OnInit, OnDestroy {
   currentLang: string = 'de';
   private langSubscription!: Subscription;
+  scrollDisabled: boolean = false;
 
   constructor(
     private translationService: TranslationService
@@ -28,4 +29,18 @@ export class ContactComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.langSubscription?.unsubscribe();
   }
+
+  scrollToTop() {
+    this.scrollDisabled = true;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const checkScroll = () => {
+      if (window.scrollY === 0) {
+        this.scrollDisabled = false;
+      } else {
+        requestAnimationFrame(checkScroll);
+      }
+    };
+    requestAnimationFrame(checkScroll);
+  }
+
 }

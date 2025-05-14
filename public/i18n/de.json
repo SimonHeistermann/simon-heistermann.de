@@ -31,7 +31,12 @@
     },
     "references" : {
         "title": "Auf der Suche nach einem Teamplayer?",
-        "subtitle": "Das sagen Kollegen über mich"
+        "subtitle": "Das sagen Kollegen über mich",
+        "reference1": {
+            "name": "Jana Schüler",
+            "project": "Projekt Kochwelt",
+            "text": "Simon ist eine freundliche, aufgeschlossene und äußerst verlässliche Person. Seine Kommunikation ist stets ruhig, strukturiert und produktiv. Dank seines engagierten Einsatzes konnten wir unser Projekt termingerecht, reibungslos und ohne unnötigen Stress abschließen. Ich würde ihn jederzeit wieder für ein Gruppenprojekt wählen."
+        }
     },
     "contact": {
         "title": "Kontakt",

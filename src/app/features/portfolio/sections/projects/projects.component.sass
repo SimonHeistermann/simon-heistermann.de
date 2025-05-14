@@ -21,6 +21,8 @@ section
     max-width: 100vw
     @include displayFlex()
     overflow: hidden
+    position: relative
+    min-height: 100vh
 
     > div
         @include displayFlex()
@@ -96,4 +98,39 @@ section
 
 app-project
     width: 100%
+
+.scroll__container
+    position: absolute
+    @include displayFlex()
+    overflow: hidden
+    right: clamp(120px, 8vw, 250px)
+    top: -50px
+    z-index: 2
+    width: 655px
+    height: 100%
     
+.scroll__box.top-scroll
+    @include displayFlex()
+    flex-direction: column
+    position: absolute
+    top: 0px
+    z-index: 2
+    @include fontMontserrat()
+    color: var(--color-primary)
+    transition: transform 0.3s ease-out
+    will-change: transform
+
+    > span
+        margin-top: 5px 
+        transition: opacity 0.3s ease-out 
+        position: relative
+        text-align: center
+
+    > div
+        border: 1px solid var(--color-primary)
+        height: 0 
+        width: 2px
+        border-radius: 0px 0px 2px 2px
+        transition: height 0.3s ease-out 
+        will-change: height
+        transform-origin: top center

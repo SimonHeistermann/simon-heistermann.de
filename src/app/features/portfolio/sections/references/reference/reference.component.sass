@@ -1,0 +1,25 @@
+@use './../../../../../../styles' as *;
+
+.wrapper
+    @include displayFlex($ai: flex-start , $jc: flex-start , $g: 32px)
+    flex-direction: column
+    color: white
+    width: 100%
+    
+.header
+    @include displayFlex($ai: flex-start , $jc: flex-start , $g: 8px)
+    flex-direction: column
+
+    > h2
+        @include fontMontserrat($fw: 700, $fs: 24px)
+
+    > span
+        @include fontMontserrat($lh: 140%, $fs: 16px)
+        
+p
+    @include fontMontserrat($fs: 18px)
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: break-spaces
+    
+    

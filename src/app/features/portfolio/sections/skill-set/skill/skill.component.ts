@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-skill',
+  standalone: true,
   imports: [CommonModule, TranslateModule],
   templateUrl: './skill.component.html',
   styleUrl: './skill.component.sass'

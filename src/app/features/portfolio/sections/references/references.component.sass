@@ -8,12 +8,12 @@ section
     overflow: hidden
 
     > div
-        @include displayFlex()
+        @include displayFlex($g: 64px)
         flex-direction: column
         width: $standardWidth
         height: 100%
         position: relative
-        padding: 80px 0px
+        padding: 80px 0px 120px 0px
         padding-inline: $standardInlinePadding
 
 .title__box
@@ -39,6 +39,9 @@ section
 .references
     @include displayFlex($jc: space-between)
     width: 100%
+
+    > app-reference
+        max-width: 33%
     
         
     
