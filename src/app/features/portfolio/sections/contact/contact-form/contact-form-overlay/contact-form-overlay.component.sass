@@ -11,7 +11,7 @@
     padding: 1rem
     @include fontMontserrat($fs: 24px)
     
-    border-radius:10px
+    border-radius: 10px
     box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.1)
 
     img
@@ -91,3 +91,107 @@
     border-top-color: #5988FF
     border-radius: 50%
     animation: rotate 0.8s linear infinite
+
+span
+    @include fontMontserrat($fs: 24px)
+    color: white
+
+@media screen and (max-width: 424px) 
+    .form__feedback 
+        margin-top: 1rem
+        width: 90%
+        margin-left: auto
+        margin-right: auto
+
+    .form__success__message, .form__error__message 
+        padding: 0.75rem
+        font-size: 16px
+        flex-direction: column
+        text-align: center
+
+    .form__success__message img, .form__error__message img 
+        margin-right: 0
+        margin-bottom: 0.5rem
+        width: 32px
+        height: 32px
+
+    .form__error__message 
+        flex-direction: column
+
+    .form__retry__button 
+        margin-left: 0
+        margin-top: 0.75rem
+        padding: 0.5rem 0.75rem
+        width: 100%
+        font-size: 14px
+
+    .form__overlay
+        padding: 1rem
+
+    .overlay__content
+        width: 90%
+        padding: 1.5rem 1rem
+
+    .spinner 
+        width: 40px
+        height: 40px
+        border-width: 3px
+
+    span 
+        font-size: 18px
+        line-height: 1.3
+        padding: 0 1rem
+
+@media screen and (max-height: 500px) and (orientation: landscape) 
+    .form__overlay 
+        flex-direction: row
+        justify-content: center
+        align-items: center
+
+    .overlay__content 
+        flex-direction: row
+        text-align: left
+        width: auto
+        max-width: 90%
+
+    .spinner 
+        width: 36px
+        height: 36px
+        margin-right: 1rem
+
+    .form__success__message, .form__error__message
+        flex-direction: row
+        align-items: center
+        text-align: left
+        padding: 0.5rem 0.75rem
+
+    .form__success__message img, .form__error__message img 
+        margin-right: 0.5rem
+        margin-bottom: 0
+
+    .form__error__message 
+        flex-direction: row
+
+    .form__retry__button 
+        margin-left: 0.5rem
+        margin-top: 0
+        width: auto
+
+@media screen and (max-width: 320px)
+    .form__success__message, .form__error__message 
+        font-size: 14px
+        padding: 0.5rem
+
+    span 
+        font-size: 16px
+
+    .spinner 
+        width: 32px
+        height: 32px
+
+@media screen and (min-width: 375px) and (max-width: 424px) 
+    .form__success__message, .form__error__message 
+        padding: 0.75rem
+
+    .form__retry__button
+        font-size: 15px

@@ -66,22 +66,22 @@ section
     flex-direction: column
     width: 100%
     
-    > h2
-        font-family: var(--fontfamily-baloo)
-        font-size: 96px
-        line-height: 100%
-        letter-spacing: 1
-        font-weight: 700
-        color: var(--color-primary)
-        overflow: hidden
+h2
+    font-family: var(--fontfamily-baloo)
+    font-size: 96px
+    line-height: 100%
+    letter-spacing: 1
+    font-weight: 700
+    color: var(--color-primary)
+    overflow: hidden
 
-    > p
-        @include fontMontserrat()
-        color: black
-        max-width: 50%
-        overflow: hidden
-        text-align: start
-        text-justify: inter-word
+p
+    @include fontMontserrat()
+    color: black
+    max-width: 50%
+    overflow: hidden
+    text-align: start
+    text-justify: inter-word
 
 .ellipse__7, .ellipse__8, .ellipse__4, .ellipse__9, 
 .ellipse__10, .ellipse__11, .ellipse__12, .title__and__text h2
@@ -95,6 +95,7 @@ section
     @include displayFlex($g: 160px)
     flex-direction: column
     width: 100%
+    z-index: 10
 
 app-project
     width: 100%
@@ -134,3 +135,62 @@ app-project
         transition: height 0.3s ease-out 
         will-change: height
         transform-origin: top center
+
+@media screen and (max-width: 424px)
+    .scroll__container
+        display: none
+        width: 0
+        height: 0
+        opacity: 0
+
+    .ellipse__8, .ellipse__10
+      display: none
+      opacity: 0
+      width: 0
+      height: 0
+
+    .ellipse__7
+      width: 45px
+      height: 45px
+      top: 73px
+      left: unset
+      right: $standardInlinePaddingMobile
+
+    .ellipse__4
+      width: 223.11px
+      height: 223.11px
+      left: -85.7px
+      top: 420px
+
+    .ellipse__9
+      width: 269.17px
+      height: 269.17px
+      transform: rotate(90.55deg)
+      right: -100px
+      top: 1100px
+
+    .ellipse__11
+      width: 134.91px
+      height: 134.91px
+      left: 4px
+      top: 1850px
+
+    .ellipse__12
+      width: 39px
+      height: 39px
+      top: 2805px
+      right: -19.5px
+
+    .content
+      gap: 80px
+
+    .title__and__text
+      gap: 8px
+
+    h2
+      font-size: 64px
+
+    p
+      max-width: 100%
+      width: 100%
+      font-size: 16px

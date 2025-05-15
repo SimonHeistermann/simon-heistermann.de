@@ -60,7 +60,7 @@ input:focus:hover, textarea:focus:hover
 
 button
     position: relative
-    padding: 15px 30px
+    padding: 13px 24px
     font-size: 23px
     font-family: var(--fontfamily-poppins)
     line-height: 120%
@@ -269,3 +269,21 @@ button:disabled
     height: 0
     width: 0
     z-index: -1
+
+@media screen and (max-width: 424px)
+    input, textarea
+        padding: 15px 25px
+        height: 40px
+
+    textarea
+        resize: none
+        height: 162px
+
+    .form__group
+        height: 58px
+
+    .form__message
+        height: 180px
+
+        .status__icon
+            top: 20%

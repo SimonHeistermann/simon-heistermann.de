@@ -95,8 +95,45 @@ h3
         transition: all 0.3s ease
         z-index: -1
 
-.github__btn:hover::before
+.github__btn:hover::before, .livetest__btn:hover::before
     transform: skewX(-30deg) translateX(100%) scale(1.05)
+
+.livetest__btn 
+    display: none
+    position: relative
+    padding: 15px 30px
+    font-size: 23px
+    font-family: var(--fontfamily-poppins)
+    line-height: 120%
+    letter-spacing: 0
+    font-weight: 300
+    color: white
+    background-color: #5988FF
+    border: 2px solid #5988FF
+    border-radius: 10px
+    overflow: hidden
+    min-width: 200px
+    text-align: center
+    transition: all 0.3s ease
+    box-shadow: 5px 5px 15px 0px #00000026
+
+    &:hover 
+        color: white
+        z-index: 1
+        transform: scale(1.05)
+        border: unset
+        
+    &::before 
+        content: ''
+        position: absolute
+        top: 0
+        left: -130%
+        width: 120%
+        height: 100%
+        background: linear-gradient(90deg, #5988FF 0%, #0043F0 100%)
+        transform: skewX(-30deg)
+        transition: all 0.3s ease
+        z-index: -1
 
 .project__media
     flex: 1
@@ -118,3 +155,45 @@ h3
     height: 100%
     object-fit: cover
     display: block
+
+@media screen and (max-width: 424px)
+    .project__card
+        align-items: center
+        flex-direction: column-reverse !important
+        gap: 45px
+        justify-content: flex-end
+
+    .project__info
+        width: 100%
+        max-width: 100%
+        gap: 35px
+
+    .project__infotext
+        gap: 15px
+        align-items: center !important
+
+    .project__technologies
+        flex-wrap: wrap
+
+    .project__description
+        padding: 0
+        text-align: center
+
+    .github__btn__box
+        justify-content: space-between
+        width: 100%
+        gap: 50px
+
+    .github__btn
+        padding: 13px 24px
+        min-width: 125px
+
+    .livetest__btn
+        display: block
+        padding: 13px 24px
+        min-width: 140px
+
+    .project__media
+        height: 215px
+        width: 100%
+        max-width: 100%

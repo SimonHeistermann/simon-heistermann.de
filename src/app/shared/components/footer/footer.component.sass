@@ -91,6 +91,90 @@ a
             background-color: white
             transition: width 0.2s ease-in-out
 
+.mobile
+    display: none !important
+
+// Landscape-Mode für Mobilgeräte (niedrige Höhe)
+@media screen and (max-height: 500px) and (orientation: landscape)
+  section
+    height: auto
+    min-height: 200px
+
+    > div
+      padding: 32px 0
+      padding-inline: $standardInlinePadding
+
+  .content
+    flex-direction: row
+    align-items: center
+    gap: 24px
+
+  .logo__container > .logo
+    width: 48px
+    height: 52px
+
+  .social__media
+    gap: 24px
+
+  h2
+    font-size: 14px
+
+  .legal__notice__a
+    bottom: 24px
+
+    button
+      font-size: 14px
+
+@media screen and (max-width: 768px) and (min-width: 425px)
+    section
+        height: auto
+
+        > div
+            padding: 48px 0
+            padding-inline: $standardInlinePadding
+
+    .content
+        gap: 32px
+
+@media screen and (max-width: 800px)
+    section
+        height: auto
+
+        > div
+            padding: 64px 0px
+            padding-inline: $standardInlinePadding
+
+    .content
+        @include displayFlex($jc: center)
+        flex-direction: column
+        gap: 32px
+
+    .default
+        display: none !important
+
+    .mobile
+        display: block !important
+
+    h2
+        position: relative
+
+    .legal__notice__a
+        position: relative
+        bottom: 0
+
+@media screen and (max-width: 360px)
+    .social__media
+        gap: 24px
+
+        > a 
+            > button
+                width: 24px
+                height: 24px
+
+    .logo__container 
+        > .logo
+            width: 48px
+            height: 52px
 
 
 
