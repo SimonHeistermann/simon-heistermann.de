@@ -18,7 +18,7 @@ header
         @include displayFlex($jc:space-between)
         height: 100%
 
-        > button
+        > .logo
             background: transparent
             background-image: url('/icons/logo.png')
             width: 64px
@@ -26,6 +26,21 @@ header
             background-size: cover
             background-repeat: no-repeat
             user-select: none
+
+        > .burger__menu
+            background: transparent
+            background-image: url('/icons/burger_menu_icon.png')
+            width: 30px
+            height: 32px
+            background-size: cover
+            background-repeat: no-repeat
+            user-select: none
+            display: none
+            opacity: 0
+            transition: all 125ms ease-in-out
+
+            &:active
+                background-image: url('/icons/burger_menu_icon_hover.png')
     
 .header__hidden 
     transform: translateY(-100%)
@@ -108,5 +123,13 @@ nav
                 &::after 
                     transform: scaleX(1)
 
-        
-               
+@media screen and (max-width: 400px)
+    nav
+        display: none !important
+        opacity: 0
+
+    .burger__menu
+        display: block !important
+        opacity: 1 !important
+    
+    

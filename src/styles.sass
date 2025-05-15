@@ -3,6 +3,7 @@
 
 $standardWidth: min(100%, 1920px)
 $standardInlinePadding: clamp(20px, 6vw, 77px)
+$standardInlinePaddingMobile: 32px
 
 @mixin displayFlex($ai: center, $jc: center, $g: 0px) 
     display: flex !important
@@ -11,12 +12,12 @@ $standardInlinePadding: clamp(20px, 6vw, 77px)
     gap: $g 
 
 @mixin fontMontserrat($fw: 300, $lh: 120%, $fs: 23px, $ls: 0)
-    font-size: $fs !important
+    font-size: $fs 
     font-family: var(--fontfamily-montserrat) !important
-    font-weight: $fw !important 
-    line-height: $lh !important
-    letter-spacing: $ls !important
-    text-decoration: none !important
+    font-weight: $fw 
+    line-height: $lh 
+    letter-spacing: $ls
+    text-decoration: none
 
 * 
     margin: 0
@@ -56,7 +57,7 @@ button
     --fontfamily-baloo: 'Baloo 2', cursive, 'Segoe UI', system-ui, sans-serif
     --fontfamily-poppins: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif
 
-
+@media screen and (max-width: 400px) 
 
 
         

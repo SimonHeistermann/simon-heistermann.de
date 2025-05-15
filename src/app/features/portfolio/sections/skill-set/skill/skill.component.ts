@@ -3,6 +3,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { TranslationService } from '../../../../../core/services/translation-service/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { ProjectService } from '../../../../../core/services/project-service/project.service';
 
 @Component({
   selector: 'app-skill',
@@ -17,7 +18,10 @@ export class SkillComponent implements OnInit, OnDestroy {
   currentLang: string = 'de';
   private langSubscription!: Subscription;
 
-  constructor(private translationService: TranslationService) {}
+  constructor(
+    private translationService: TranslationService,
+    private projectService: ProjectService
+  ) {}
 
   ngOnInit(): void {
     this.langSubscription = this.translationService.currentLang$.subscribe((lang: string) => {
@@ -33,11 +37,14 @@ export class SkillComponent implements OnInit, OnDestroy {
 
   getIconPath(): string {
     let formattedName = this.skillName.toLowerCase()
-                           .replace(/\./g, '_')  
-                           .replace(/\s+/g, '_');
-    
-    return `/icons/skills/${formattedName}_icon.png`;
+      .replace(/\./g, '_')  
+      .replace(/\s+/g, '_');
+  
+    const basePath = this.projectService.isMobile() ? '/icons/skills/mobile' : '/icons/skills';
+  
+    return `${basePath}/${formattedName}_icon.png`;
   }
+  
 
   onMouseEnter(): void {
     if (this.skillName === 'Personal Growth') {

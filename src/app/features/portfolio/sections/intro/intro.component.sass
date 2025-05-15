@@ -20,8 +20,8 @@ section
     position: absolute
     top: -100px
     left: -200px
-    width: clamp(300px, 50vw, 892px)
-    height: clamp(300px, 50vw, 892px)
+    width: clamp(612px, 50vw, 892px)
+    height: clamp(612px, 50vw, 892px)
     border-radius: 50%
     background: var(--gradient-radial-project)
 
@@ -134,3 +134,40 @@ h3
 .typed-cursor
     display: none !important
     opacity: 0 !important
+
+
+@media screen and (max-width: 400px)
+    .ellipse__3
+        width: 612px
+        height: 612px
+        top: -22px
+        left: -228px
+
+    section
+        > div
+            padding-inline: 16px
+    
+    .content
+        position: relative
+        right: 0
+        width: 100%
+        gap: 32px
+        color: white
+    
+    h3, h2, h1
+        color: white
+
+    h3
+        font-size: 36px
+
+    h1
+        font-size: 73px
+        letter-spacing: -1.825px
+    
+    h2
+        font-size: 67px
+        letter-spacing: -1.34px
+
+    .social__media
+        display: none !important
+        opacity: 0 !important

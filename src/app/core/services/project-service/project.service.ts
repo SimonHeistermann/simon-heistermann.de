@@ -6,4 +6,8 @@ import { Injectable } from '@angular/core';
 export class ProjectService {
 
   constructor() { }
+
+  isMobile(threshold: number = 400): boolean {
+    return window.innerWidth < threshold;
+  }
 }

@@ -19,18 +19,18 @@ section
 .ellipse__5
     position: absolute
     top: -103px
-    width: 206px
-    height: 206px
+    width: clamp(156px, calc(15.6vw + 50px), 206px)
+    height: clamp(156px, calc(15.6vw + 50px), 206px)
     border-radius: 50%
     background: var(--gradient-radial-project)
     z-index: 0
 
 .ellipse__6
     position: absolute
-    right: 360px
+    right: clamp(16px, calc(57.33vw - 213.3px), 360px)
     top: 27px
-    width: 82px
-    height: 82px
+    width: clamp(62px, calc(3.33vw + 28.7px), 82px)
+    height: clamp(62px, calc(3.33vw + 28.7px), 82px)
     border-radius: 50%
     background: var(--gradient-radial-project)
 
@@ -195,6 +195,63 @@ h3
 
 .send__message__button:hover::before
     transform: skewX(-30deg) translateX(100%) scale(1.05)
+
+@media screen and (max-width: 400px)
+    section
+        > div
+            padding: 160px 0px
+            padding-inline: $standardInlinePaddingMobile
+            gap: 58px
+            flex-direction: column
+
+    .ellipse__5
+        top: -78px
+        width: 156px
+        height: 156px
+
+    .ellipse__6
+        right: $standardInlinePaddingMobile
+        top: 47px
+        width: 62px
+        height: 62px
+
+    .content__left
+        width: 100%
+
+    .title__box
+        gap: 4px
+
+    h2
+        font-size: 64px
+
+    h3
+        font-size: 32px
+
+    .availability__icons
+        flex-direction: column
+        align-items: flex-start
+        justify-content: center !important
+        gap: 32px
+        padding: 0
+        padding-left: 16px
+
+        > div
+            gap: 16px
+
+            &:nth-child(3)
+                align-items: center !important
+
+            > span
+                font-size: 18px !important
+                font-weight: 600 !important
+
+    .content__right
+        width: 100%
+        align-items: center !important
+
+    .texts
+        gap: 35px
+    
     
         
         
