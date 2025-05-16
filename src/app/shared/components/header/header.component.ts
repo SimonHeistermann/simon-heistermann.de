@@ -5,6 +5,8 @@ import { TranslationService } from '../../../core/services/translation-service/t
 import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { MenuOverlayService } from '../../../core/services/menu-overlay-service/menu-overlay.service';
+import { fixateScrollingOnBody, releaseScrollOnBody } from '../../utils/scroll-lock.utils';
 
 @Component({
   selector: 'app-header',
@@ -29,6 +31,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   shouldShowInitialAnimation: boolean = true;
   initialPageLoad: boolean = true;
   pageLoadedWithScroll: boolean = false;
+  isHeaderHiddenImmediate = false;
+
   
   private lastScrollTop = 0;
   private readonly MOUSE_THRESHOLD = 120;
@@ -38,11 +42,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private langSubscription!: Subscription;
 
-  @Input() isOverlayActive: boolean = false;
+  @Input() isContactOverlayActive: boolean = false;
+  menuOverlayActive = false;
+  private subscription: Subscription = new Subscription();
+
 
   constructor(
     @Inject(PLATFORM_ID) platformId: Object, 
-    private translationService: TranslationService, 
+    private translationService: TranslationService,
+    private menuOverlayService: MenuOverlayService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -60,12 +68,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.langSubscription = this.translationService.currentLang$.subscribe(lang => {
       this.selectedLanguage = lang;
     });
+
+    this.subscription = this.menuOverlayService.menuOverlayActive$.subscribe(isActive => { 
+      this.menuOverlayActive = isActive;
+    });
   }
 
   private checkScrollPosition(): void {
     const scrollTop = this.getScrollTop();
     this.hasScrolled = scrollTop >= this.SCROLL_THRESHOLD;
-    if (this.isOverlayActive) {
+    const shouldForceHide = this.isContactOverlayActive || this.menuOverlayActive;
+    this.isHeaderHiddenImmediate = shouldForceHide;
+    if (shouldForceHide) {
       this.isHeaderHidden = true;
       return;
     }
@@ -75,7 +89,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.isHeaderHidden = this.hasScrolled && !this.isMouseNearTop && !this.isHoveredHeader;
     }
   }
-
+  
   @HostListener('window:scroll')
   handleScroll(): void {
     if (!this.isBrowser) return;
@@ -100,6 +114,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.langSubscription) {
       this.langSubscription.unsubscribe();
     }
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   private getScrollTop(): number {
@@ -121,6 +138,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   shouldApplyHoverStyle(): boolean {
     return (this.initialPageLoad && this.pageLoadedWithScroll) || (this.hasScrolled && (this.isHoveredHeader || this.isMouseNearTop));
+  }
+
+  openOverlay() {
+    this.menuOverlayActive = true;
+    this.menuOverlayService.setMenuOverlayActive(true);
+    fixateScrollingOnBody();
   }
 }
 

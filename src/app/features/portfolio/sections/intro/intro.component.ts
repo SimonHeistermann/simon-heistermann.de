@@ -1,14 +1,16 @@
-import { Component, OnInit, OnDestroy, Inject, ElementRef, ViewChild, AfterViewInit, PLATFORM_ID, Renderer2, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, ElementRef, ViewChild, AfterViewInit, PLATFORM_ID, Renderer2, HostListener, Output, EventEmitter } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { TranslationService } from '../../../../core/services/translation-service/translation.service';
 import { SocialButtonComponent } from '../../../../shared/components/social-button/social-button.component';
 import { TypedAnimationService } from '../../../../core/services/typed-animation-service/typed-animation.service';
+import { MenuOverlayComponent } from './menu-overlay/menu-overlay.component';
+import { MenuOverlayService } from './../../../../core/services/menu-overlay-service/menu-overlay.service';
 
 @Component({
   selector: 'app-intro',
-  imports: [CommonModule, TranslateModule, SocialButtonComponent],
+  imports: [CommonModule, TranslateModule, SocialButtonComponent, MenuOverlayComponent],
   templateUrl: './intro.component.html',
   styleUrl: './intro.component.sass'
 })
@@ -27,6 +29,8 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
   private defaultTextColor: string = 'var(--color-primary)';
   private overlayTextColor: string = 'white';
 
+  isOverlayActive = false;
+
   @ViewChild('animatedSubtitle') subtitleElement!: ElementRef;
   @ViewChild('animatedTitle1') titleElement1!: ElementRef;
   @ViewChild('animatedTitle2') titleElement2!: ElementRef;
@@ -42,7 +46,8 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private typedAnimationService: TypedAnimationService,
     private renderer: Renderer2,
-    private el: ElementRef
+    private el: ElementRef, 
+    private menuOverlayService: MenuOverlayService
   ) {}
 
   ngOnInit(): void {

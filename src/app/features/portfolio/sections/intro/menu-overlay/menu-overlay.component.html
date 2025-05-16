@@ -1,0 +1,22 @@
+<div class="container" [class.active]="isOverlayActive">
+    <div class="header">
+        <div>
+            <button class="logo"></button>
+            <button (click)="closeOverlay()" class="burger__menu"></button>
+        </div>
+    </div>
+    <div class="content">
+        <nav>
+            <div>
+              <a href="#about">{{ 'navigation.about' | translate }}</a>
+              <a href="#skills">{{ 'navigation.skills' | translate}}</a>
+              <a href="#projects">{{ 'navigation.projects' | translate}}</a>
+            </div>
+            <div class="change__language">
+              <button (click)="selectLanguage('de')" [class.selected]="selectedLanguage === 'de'">DE</button>
+              <span>/</span>
+              <button (click)="selectLanguage('en')" [class.selected]="selectedLanguage === 'en'">EN</button>
+            </div>
+        </nav>
+    </div>
+</div>

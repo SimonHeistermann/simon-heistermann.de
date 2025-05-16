@@ -12,6 +12,11 @@ export class ProjectService {
     if (isPlatformBrowser(this.platformId)) {
       return window.innerWidth < threshold;
     }
-    return false; 
+    return false;
+  }
+
+  isMobileWide(): boolean {
+    return this.isMobile(1000);
   }
 }
+

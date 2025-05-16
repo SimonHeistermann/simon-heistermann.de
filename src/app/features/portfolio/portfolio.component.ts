@@ -29,6 +29,4 @@ export class PortfolioComponent {
   onFormOverlayStatusChanged(status: FormOverlayStatus): void {
     this.formOverlayStatus = status;
   }
-  
-
 }

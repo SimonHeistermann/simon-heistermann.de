@@ -1,6 +1,7 @@
 <header 
   [@initialLoad]="shouldShowInitialAnimation ? '' : null"
-  [class.header__hidden]="isHeaderHidden" 
+  [class.header__hidden]="isHeaderHidden && !isHeaderHiddenImmediate" 
+  [class.header__hidden--immediate]="isHeaderHiddenImmediate"
   [class.header__hovered]="shouldApplyHoverStyle()"
   (mouseenter)="onHeaderMouseEnter()" 
   (mouseleave)="onHeaderMouseLeave()">
@@ -18,7 +19,7 @@
           <button (click)="selectLanguage('en')" [class.selected]="selectedLanguage === 'en'">EN</button>
         </div>
       </nav>
-      <button class="burger__menu"></button>
+      <button (click)="openOverlay()" class="burger__menu"></button>
     </div>
 </header>
   
