@@ -1,4 +1,5 @@
 <section #introSection>
+    <img class="photo" src="/img/test_photo.png" draggable="false" aria-hidden="true">
     <div>
         <div class="ellipse__3" #ellipseElement></div>
         <div class="content">
@@ -35,5 +36,5 @@
             ></app-social-button>
         </div>
     </div>
-    <app-menu-overlay></app-menu-overlay>
+    <app-menu-overlay class="menu__overlay" [class.active]="isOverlayActive"></app-menu-overlay>
 </section>

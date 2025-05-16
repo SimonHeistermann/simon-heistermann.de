@@ -50,7 +50,7 @@ section
 
 h2
     font-family: var(--fontfamily-baloo)
-    font-size: 121px
+    font-size: clamp(64px, 10vw, 121px) !important
     line-height: 100%
     letter-spacing: 1
     color: var(--color-primary)
@@ -58,7 +58,7 @@ h2
 
 h3
     font-family: var(--fontfamily-baloo)
-    font-size: 45px
+    font-size: clamp(32px, 5vw, 45px) !important
     line-height: 100%
     letter-spacing: 1
     color: var(--color-primary)
@@ -198,6 +198,38 @@ h3
 .send__message__button:hover::before
     transform: skewX(-30deg) translateX(100%) scale(1.05)
 
+@media screen and (max-width: 1200px)
+    .ellipse__6
+        right: $standardInlinePadding
+
+@media screen and (max-width: 768px)
+    section
+        > div
+            padding: 160px 0px
+            padding-inline: $standardInlinePaddingMobile
+            gap: 58px
+            flex-direction: column
+
+    .ellipse__5
+        top: -78px
+        width: 156px
+        height: 156px
+
+    .ellipse__6
+        right: $standardInlinePaddingMobile
+        top: 47px
+        width: 62px
+        height: 62px
+
+    .content__left, .content__right
+        width: 100%
+
+    .texts
+        width: 100%
+        flex-direction: row
+
+    
+
 @media screen and (max-width: 530px)
     section
         > div
@@ -253,6 +285,7 @@ h3
 
     .texts
         gap: 35px
+        flex-direction: column
     
 @media screen and (max-width: 320px)
     h2

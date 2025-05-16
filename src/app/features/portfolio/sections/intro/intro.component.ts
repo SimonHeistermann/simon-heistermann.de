@@ -30,6 +30,7 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
   private overlayTextColor: string = 'white';
 
   isOverlayActive = false;
+  private subscription: Subscription = new Subscription();
 
   @ViewChild('animatedSubtitle') subtitleElement!: ElementRef;
   @ViewChild('animatedTitle1') titleElement1!: ElementRef;
@@ -52,6 +53,11 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.subscribeToLanguageChanges();
+    this.subscription = this.menuOverlayService.menuOverlayActive$.subscribe(
+      isActive => {
+        this.isOverlayActive = isActive;
+      }
+    );
   }
 
   ngAfterViewInit(): void {
@@ -69,6 +75,9 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
     this.typedAnimationService.destroyAllInstances();
     this.removeScrollListener();
     this.removeTextColorChangeListeners();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   private subscribeToLanguageChanges(): void {

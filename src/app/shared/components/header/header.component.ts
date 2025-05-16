@@ -71,6 +71,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.subscription = this.menuOverlayService.menuOverlayActive$.subscribe(isActive => { 
       this.menuOverlayActive = isActive;
+      if(this.isBrowser) this.checkScrollPosition();
     });
   }
 
@@ -129,7 +130,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onHeaderMouseEnter(): void {
-    this.isHoveredHeader = true;
+    const shouldForceHide = !this.isContactOverlayActive || !this.menuOverlayActive;
+    if (shouldForceHide) {
+      this.isHoveredHeader = true;
+    }
   }
 
   onHeaderMouseLeave(): void {

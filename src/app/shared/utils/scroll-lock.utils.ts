@@ -1,4 +1,9 @@
+function isBrowser(): boolean {
+    return typeof window !== 'undefined' && typeof document !== 'undefined';
+}
+
 export function fixateScrollingOnBody(): void {
+  if (!isBrowser()) return;
     const scrollY = window.scrollY;
     document.body.style.position = 'fixed';
     document.body.style.top = `-${scrollY}px`;
@@ -7,6 +12,7 @@ export function fixateScrollingOnBody(): void {
 }
 
 function disableSmoothScroll(): string | undefined {
+    if (!isBrowser()) return;
     const html = document.documentElement;
     const previousScrollBehavior = html.style.scrollBehavior;
     html.style.scrollBehavior = 'auto';
@@ -14,6 +20,7 @@ function disableSmoothScroll(): string | undefined {
 }
 
 function restoreScrollBehavior(previousScrollBehavior: string | undefined): void {
+    if (!isBrowser()) return;
     const html = document.documentElement;
     if (previousScrollBehavior) {
         html.style.scrollBehavior = previousScrollBehavior;
@@ -23,10 +30,12 @@ function restoreScrollBehavior(previousScrollBehavior: string | undefined): void
 }
 
 function getScrollPosition(): number {
+    if (!isBrowser()) return 0;
     return parseInt(document.body.dataset['scrollY'] || '0', 10);
 }
 
 function resetBodyStyles(): void {
+    if (!isBrowser()) return;
     document.body.style.position = '';
     document.body.style.top = '';
     document.body.style.width = '';
@@ -34,12 +43,14 @@ function resetBodyStyles(): void {
 }
 
 export function releaseScrollOnBody(): void {
-    const previousScrollBehavior = disableSmoothScroll(); 
+    if (!isBrowser()) return;
+    const previousScrollBehavior = disableSmoothScroll();
     const scrollY = getScrollPosition();
     resetBodyStyles();
     window.scrollTo(0, scrollY);
-    restoreScrollBehavior(previousScrollBehavior); 
+    restoreScrollBehavior(previousScrollBehavior);
 }
+
 
   
   
