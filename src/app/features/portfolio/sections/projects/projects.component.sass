@@ -74,6 +74,7 @@ h2
     font-weight: 700
     color: var(--color-primary)
     overflow: hidden
+    user-select: none
 
 p
     @include fontMontserrat()
@@ -126,6 +127,7 @@ app-project
         transition: opacity 0.3s ease-out 
         position: relative
         text-align: center
+        user-select: none
 
     > div
         border: 1px solid var(--color-primary)
@@ -136,14 +138,25 @@ app-project
         will-change: height
         transform-origin: top center
 
-@media screen and (max-width: 424px)
+@media screen and (max-width: 1200px)
+    .scroll__box
+        right: $standardInlinePadding
+
+    .ellipse__8
+        display: none
+        opacity: 0
+        width: 0
+        height: 0
+
+@media screen and (max-width: 768px)
     .scroll__container
         display: none
         width: 0
         height: 0
         opacity: 0
 
-    .ellipse__8, .ellipse__10
+@media screen and (max-width: 530px)
+    .ellipse__10
       display: none
       opacity: 0
       width: 0

@@ -8,7 +8,7 @@ export class ProjectService {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
-  isMobile(threshold: number = 424): boolean {
+  isMobile(threshold: number = 530): boolean {
     if (isPlatformBrowser(this.platformId)) {
       return window.innerWidth < threshold;
     }

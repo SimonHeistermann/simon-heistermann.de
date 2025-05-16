@@ -18,6 +18,9 @@ export class MouseFollowerComponent implements OnInit, OnDestroy {
   private isOverBlueElement = false;
   private animationFrameId!: number;
   private blueElements: HTMLElement[] = [];
+  private isMobileDevice = false;
+  private windowWidth = 0;
+  private baseFollowerSize = 200;
 
   @ViewChild('follower', { static: true }) followerElement!: ElementRef;
 
@@ -29,8 +32,15 @@ export class MouseFollowerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      this.initializeElements();
-      this.ngZone.runOutsideAngular(() => this.updateFollowerPosition());
+      this.checkDeviceType();
+      this.setFollowerSize();
+      
+      if (!this.isMobileDevice) {
+        this.initializeElements();
+        this.showFollower();
+      } else {
+        this.hideFollower();
+      }
     }
   }
 
@@ -40,10 +50,58 @@ export class MouseFollowerComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkDeviceType();
+    this.setFollowerSize();
+    this.updateFollowerVisibility();
+  }
+  
+  private updateFollowerVisibility() {
+    if (this.isMobileDevice) {
+      this.hideFollower();
+    } else {
+      this.showFollower();
+    }
+  }
+  
+  private hideFollower() {
+    this.renderer.setStyle(this.followerElement.nativeElement, 'display', 'none');
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = 0;
+    }
+  }
+  
+  private showFollower() {
+    this.renderer.setStyle(this.followerElement.nativeElement, 'display', 'block');
+    if (!this.animationFrameId) {
+      this.ngZone.runOutsideAngular(() => this.updateFollowerPosition());
+    }
+  }
+
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
-    this.mouseX = event.clientX;
-    this.mouseY = event.clientY;
+    if (!this.isMobileDevice) {
+      this.mouseX = event.clientX;
+      this.mouseY = event.clientY;
+    }
+  }
+
+  private checkDeviceType() {
+    this.windowWidth = window.innerWidth;
+    this.isMobileDevice = 
+      window.innerWidth <= 768 || 
+      ('ontouchstart' in window) || 
+      (navigator.maxTouchPoints > 0);
+  }
+
+  private setFollowerSize() {
+    const scaleFactor = Math.min(1, this.windowWidth / 1200);
+    const newSize = Math.round(this.baseFollowerSize * scaleFactor);
+    const expandedSize = Math.round(300 * scaleFactor); 
+    document.documentElement.style.setProperty('--follower-size', `${newSize}px`);
+    document.documentElement.style.setProperty('--follower-expanded-size', `${expandedSize}px`);
   }
 
   private initializeElements() {
@@ -88,7 +146,9 @@ export class MouseFollowerComponent implements OnInit, OnDestroy {
   }
 
   private applyFollowerStyles() {
-    const transform = `translate3d(${this.followerX - 100}px, ${this.followerY - 100}px, 0)`;
+    const followerSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--follower-size'));
+    const transform = `translate3d(${this.followerX - followerSize/2}px, ${this.followerY - followerSize/2}px, 0)`;
+    
     this.renderer.setStyle(this.followerElement.nativeElement, 'transform', transform);
     this.renderer.setStyle(
       this.followerElement.nativeElement,

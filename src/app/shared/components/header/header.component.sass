@@ -73,6 +73,7 @@ nav
             transition: all 125ms ease-in-out
             color: var(--color-primary)
             white-space: nowrap
+            user-select: none
 
             &:nth-child(1) 
                 min-width: 118px 
@@ -89,6 +90,7 @@ nav
 
     .change__language
         @include displayFlex($g: 8px)
+        user-select: none
 
         > button
             background: transparent
@@ -97,6 +99,7 @@ nav
             color: var(--color-primary)
             transition: padding-bottom 0.3s ease-in-out, color 0.3s ease
             position: relative
+            user-select: none
 
             &::after 
                 content: ''
@@ -123,7 +126,14 @@ nav
                 &::after 
                     transform: scaleX(1)
 
-@media screen and (max-width: 424px)
+@media screen and (max-width: 1200px)
+    nav 
+        gap: 40px
+
+        > div
+            gap: 24px
+
+@media screen and (max-width: 1000px)
     nav
         display: none !important
         opacity: 0
@@ -131,5 +141,6 @@ nav
     .burger__menu
         display: block !important
         opacity: 1 !important
+
     
     

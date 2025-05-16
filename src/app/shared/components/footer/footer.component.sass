@@ -23,11 +23,13 @@ h2
     @include fontMontserrat()
     color: white
     text-align: center
+    user-select: none
 
 a
     @include displayFlex()
     text-decoration: none
     cursor: pointer
+    user-select: none
 
 .logo__container
     @include displayFlex($jc: flex-start)
@@ -94,7 +96,6 @@ a
 .mobile
     display: none !important
 
-// Landscape-Mode für Mobilgeräte (niedrige Höhe)
 @media screen and (max-height: 500px) and (orientation: landscape)
   section
     height: auto

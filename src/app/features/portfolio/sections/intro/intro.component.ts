@@ -22,6 +22,10 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
   
   private scrollMovementFactor: number = 0.4;
   private fadeOutThreshold: number = 0.85;
+  
+  private textColorChangeActive: boolean = false;
+  private defaultTextColor: string = 'var(--color-primary)';
+  private overlayTextColor: string = 'white';
 
   @ViewChild('animatedSubtitle') subtitleElement!: ElementRef;
   @ViewChild('animatedTitle1') titleElement1!: ElementRef;
@@ -30,6 +34,7 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('scrollLine') scrollLine!: ElementRef;
   @ViewChild('scrollText') scrollText!: ElementRef;
   @ViewChild('introSection') introSection!: ElementRef;
+  @ViewChild('ellipseElement') ellipseElement!: ElementRef;
 
   constructor(
     @Inject(TranslationService) private translationService: TranslationService,
@@ -49,6 +54,7 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
       setTimeout(() => {
         this.startAnimations();
         this.initScrollAnimation();
+        this.initTextColorChange();
       }, 200);
     }
   }
@@ -57,6 +63,7 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
     this.unsubscribeFromLanguageChanges();
     this.typedAnimationService.destroyAllInstances();
     this.removeScrollListener();
+    this.removeTextColorChangeListeners();
   }
 
   private subscribeToLanguageChanges(): void {
@@ -139,6 +146,10 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
     this.moveScrollBox(scrollY, fadeThreshold);
     this.updateScrollLine(scrollY);
     this.updateScrollTextOpacity(scrollY, fadeThreshold);
+    
+    if (this.textColorChangeActive) {
+      this.updateTextColors();
+    }
   }
   
   private areElementsAvailable(): boolean {
@@ -163,8 +174,128 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
     const textOpacity = Math.max(1 - (scrollY / fadeThreshold), 0);
     this.renderer.setStyle(scrollTextElement, 'opacity', textOpacity.toString());
   }
-}
+  
+  private initTextColorChange(): void {
+    if (isPlatformBrowser(this.platformId) && this.areTextElementsAvailable()) {
+      if (this.isFeatureSupported()) {
+        this.updateTextColors();
+        this.addTextColorChangeListeners();
+        this.textColorChangeActive = true;
+      } else {
+        this.setFallbackColors();
+      }
+    }
+  }
+  
+  private areTextElementsAvailable(): boolean {
+    return !!(this.subtitleElement && this.titleElement1 && this.titleElement2 && this.ellipseElement);
+  }
+  
+  private addTextColorChangeListeners(): void {
+    if ('ResizeObserver' in window) {
+      const resizeObserver = new ResizeObserver(() => {
+        this.updateTextColors();
+      });
+      
+      resizeObserver.observe(this.ellipseElement.nativeElement);
+      resizeObserver.observe(this.subtitleElement.nativeElement);
+      resizeObserver.observe(this.titleElement1.nativeElement);
+      resizeObserver.observe(this.titleElement2.nativeElement);
+    }
+    
+    window.addEventListener('resize', this.handleResize);
+  }
+  
+  private removeTextColorChangeListeners(): void {
+    if (isPlatformBrowser(this.platformId) && this.textColorChangeActive) {
+      window.removeEventListener('resize', this.handleResize);
+      this.textColorChangeActive = false;
+    }
+  }
+  
+  @HostListener('window:resize', [])
+  private handleResize = (): void => {
+    if (this.textColorChangeActive) {
+      this.updateTextColors();
+    }
+  }
+  
+  private updateTextColors(): void {
+    if (!this.areTextElementsAvailable()) return;
+    
+    const blueRect = this.ellipseElement.nativeElement.getBoundingClientRect();
+    const textElements = [
+      this.subtitleElement,
+      this.titleElement1,
+      this.titleElement2
+    ];
+    
+    this.updateTextElementColors(textElements, blueRect);
+  }
+  
+  private updateTextElementColors(elements: ElementRef[], blueRect: DOMRect): void {
+    elements.forEach(textEl => {
+      const textRect = textEl.nativeElement.getBoundingClientRect();
+      const isOverlapping = this.isOverlapping(textRect, blueRect);
+      const color = isOverlapping ? this.overlayTextColor : this.defaultTextColor;
+      this.renderer.setStyle(textEl.nativeElement, 'color', color);
+    });
+  }
+  
+  private isOverlapping(rect1: DOMRect, rect2: DOMRect): boolean {
+    const xOverlap = Math.max(0, Math.min(rect1.right, rect2.right) - Math.max(rect1.left, rect2.left));
+    const yOverlap = Math.max(0, Math.min(rect1.bottom, rect2.bottom) - Math.max(rect1.top, rect2.top));
+    const overlapArea = xOverlap * yOverlap;
+    
+    const textArea = rect1.width * rect1.height;
+    const overlapRatio = textArea > 0 ? overlapArea / textArea : 0;
+    
+    return overlapRatio >= 0.2;
+  }
 
+  private isFeatureSupported(): boolean {
+    if (!isPlatformBrowser(this.platformId)) return false;
+    
+    const hasResizeObserver = 'ResizeObserver' in window;
+    const hasGetBoundingClientRect = typeof this.el.nativeElement.getBoundingClientRect === 'function';
+    
+    return hasResizeObserver && hasGetBoundingClientRect;
+  }
+
+  private setFallbackColors(): void {
+    if (!this.areTextElementsAvailable()) return;
+    
+    const mediaQuery = window.matchMedia('(max-width: 424px)');
+    const textElements = this.getTextElements();
+    
+    this.applyColorsBasedOnMediaQuery(mediaQuery, textElements);
+    this.setupMediaQueryListener(mediaQuery, textElements);
+  }
+  
+  private getTextElements(): ElementRef[] {
+    return [
+      this.subtitleElement,
+      this.titleElement1,
+      this.titleElement2
+    ];
+  }
+  
+  private applyColorsBasedOnMediaQuery(mediaQuery: MediaQueryList, elements: ElementRef[]): void {
+    const textColor = mediaQuery.matches ? 'white' : this.defaultTextColor;
+    elements.forEach(textEl => {
+      this.renderer.setStyle(textEl.nativeElement, 'color', textColor);
+    });
+  }
+  
+  private setupMediaQueryListener(mediaQuery: MediaQueryList, elements: ElementRef[]): void {
+    mediaQuery.addEventListener('change', (e) => {
+      const newColor = e.matches ? 'white' : this.defaultTextColor;
+      elements.forEach(textEl => {
+        this.renderer.setStyle(textEl.nativeElement, 'color', newColor);
+      });
+    });
+  }
+}
 
 
 
