@@ -16,13 +16,13 @@
                     <button class="linkedin__btn"></button>
                 </a>
             </div>
-            <a class="legal__notice__a mobile" href="#" rel="noopener noreferrer">
-                <button><span>Legal Notice</span></button>
+            <a class="legal__notice__a mobile" [routerLink]="['/legal-notice']" rel="noopener noreferrer">
+                <button><span>{{ 'footer.legalNotice' | translate }}</span></button>
             </a>
         </div>
         <h2 class="default">© Simon Heistermann 2025</h2>
-        <a class="legal__notice__a default" href="#" rel="noopener noreferrer">
-            <button><span>Legal Notice</span></button>
+        <a class="legal__notice__a default" [routerLink]="['/legal-notice']" rel="noopener noreferrer">
+            <button><span>{{ 'footer.legalNotice' | translate }}</span></button>
         </a>
     </div>
 </section>

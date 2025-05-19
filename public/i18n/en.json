@@ -65,6 +65,9 @@
         "successMessage": "Your message was sent successfully!",
         "errorMessage": "There was an error sending your message.",
         "retry": "Try again"
+    },
+    "footer": {
+        "legalNotice": "Legal notice"
     }
-  }
+}
   

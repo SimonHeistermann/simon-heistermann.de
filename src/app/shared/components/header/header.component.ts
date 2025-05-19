@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { MenuOverlayService } from '../../../core/services/menu-overlay-service/menu-overlay.service';
 import { fixateScrollingOnBody, releaseScrollOnBody } from '../../utils/scroll-lock.utils';
+import { ProjectService } from '../../../core/services/project-service/project.service';
 
 @Component({
   selector: 'app-header',
@@ -33,6 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   pageLoadedWithScroll: boolean = false;
   isHeaderHiddenImmediate = false;
 
+  @Input() alwaysShowHoverStyle: boolean = false;
   
   private lastScrollTop = 0;
   private readonly MOUSE_THRESHOLD = 120;
@@ -50,7 +52,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(PLATFORM_ID) platformId: Object, 
     private translationService: TranslationService,
-    private menuOverlayService: MenuOverlayService
+    private menuOverlayService: MenuOverlayService,
+    private projectService: ProjectService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -141,13 +144,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   shouldApplyHoverStyle(): boolean {
-    return (this.initialPageLoad && this.pageLoadedWithScroll) || (this.hasScrolled && (this.isHoveredHeader || this.isMouseNearTop));
+    if (this.alwaysShowHoverStyle) return true;
+    return (
+      (this.initialPageLoad && this.pageLoadedWithScroll) ||
+      (this.hasScrolled && (this.isHoveredHeader || this.isMouseNearTop))
+    );
   }
 
   openOverlay() {
     this.menuOverlayActive = true;
     this.menuOverlayService.setMenuOverlayActive(true);
     fixateScrollingOnBody();
+  }
+
+  openHome() {
+    this.projectService.navigateHome();
   }
 }
 

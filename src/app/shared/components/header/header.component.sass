@@ -141,8 +141,17 @@ nav
 
 @media screen and (max-width: 1000px)
     nav
+        > div
+            display: none !important
+            opacity: 0
+        
+    .change__language
         display: none !important
         opacity: 0
+
+        &.active
+            display: flex !important
+            opacity: 1 !important
 
     .burger__menu
         display: block !important

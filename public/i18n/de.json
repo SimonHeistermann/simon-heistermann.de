@@ -66,5 +66,8 @@
         "errorMessage": "Es gab einen Fehler beim Senden Ihrer Nachricht.",
         "retry": "Erneut versuchen"
 
+    },
+    "footer": {
+        "legalNotice": "Impressum"
     }
 }

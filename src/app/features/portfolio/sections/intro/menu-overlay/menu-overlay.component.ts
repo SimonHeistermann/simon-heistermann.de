@@ -5,6 +5,7 @@ import { fixateScrollingOnBody, releaseScrollOnBody } from '../../../../../share
 import { TranslationService } from '../../../../../core/services/translation-service/translation.service';
 import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { ProjectService } from '../../../../../core/services/project-service/project.service';
 
 @Component({
   selector: 'app-menu-overlay',
@@ -22,7 +23,8 @@ export class MenuOverlayComponent implements OnInit, OnDestroy {
   
   constructor(
     private menuOverlayService: MenuOverlayService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private projectService: ProjectService
   ) {}
   
   ngOnInit(): void {
@@ -54,5 +56,9 @@ export class MenuOverlayComponent implements OnInit, OnDestroy {
   selectLanguage(language: string): void {
     this.selectedLanguage = language;
     this.translationService.switchLanguage(language);
+  }
+
+  openHome() {
+    this.projectService.navigateHome();
   }
 }

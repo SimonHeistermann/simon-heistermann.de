@@ -1,18 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SocialButtonComponent } from '../social-button/social-button.component';
-import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { TranslationService } from '../../../core/services/translation-service/translation.service';
+import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { MouseFollowerComponent } from '../../../shared/components/mouse-follower/mouse-follower.component';
 
 @Component({
-  selector: 'app-footer',
-  imports: [CommonModule, RouterModule, TranslateModule],
-  templateUrl: './footer.component.html',
-  styleUrl: './footer.component.sass'
+  selector: 'app-legal-notice',
+  standalone: true,
+  imports: [CommonModule, TranslateModule, HeaderComponent, MouseFollowerComponent],
+  templateUrl: './legal-notice.component.html',
+  styleUrl: './legal-notice.component.sass'
 })
-export class FooterComponent implements OnInit, OnDestroy {
+export class LegalNoticeComponent implements OnInit, OnDestroy {
   currentLang: string = 'de';
   private langSubscription!: Subscription;
 

@@ -6,20 +6,20 @@
   (mouseenter)="onHeaderMouseEnter()" 
   (mouseleave)="onHeaderMouseLeave()">
     <div>
-      <button class="logo"></button>
+      <button (click)="openHome()" class="logo"></button>
       <nav>
-        <div>
+        <div *ngIf="!alwaysShowHoverStyle">
           <a href="#about">{{ 'navigation.about' | translate }}</a>
           <a href="#skills">{{ 'navigation.skills' | translate}}</a>
           <a href="#projects">{{ 'navigation.projects' | translate}}</a>
         </div>
-        <div class="change__language">
+        <div class="change__language" [class.active]="alwaysShowHoverStyle">
           <button (click)="selectLanguage('de')" [class.selected]="selectedLanguage === 'de'">DE</button>
           <span>/</span>
           <button (click)="selectLanguage('en')" [class.selected]="selectedLanguage === 'en'">EN</button>
         </div>
       </nav>
-      <button (click)="openOverlay()" class="burger__menu"></button>
+      <button *ngIf="!alwaysShowHoverStyle" (click)="openOverlay()" class="burger__menu"></button>
     </div>
 </header>
   
