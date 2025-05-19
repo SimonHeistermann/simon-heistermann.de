@@ -2,9 +2,9 @@
 <app-header 
 [isContactOverlayActive]="formOverlayStatus.submitting || formOverlayStatus.submitSuccess || formOverlayStatus.submitError"
 ></app-header>
-<app-intro></app-intro>
-<app-about></app-about>
-<app-skill-set></app-skill-set>
-<app-projects></app-projects>
-<app-references></app-references>
-<app-contact (formOverlayStatus)="onFormOverlayStatusChanged($event)"></app-contact>
+<app-intro id="intro"></app-intro>
+<app-about id="about"></app-about>
+<app-skill-set id="skills"></app-skill-set>
+<app-projects id="projects"></app-projects>
+<app-references id="references"></app-references>
+<app-contact id="contact" (formOverlayStatus)="onFormOverlayStatusChanged($event)"></app-contact>

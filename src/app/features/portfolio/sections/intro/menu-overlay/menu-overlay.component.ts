@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Output, EventEmitter, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { MenuOverlayService } from '../../../../../core/services/menu-overlay-service/menu-overlay.service';
 import { fixateScrollingOnBody, releaseScrollOnBody } from '../../../../../shared/utils/scroll-lock.utils';
 import { TranslationService } from '../../../../../core/services/translation-service/translation.service';
@@ -7,6 +7,12 @@ import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProjectService } from '../../../../../core/services/project-service/project.service';
 
+/**
+ * Menu Overlay Component
+ * 
+ * A standalone Angular component that manages an application menu overlay.
+ * Handles menu state, language selection, and navigation actions.
+ */
 @Component({
   selector: 'app-menu-overlay',
   standalone: true,
@@ -15,18 +21,37 @@ import { ProjectService } from '../../../../../core/services/project-service/pro
   styleUrl: './menu-overlay.component.sass'
 })
 export class MenuOverlayComponent implements OnInit, OnDestroy {
+  /** Flag indicating whether the overlay is currently active */
   isOverlayActive = false;
+  
+  /** Currently selected language code */
   selectedLanguage: string = 'de';
 
+  /** Subscription for language changes */
   private langSubscription!: Subscription;
+  
+  /** Subscription for menu overlay state changes */
   private subscription: Subscription = new Subscription();
   
+  /**
+   * Creates an instance of MenuOverlayComponent.
+   * 
+   * @param menuOverlayService - Service to manage menu overlay state
+   * @param translationService - Service for language translation management
+   * @param projectService - Service for project navigation
+   * @param platformId - Angular's platform identifier token for browser detection
+   */
   constructor(
     private menuOverlayService: MenuOverlayService,
     private translationService: TranslationService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
   
+  /**
+   * Lifecycle hook that is called after component initialization.
+   * Subscribes to overlay state changes and language changes.
+   */
   ngOnInit(): void {
     this.subscription = this.menuOverlayService.menuOverlayActive$.subscribe(
       isActive => {
@@ -38,6 +63,10 @@ export class MenuOverlayComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Lifecycle hook that is called when component is destroyed.
+   * Unsubscribes from all active subscriptions to prevent memory leaks.
+   */
   ngOnDestroy(): void {
     if (this.langSubscription) {
       this.langSubscription.unsubscribe();
@@ -47,18 +76,48 @@ export class MenuOverlayComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Closes the menu overlay and re-enables scrolling on the body.
+   */
   closeOverlay() {
     this.isOverlayActive = false;
     this.menuOverlayService.setMenuOverlayActive(false);
     releaseScrollOnBody();
   }
 
+  /**
+   * Switches the application language.
+   * 
+   * @param language - Language code to switch to
+   */
   selectLanguage(language: string): void {
     this.selectedLanguage = language;
     this.translationService.switchLanguage(language);
   }
 
+  /**
+   * Navigates to the home page via the project service.
+   */
   openHome() {
     this.projectService.navigateHome();
+  }
+
+  /**
+   * Navigates to a specific section on the page by ID.
+   * Closes the overlay first, then smoothly scrolls to the target element.
+   * Only executes in browser environments.
+   * 
+   * @param sectionId - HTML element ID of the section to navigate to
+   */
+  navigateTo(sectionId: string) {
+    this.closeOverlay();
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 200);
+    }
   }
 }

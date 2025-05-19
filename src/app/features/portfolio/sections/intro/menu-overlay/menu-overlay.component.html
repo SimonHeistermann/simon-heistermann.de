@@ -8,9 +8,9 @@
     <div class="content">
         <nav>
             <div>
-              <a href="#about">{{ 'navigation.about' | translate }}</a>
-              <a href="#skills">{{ 'navigation.skills' | translate}}</a>
-              <a href="#projects">{{ 'navigation.projects' | translate}}</a>
+              <a (click)="navigateTo('about')">{{ 'navigation.about' | translate }}</a>
+              <a (click)="navigateTo('skills')">{{ 'navigation.skills' | translate}}</a>
+              <a (click)="navigateTo('projects')">{{ 'navigation.projects' | translate}}</a>
             </div>
             <div class="change__language">
               <button (click)="selectLanguage('de')" [class.selected]="selectedLanguage === 'de'">DE</button>
