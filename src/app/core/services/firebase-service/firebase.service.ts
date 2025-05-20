@@ -1,7 +1,6 @@
-import { CommonModule, AsyncPipe } from '@angular/common';
-import { Component, OnDestroy, Injectable, OnInit } from '@angular/core';
+import { OnDestroy, Injectable } from '@angular/core';
 import { Skill } from '../../models/skill.interface';
-import { Firestore, collection, doc, collectionData, onSnapshot, addDoc, updateDoc, deleteDoc, query, orderBy, limit, where } from '@angular/fire/firestore';
+import { Firestore, collection, onSnapshot, query, where } from '@angular/fire/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { Project } from '../../models/project.interface';
 
@@ -56,7 +55,7 @@ export class FirebaseService implements OnDestroy {
    *
    * @returns Function to unsubscribe from the snapshot listener.
    */
-  private subSkills() {
+  private subSkills(): () => void {
     const q = query(this.getSkillsRef(), where("hasLearnedSkill", "==", true));
     return onSnapshot(q, (snapshot) => {
       let skills: Skill[] = snapshot.docs.map(doc =>
@@ -113,7 +112,7 @@ export class FirebaseService implements OnDestroy {
    *
    * @returns Function to unsubscribe from the snapshot listener.
    */
-  private subProjects() {
+  private subProjects(): () => void {
     const q = query(this.getProjectsRef(), where("featured", "==", true));
     return onSnapshot(q, (snapshot) => {
       const projects: Project[] = snapshot.docs.map(doc =>

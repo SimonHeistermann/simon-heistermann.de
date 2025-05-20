@@ -73,7 +73,7 @@ h3
 .availability__icons
     @include displayFlex($jc: space-between)
     width: 100%
-    gap: 48px
+    gap: 32px
     overflow: auto
     padding-bottom: 16px
 
@@ -123,9 +123,10 @@ h3
         > span
             @include fontMontserrat($fs: 18px)
             color: var(--color-primary)
-            text-overflow: ellipsis
+            word-break: keep-all
             overflow: hidden
             max-height: 65px
+            min-width: 120px
             
 .content__right
     @include displayFlex($ai: flex-start, $jc: space-between, $g: 40px)

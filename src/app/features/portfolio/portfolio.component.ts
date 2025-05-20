@@ -8,7 +8,18 @@ import { SkillSetComponent } from './sections/skill-set/skill-set.component';
 import { ProjectsComponent } from './sections/projects/projects.component';
 import { ReferencesComponent } from "./sections/references/references.component";
 import { ContactComponent } from "./sections/contact/contact.component";
-type FormOverlayStatus = { submitting: boolean; submitSuccess: boolean; submitError: boolean };
+
+/**
+ * Type defining the status of a form overlay.
+ */
+type FormOverlayStatus = { 
+  /** Indicates if the form submission is in progress */
+  submitting: boolean; 
+  /** Indicates if the form submission was successful */
+  submitSuccess: boolean; 
+  /** Indicates if the form submission encountered an error */
+  submitError: boolean; 
+};
 
 @Component({
   selector: 'app-portfolio',
@@ -16,17 +27,24 @@ type FormOverlayStatus = { submitting: boolean; submitSuccess: boolean; submitEr
     IntroComponent, CommonModule, HeaderComponent,
     AboutComponent, MouseFollowerComponent, SkillSetComponent,
     ProjectsComponent, ReferencesComponent, ContactComponent
-],
+  ],
   templateUrl: './portfolio.component.html',
   styleUrl: './portfolio.component.sass'
 })
 export class PortfolioComponent {
-
+  /**
+   * Tracks the current status of the form overlay.
+   */
   formOverlayStatus: FormOverlayStatus = { submitting: false, submitSuccess: false, submitError: false };
 
   constructor() {}
 
+  /**
+   * Updates the form overlay status.
+   * @param status - The new status of the form overlay.
+   */
   onFormOverlayStatusChanged(status: FormOverlayStatus): void {
     this.formOverlayStatus = status;
   }
 }
+

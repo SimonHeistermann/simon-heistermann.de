@@ -16,8 +16,8 @@
         "location": "aktuell in Borken (Wesftfalen)",
         "workStyle": "verfügbar für Teilzeit Remote-Jobs",
         "lifeStyle": "bald auf Weltreise",
-        "description1": "Platzhalter",
-        "description2": "Platzhalter",
+        "description1": "Ich bin 18 Jahre jung, motiviert und technikbegeistert. Nach meinem Abi und Praktika im Bereich Anwendungsentwicklung mache ich aktuell eine Weiterbildung, um meine Programmierkenntnisse zu vertiefen.",
+        "description2": "Analytisches und kritisches Denken liegen mir besonders, denn ich löse gerne komplexe Probleme strukturiert und kreativ. Dabei lerne ich ständig dazu, um effizientere und elegantere Lösungen zu finden – mit Neugier, Durchhaltevermögen und Teamgeist",
         "buttonText": "Kontaktiere mich"
     },
     "skills": {
@@ -42,7 +42,7 @@
         "formTitle": "Kontaktformular",
         "title": "Kontakt",
         "subtitle" : "Ein Projekt, das Bewegung braucht?",
-        "description": "Platzhalter",
+        "description": "Ich freue mich auf spannende Projekte im Bereich Frontend- oder Webentwicklung. Mit strukturiertem Arbeiten, technischem Verständnis und einem Blick für saubere Lösungen bringe ich echten Mehrwert ins Team. Wenn ihr jemanden sucht, der engagiert, zuverlässig und lösungsorientiert mitarbeitet – schreibt mir gerne!",
         "underline": "Frontend-Entwickler gesucht?",
         "underline_b_tag": "Schreib mir!",
         "name": "Ihr Name",

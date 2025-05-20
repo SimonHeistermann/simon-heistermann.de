@@ -20,10 +20,10 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
   private introSectionHeight: number = 0;
   private scrollBoxInitialPosition: number = 0;
 
-  private animationStartOffset: number = 500; // px before the section comes into view
-  private animationDuration: number = 800; // How many pixels of scrolling to complete the animation
-  private scrollLineMaxHeightPx: number = 400; // Fixed height in pixels for the scroll line
-  private scrollTextFadeInSpeed: number = 3; // Higher = faster fade-in (text appears earlier)
+  private animationStartOffset: number = 500; 
+  private animationDuration: number = 800;
+  private scrollLineMaxHeightPx: number = 400;
+  private scrollTextFadeInSpeed: number = 3;
   
   @ViewChild('scrollBox') scrollBox!: ElementRef;
   @ViewChild('scrollLine') scrollLine!: ElementRef;

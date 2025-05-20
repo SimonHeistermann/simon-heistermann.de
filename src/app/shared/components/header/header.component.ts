@@ -9,6 +9,14 @@ import { MenuOverlayService } from '../../../core/services/menu-overlay-service/
 import { fixateScrollingOnBody, releaseScrollOnBody } from '../../utils/scroll-lock.utils';
 import { ProjectService } from '../../../core/services/project-service/project.service';
 
+/**
+ * Header component responsible for displaying the site header
+ * Features include:
+ * - Auto-hiding based on scroll position
+ * - Language selection
+ * - Responsive mouse position tracking
+ * - Menu overlay integration
+ */
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -25,30 +33,67 @@ import { ProjectService } from '../../../core/services/project-service/project.s
   ]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  /** Flag to control header visibility */
   isHeaderHidden = false;
+  
+  /** Tracks if user is hovering over the header */
   isHoveredHeader = false;
+  
+  /** Indicates if user has scrolled beyond threshold */
   hasScrolled = false; 
+  
+  /** Tracks if mouse cursor is near the top of the page */
   isMouseNearTop = false;
+  
+  /** Controls initial animation display */
   shouldShowInitialAnimation: boolean = true;
+  
+  /** Tracks if this is initial page load */
   initialPageLoad: boolean = true;
+  
+  /** Indicates if page loaded with scroll position below threshold */
   pageLoadedWithScroll: boolean = false;
+  
+  /** Controls immediate hiding of header (no animation) */
   isHeaderHiddenImmediate = false;
 
+  /** When true, always applies hover style regardless of other conditions */
   @Input() alwaysShowHoverStyle: boolean = false;
   
+  /** Last recorded scroll position */
   private lastScrollTop = 0;
+  
+  /** Distance from top of viewport to consider mouse "near top" (in pixels) */
   private readonly MOUSE_THRESHOLD = 120;
+  
+  /** Scroll position threshold to consider page "scrolled" (in pixels) */
   private readonly SCROLL_THRESHOLD = 60;
+  
+  /** Flag indicating if code is running in browser environment */
   private isBrowser: boolean;
+  
+  /** Currently selected language code */
   selectedLanguage: string = 'de';
 
+  /** Subscription to language changes */
   private langSubscription!: Subscription;
 
+  /** Flag indicating if contact overlay is currently active */
   @Input() isContactOverlayActive: boolean = false;
+  
+  /** Flag indicating if menu overlay is currently active */
   menuOverlayActive = false;
+  
+  /** Collection of all subscriptions for proper cleanup */
   private subscription: Subscription = new Subscription();
 
-
+  /**
+   * Creates an instance of HeaderComponent
+   * @param platformId - Injection token to determine platform environment
+   * @param translationService - Service for handling language translations
+   * @param menuOverlayService - Service for controlling menu overlay state
+   * @param projectService - Service for navigation control
+   */
   constructor(
     @Inject(PLATFORM_ID) platformId: Object, 
     private translationService: TranslationService,
@@ -58,6 +103,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
+  /**
+   * Lifecycle hook that initializes component
+   * Sets up initial state and subscriptions
+   */
   ngOnInit(): void {
     if (this.isBrowser) {
       const scrollTop = this.getScrollTop();
@@ -78,6 +127,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Checks current scroll position and updates header visibility state
+   * Takes into account various conditions including overlays and mouse position
+   */
   private checkScrollPosition(): void {
     const scrollTop = this.getScrollTop();
     this.hasScrolled = scrollTop >= this.SCROLL_THRESHOLD;
@@ -94,6 +147,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
   
+  /**
+   * Host listener for scroll events
+   * Updates header state based on scroll position changes
+   */
   @HostListener('window:scroll')
   handleScroll(): void {
     if (!this.isBrowser) return;
@@ -104,6 +161,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.lastScrollTop = this.getScrollTop();
   }
 
+  /**
+   * Host listener for mouse movement
+   * Tracks if mouse is near the top of the viewport
+   * @param event - Mouse movement event
+   */
   @HostListener('document:mousemove', ['$event'])
   handleMouseMove(event: MouseEvent): void {
     if (!this.isBrowser) return;
@@ -114,6 +176,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Lifecycle hook for component destruction
+   * Cleans up all subscriptions
+   */
   ngOnDestroy(): void {
     if (this.langSubscription) {
       this.langSubscription.unsubscribe();
@@ -123,15 +189,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Gets current scroll position in a cross-browser compatible way
+   * @returns Current scroll position in pixels
+   */
   private getScrollTop(): number {
     return window.scrollY || document.documentElement.scrollTop || 0;
   }  
 
+  /**
+   * Handles language selection
+   * Updates current language and notifies translation service
+   * @param language - Language code to switch to
+   */
   selectLanguage(language: string): void {
     this.selectedLanguage = language;
     this.translationService.switchLanguage(language);
   }
 
+  /**
+   * Event handler for mouse enter on header
+   * Updates hover state if overlays are not forcing header to hide
+   */
   onHeaderMouseEnter(): void {
     const shouldForceHide = !this.isContactOverlayActive || !this.menuOverlayActive;
     if (shouldForceHide) {
@@ -139,10 +218,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Event handler for mouse leave on header
+   * Resets hover state
+   */
   onHeaderMouseLeave(): void {
     this.isHoveredHeader = false;
   }
 
+  /**
+   * Determines if hover style should be applied to header
+   * Based on scroll state, mouse position, and custom settings
+   * @returns Boolean indicating if hover style should be applied
+   */
   shouldApplyHoverStyle(): boolean {
     if (this.alwaysShowHoverStyle) return true;
     return (
@@ -151,12 +239,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Opens the menu overlay
+   * Updates overlay state and fixes body scrolling
+   */
   openOverlay() {
     this.menuOverlayActive = true;
     this.menuOverlayService.setMenuOverlayActive(true);
     fixateScrollingOnBody();
   }
 
+  /**
+   * Navigates to home page
+   * Uses project service for navigation
+   */
   openHome() {
     this.projectService.navigateHome();
   }

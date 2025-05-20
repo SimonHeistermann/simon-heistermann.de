@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SocialButtonComponent } from '../social-button/social-button.component';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -13,17 +12,36 @@ import { TranslationService } from '../../../core/services/translation-service/t
   styleUrl: './footer.component.sass'
 })
 export class FooterComponent implements OnInit, OnDestroy {
+  /**
+   * Current language code, initialized to 'de' by default.
+   */
   currentLang: string = 'de';
+
+  /**
+   * Subscription to listen for language changes.
+   */
   private langSubscription!: Subscription;
 
+  /**
+   * Constructor to inject TranslationService.
+   * @param translationService Service to handle language translations.
+   */
   constructor(private translationService: TranslationService) {}
 
+  /**
+   * Angular lifecycle hook called on component initialization.
+   * Subscribes to the current language observable to update `currentLang`.
+   */
   ngOnInit(): void {
     this.langSubscription = this.translationService.currentLang$.subscribe((lang: string) => {
       this.currentLang = lang;
     });
   }
 
+  /**
+   * Angular lifecycle hook called before component destruction.
+   * Unsubscribes from the language subscription to prevent memory leaks.
+   */
   ngOnDestroy(): void {
     if (this.langSubscription) {
       this.langSubscription.unsubscribe();
