@@ -18,12 +18,16 @@
        (mouseenter)="onMouseEnter()" 
        (mouseleave)="onMouseLeave()" 
        (click)="navigateToProject()">
-
-    <video *ngIf="isHovering && project.videoUrl" #videoPlayer class="project__video" autoplay loop muted playsinline>
+    <video #videoPlayer class="project__video" 
+           autoplay loop muted playsinline
+           [style.display]="isHovering && project.videoUrl ? 'block' : 'none'">
       <source [src]="project.videoUrl" type="video/mp4">
       Your browser does not support the video tag.
     </video>
-    <img *ngIf="!isHovering || !project.videoUrl" class="project__image" [src]="project.thumbnailUrl" [alt]="project.title">
+    <img class="project__image" 
+         [src]="project.thumbnailUrl" 
+         [alt]="project.title"
+         [style.display]="!isHovering || !project.videoUrl ? 'block' : 'none'">
   </div>
 </div>
 

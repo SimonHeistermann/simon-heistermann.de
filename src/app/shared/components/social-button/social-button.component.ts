@@ -82,7 +82,7 @@ export class SocialButtonComponent implements OnInit {
    * @returns Record mapping each social type to its image paths
    */
   createSocialImageMap(): Record<SocialType, SocialImagePaths> {
-    const base = '/icons';
+    const base = '/img/icons';
     return {
       github: this.createImagePathPair(base, 'github_socials_icon'),
       linkedin: this.createImagePathPair(base, 'linkedin_socials_icon'),

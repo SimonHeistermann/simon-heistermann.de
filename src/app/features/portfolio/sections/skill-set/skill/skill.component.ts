@@ -73,7 +73,7 @@ export class SkillComponent implements OnInit, OnDestroy {
       .replace(/\./g, '_')  
       .replace(/\s+/g, '_');
       
-    const basePath = this.projectService.isMobile() ? '/icons/skills/mobile' : '/icons/skills';
+    const basePath = this.projectService.isMobile() ? 'img/icons/skills/mobile' : 'img/icons/skills';
 
     return `${basePath}/${formattedName}_icon.png`;
   }

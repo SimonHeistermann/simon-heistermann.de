@@ -200,6 +200,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     if (!this.project.videoUrl) return;
     
     this.isHovering = true;
+    // Wait for next change detection cycle before attempting playback
     setTimeout(() => this.handleVideoPlayback(), 0);
   }
 
@@ -268,6 +269,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
    * @private
    */
   private playVideo(videoEl: HTMLVideoElement): void {
+    // Only attempt to play if still hovering
+    if (!this.isHovering) return;
+    
     videoEl.play().catch(err => {
       console.warn('Autoplay not allowed:', err);
       this.playMutedFallback(videoEl);
@@ -292,6 +296,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
    * @private
    */
   private playMutedFallback(videoEl: HTMLVideoElement): void {
+    // Check if still hovering and element exists before attempting to play
+    if (!this.isHovering || !videoEl) return;
+    
     if (!videoEl.muted) {
       videoEl.muted = true;
       videoEl.play().catch(err => {
@@ -305,8 +312,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
    * Stops video playback and updates hover state.
    */
   onMouseLeave(): void {
-    this.isHovering = false;
-    this.pauseVideo();
+    if (this.isHovering) {
+      this.pauseVideo();
+      this.isHovering = false;
+    }
   }
 
   /**
@@ -314,7 +323,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
    * @private
    */
   private pauseVideo(): void {
-    this.videoPlayer?.nativeElement?.pause();
+    const videoEl = this.getVideoElement();
+    if (videoEl) {
+      videoEl.pause();
+    }
   }
 
   /**

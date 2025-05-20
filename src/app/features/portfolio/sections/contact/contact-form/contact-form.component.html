@@ -22,11 +22,11 @@
                        [attr.aria-describedby]="(contactForm.get('name')?.touched && contactForm.get('name')?.invalid) ? 'name-error' : null" />
 
                 <div class="status__icon error__icon" aria-hidden="true" draggable="false">
-                    <img src="icons/wrong_form_icon.png" draggable="false">
+                    <img src="img/icons/wrong_form_icon.png" draggable="false">
                 </div>
 
                 <div class="status__icon success__icon" aria-hidden="true" draggable="false">
-                    <img src="icons/correct_form_icon.png" draggable="false">
+                    <img src="img/icons/correct_form_icon.png" draggable="false">
                 </div>
 
                 <div class="error" *ngIf="contactForm.get('name')?.touched && contactForm.get('name')?.invalid" id="name-error">
@@ -50,11 +50,11 @@
                        [attr.aria-describedby]="(contactForm.get('email')?.touched && contactForm.get('email')?.invalid) ? 'email-error' : null" />
                 
                 <div class="status__icon error__icon" aria-hidden="true" draggable="false">
-                    <img src="icons/wrong_form_icon.png" draggable="false">
+                    <img src="img/icons/wrong_form_icon.png" draggable="false">
                 </div>
 
                 <div class="status__icon success__icon" aria-hidden="true" draggable="false">
-                    <img src="icons/correct_form_icon.png" draggable="false">
+                    <img src="img/icons/correct_form_icon.png" draggable="false">
                 </div>
 
                 <div class="error" *ngIf="contactForm.get('email')?.touched && contactForm.get('email')?.invalid" id="email-error">
@@ -76,11 +76,11 @@
                           [attr.aria-describedby]="(contactForm.get('message')?.touched && contactForm.get('message')?.invalid) ? 'message-error' : null"></textarea>
 
                 <div class="status__icon error__icon" aria-hidden="true" draggable="false">
-                    <img src="icons/wrong_form_icon.png" draggable="false">
+                    <img src="img/icons/wrong_form_icon.png" draggable="false">
                 </div>
 
                 <div class="status__icon success__icon" aria-hidden="true" draggable="false">
-                    <img src="icons/correct_form_icon.png" draggable="false">
+                    <img src="img/icons/correct_form_icon.png" draggable="false">
                 </div>
 
                 <div class="error" *ngIf="contactForm.get('message')?.touched && contactForm.get('message')?.invalid" id="message-error">
