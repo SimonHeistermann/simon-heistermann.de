@@ -1,31 +1,30 @@
 <div class="project__card" [ngClass]="{'right__layout': layout === 'right'}">
-    <div class="project__info" [ngClass]="{'ai__flex__end': layout === 'left'}">
-        <div class="project__infotext" [ngClass]="{'ai__flex__end': layout === 'left'}">
-            <h3 class="project__title">{{ project.title }}</h3>
-            <div class="project__technologies">
-                @for (tech of project.technologies; let i = $index; track i) {
-                  <span>{{ tech }}<ng-container *ngIf="i < project.technologies.length - 1"> | </ng-container></span>
-                }
-            </div>              
-            <p class="project__description" [ngClass]="{'text__align__end': layout === 'left'}">{{ localizedDescription }}</p>
-        </div>
-        <div class="github__btn__box">
-            <button class="livetest__btn" (click)="navigateToProject()">Live test</button>
-            <button class="github__btn" (click)="openGithub()">GitHub</button>
-        </div>
+  <div class="project__info" [ngClass]="{'ai__flex__end': layout === 'left'}">
+    <div class="project__infotext" [ngClass]="{'ai__flex__end': layout === 'left'}">
+      <h3 class="project__title">{{ project.title }}</h3>
+      <div class="project__technologies">
+        <span *ngFor="let tech of project.technologies; let i = index">
+          {{ tech }}<ng-container *ngIf="i < project.technologies.length - 1"> | </ng-container>
+        </span>
+      </div>              
+      <p class="project__description" [ngClass]="{'text__align__end': layout === 'left'}">{{ localizedDescription }}</p>
     </div>
-    <div class="project__media" 
-         (mouseenter)="onMouseEnter()" 
-         (mouseleave)="onMouseLeave()" 
-         (click)="navigateToProject()">
-      @if (isHovering && project.videoUrl) {
-        <video class="project__video" autoplay loop muted>
-          <source [src]="project.videoUrl" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      } @else {
-        <img class="project__image" [src]="project.thumbnailUrl" [alt]="project.title">
-      }
+    <div class="github__btn__box">
+      <button class="livetest__btn" (click)="navigateToProject()">Live test</button>
+      <button class="github__btn" (click)="openGithub()">GitHub</button>
     </div>
+  </div>
+  <div class="project__media" 
+       (mouseenter)="onMouseEnter()" 
+       (mouseleave)="onMouseLeave()" 
+       (click)="navigateToProject()">
+
+    <video *ngIf="isHovering && project.videoUrl" #videoPlayer class="project__video" autoplay loop muted playsinline>
+      <source [src]="project.videoUrl" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <img *ngIf="!isHovering || !project.videoUrl" class="project__image" [src]="project.thumbnailUrl" [alt]="project.title">
+  </div>
 </div>
+
   

@@ -1,7 +1,7 @@
 @use './../../../../../../styles' as *;
 
 .project__card
-    @include displayFlex($ai: flex-end, $jc: space-between, $g: 64px)
+    @include displayFlex($ai: flex-end, $g: 64px)
     width: 100%
 
     &.right__layout
@@ -137,10 +137,9 @@ h3
         z-index: -1
 
 .project__media
-    flex: 1
     max-width: 50%
     box-shadow: 5px 5px 15px 0px #00000026
-    width: auto
+    width: 645px
     height: 400px
     overflow: hidden
     cursor: pointer
@@ -156,6 +155,7 @@ h3
     height: 100%
     object-fit: cover
     display: block
+    overflow: hidden
 
 @media screen and (max-width: 1000px)
     .project__card
