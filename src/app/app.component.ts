@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { FaviconService } from './core/services/favicon-service/favicon.service';
 
 /**
  * Root component of the Angular application.
- * 
- * Contains the router outlet for navigation and the footer component.
+ *
+ * It contains the router outlet for rendering routed components
+ * and includes the footer component shared across all pages.
  */
 @Component({
   selector: 'app-root',
@@ -13,10 +15,27 @@ import { FooterComponent } from './shared/components/footer/footer.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   /**
    * Title of the application.
    */
   title = 'portfolio';
+
+  /**
+   * Constructs the AppComponent.
+   * 
+   * @param faviconService Service for dynamically switching the favicon
+   */
+  constructor(private faviconService: FaviconService) {}
+
+  /**
+   * Lifecycle hook called once the component is initialized.
+   * 
+   * Initializes the favicon switcher logic.
+   */
+  ngOnInit(): void {
+    this.faviconService.setupFaviconSwitcher();
+  }
 }
+
 

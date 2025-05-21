@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ContactData } from '../../../core/models/contact-data.interface';
 
@@ -13,17 +13,15 @@ export class ContactService {
   /** 
    * Configuration object for sending contact form data.
    * - `endPoint`: URL to which the form data is posted.
-   * - `body`: Function to serialize the payload.
    * - `options`: HTTP headers and response settings.
    */
   private post = {
-    endPoint: 'https://simon-heistermann.de/sendMail.php',
-    body: (payload: any) => JSON.stringify(payload),
+    endPoint: 'https://simon-heistermann.de/api/sendMail.php',
     options: {
-      headers: {
-        'Content-Type': 'text/plain',
-        responseType: 'text',
-      },
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      responseType: 'json' as const
     },
   };
 
@@ -31,7 +29,7 @@ export class ContactService {
    * Flag to determine whether the service is running in mail test mode.
    * If true, email sending is simulated and not actually performed.
    */
-  mailTest = true;
+  mailTest = false;
 
   constructor() { }
 
@@ -46,13 +44,14 @@ export class ContactService {
     if (this.mailTest) {
       console.log('Test mode: Form would be submitted:', contactData);
       return new Observable(observer => {
-        observer.next('Test success');
+        observer.next({success: true});
         observer.complete();
       });
     }
     return this.http.post(
       this.post.endPoint, 
-      this.post.body(contactData)
+      contactData,
+      this.post.options
     );
   }
 
