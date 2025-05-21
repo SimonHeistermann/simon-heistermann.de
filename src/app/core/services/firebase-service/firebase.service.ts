@@ -1,95 +1,84 @@
-import { OnDestroy, Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Firestore, collection, query, where } from '@angular/fire/firestore';
 import { Skill } from '../../models/skill.interface';
-import { Firestore, collection, onSnapshot, query, where } from '@angular/fire/firestore';
-import { BehaviorSubject } from 'rxjs';
 import { Project } from '../../models/project.interface';
+import { isPlatformBrowser } from '@angular/common';
+import { Observable, of } from 'rxjs';
+import { collectionData } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
 
-/**
- * Service to manage data retrieval from Firebase Firestore for skills and projects.
- * Subscribes to Firestore collections and provides observable streams for component use.
- */
 @Injectable({
   providedIn: 'root'
 })
-export class FirebaseService implements OnDestroy {
-  /** Internal subject for skills observable */
-  private _skills$ = new BehaviorSubject<Skill[]>([]);
-
-  /** Public observable of skill data */
-  skills$ = this._skills$.asObservable();
-
-  /** Internal subject for projects observable */
-  private _projects$ = new BehaviorSubject<Project[]>([]);
-
-  /** Public observable of project data */
-  projects$ = this._projects$.asObservable();
-
-  /** Unsubscribe function for skills listener */
-  private unsubSkills: () => void;
-
-  /** Unsubscribe function for projects listener */
-  private unsubProjects: () => void;
+export class FirebaseService {
+  /**
+   * Observable stream of skills that have been learned.
+   */
+  skills$: Observable<Skill[]> = of([]);
 
   /**
-   * Initializes Firestore listeners for skills and projects upon service instantiation.
+   * Observable stream of featured projects.
+   */
+  projects$: Observable<Project[]> = of([]);
+
+  /**
+   * Creates an instance of FirebaseService.
+   * Initializes skills$ and projects$ observables only on the browser platform.
    * 
-   * @param firestore - Injected Firestore instance from AngularFire
+   * @param firestore - Firestore instance for querying the database
+   * @param platformId - Platform identifier used to check if running in browser
    */
-  constructor(private firestore: Firestore) {
-    this.unsubSkills = this.subSkills();
-    this.unsubProjects = this.subProjects();
+  constructor(
+    private firestore: Firestore,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.skills$ = this.loadSkills();
+      this.projects$ = this.loadProjects();
+    }
   }
 
   /**
-   * Cleanup lifecycle hook to unsubscribe from Firestore listeners
-   * when the service is destroyed.
+   * Loads skills from Firestore where `hasLearnedSkill` is true.
+   * Sorts skills to put "growth mindset" at the end of the list.
+   * 
+   * @returns Observable emitting an array of Skill objects
    */
-  ngOnDestroy(): void {
-    this.unsubSkills();
-    this.unsubProjects();
+  private loadSkills(): Observable<Skill[]> {
+    const skillsRef = collection(this.firestore, 'skills');
+    const q = query(skillsRef, where("hasLearnedSkill", "==", true));
+    return collectionData(q, {idField: 'id'}).pipe(
+      map((docs: any[]) => {
+        let skills = docs.map(doc => this.setSkillObject(doc));
+        return this.sortSkillsWithGrowthMindsetAtEnd(skills);
+      })
+    );
   }
 
   /**
-   * Subscribes to the Firestore `skills` collection and updates the observable stream.
-   * Filters for skills that have `hasLearnedSkill` set to `true`.
-   *
-   * @returns Function to unsubscribe from the snapshot listener.
-   */
-  private subSkills(): () => void {
-    const q = query(this.getSkillsRef(), where("hasLearnedSkill", "==", true));
-    return onSnapshot(q, (snapshot) => {
-      let skills: Skill[] = snapshot.docs.map(doc =>
-        this.setSkillObject(doc.data(), doc.id)
-      );
-      skills = this.sortSkillsWithGrowthMindsetAtEnd(skills);
-      this._skills$.next(skills);
-    });
-  }
-
-  /**
-   * Ensures the skill named "Growth Mindset" is placed at the end of the skills list.
-   *
-   * @param skills - List of skills to sort.
-   * @returns A new sorted array with "Growth Mindset" last, if present.
+   * Sorts the given skills array so that the skill with name "growth mindset" (case insensitive)
+   * is moved to the end of the array.
+   * 
+   * @param skills - Array of Skill objects to sort
+   * @returns The sorted array of Skill objects
    */
   private sortSkillsWithGrowthMindsetAtEnd(skills: Skill[]): Skill[] {
-    const growthMindsetIndex = skills.findIndex(skill => 
-      skill.name.toLowerCase() === 'growth mindset');
-    if (growthMindsetIndex !== -1) {
-      const growthMindsetSkill = skills.splice(growthMindsetIndex, 1)[0];
-      skills.push(growthMindsetSkill);
+    const idx = skills.findIndex(s => s.name.toLowerCase() === 'growth mindset');
+    if (idx !== -1) {
+      const gm = skills.splice(idx, 1)[0];
+      skills.push(gm);
     }
     return skills;
   }
 
   /**
-   * Constructs a `Skill` object from raw Firestore data.
-   *
-   * @param obj - Raw Firestore skill data.
-   * @param id - The document ID (currently unused).
-   * @returns A `Skill` object.
+   * Maps a raw Firestore document to a Skill object.
+   * Defaults `hasLearnedSkill` to true if not set.
+   * 
+   * @param obj - Raw Firestore document object
+   * @returns Skill object
    */
-  private setSkillObject(obj: any, id: string): Skill {
+  private setSkillObject(obj: any): Skill {
     return {
       category: obj.category,
       hasLearnedSkill: obj.hasLearnedSkill ?? true,
@@ -98,38 +87,26 @@ export class FirebaseService implements OnDestroy {
   }
 
   /**
-   * Gets a Firestore reference to the `skills` collection.
-   *
-   * @returns Firestore collection reference.
+   * Loads projects from Firestore where `featured` is true.
+   * 
+   * @returns Observable emitting an array of Project objects
    */
-  private getSkillsRef() {
-    return collection(this.firestore, 'skills');
+  private loadProjects(): Observable<Project[]> {
+    const projectsRef = collection(this.firestore, 'projects');
+    const q = query(projectsRef, where("featured", "==", true));
+    return collectionData(q, {idField: 'id'}).pipe(
+      map((docs: any[]) => docs.map(doc => this.setProjectObject(doc)))
+    );
   }
 
   /**
-   * Subscribes to the Firestore `projects` collection and updates the observable stream.
-   * Filters for projects that have `featured` set to `true`.
-   *
-   * @returns Function to unsubscribe from the snapshot listener.
+   * Maps a raw Firestore document to a Project object.
+   * Defaults `featured` to true if not set.
+   * 
+   * @param obj - Raw Firestore document object
+   * @returns Project object
    */
-  private subProjects(): () => void {
-    const q = query(this.getProjectsRef(), where("featured", "==", true));
-    return onSnapshot(q, (snapshot) => {
-      const projects: Project[] = snapshot.docs.map(doc =>
-        this.setProjectObject(doc.data(), doc.id)
-      );
-      this._projects$.next(projects);
-    });
-  }
-
-  /**
-   * Constructs a `Project` object from raw Firestore data.
-   *
-   * @param obj - Raw Firestore project data.
-   * @param id - The document ID (currently unused).
-   * @returns A `Project` object.
-   */
-  private setProjectObject(obj: any, id: string): Project {
+  private setProjectObject(obj: any): Project {
     return {
       title: obj.title,
       descriptionDe: obj.descriptionDe,
@@ -141,14 +118,5 @@ export class FirebaseService implements OnDestroy {
       githubUrl: obj.githubUrl,
       technologies: obj.technologies
     };
-  }
-
-  /**
-   * Gets a Firestore reference to the `projects` collection.
-   *
-   * @returns Firestore collection reference.
-   */
-  private getProjectsRef() {
-    return collection(this.firestore, 'projects');
   }
 }

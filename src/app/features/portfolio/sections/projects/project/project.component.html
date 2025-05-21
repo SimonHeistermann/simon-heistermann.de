@@ -19,7 +19,7 @@
        (mouseleave)="onMouseLeave()" 
        (click)="navigateToProject()">
     <video #videoPlayer class="project__video" 
-           autoplay loop muted playsinline
+           loop muted playsinline
            [style.display]="isHovering && project.videoUrl ? 'block' : 'none'">
       <source [src]="project.videoUrl" type="video/mp4">
       Your browser does not support the video tag.

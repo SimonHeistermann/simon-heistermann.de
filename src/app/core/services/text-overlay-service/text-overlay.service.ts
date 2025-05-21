@@ -1,18 +1,22 @@
-import { Injectable, ElementRef, Renderer2 } from '@angular/core';
+import { Injectable, ElementRef, Renderer2, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
-/**
- * Service responsible for dynamically changing text color based on overlap with a target element.
- * Primarily used to improve text readability when overlapping colored backgrounds.
- */
 @Injectable({
   providedIn: 'root'
 })
 export class TextOverlayService {
+  private isBrowser: boolean;
 
   /**
-   * @param renderer - Angular Renderer2 for safe DOM manipulation
+   * Creates an instance of TextOverlayService.
+   * Checks if the platform is a browser.
+   *
+   * @param renderer - Angular Renderer2 for DOM manipulation
+   * @param platformId - Platform identifier to detect browser environment
    */
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, @Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   /**
    * Observes the position and size of given text elements and a target element.
@@ -29,13 +33,37 @@ export class TextOverlayService {
     defaultColor: string = 'var(--color-primary)',
     overlapColor: string = 'white'
   ) {
-    const updateColors = () => this.updateTextColors(textElements, blueElement, defaultColor, overlapColor);
+    if (!this.isBrowser) return;
+    const updateColors = () => 
+      this.updateTextColors(textElements, blueElement, defaultColor, overlapColor);
+    this.initializeObservers(textElements, blueElement, updateColors);
+    this.registerWindowListeners(updateColors);
     updateColors();
+  }
 
+  /**
+   * Initializes ResizeObserver for the target and text elements.
+   *
+   * @param textElements - Array of ElementRefs to observe
+   * @param blueElement - ElementRef to observe
+   * @param updateColors - Callback to update text colors
+   */
+  private initializeObservers(
+    textElements: ElementRef[],
+    blueElement: ElementRef,
+    updateColors: () => void
+  ) {
     const observer = new ResizeObserver(updateColors);
     observer.observe(blueElement.nativeElement);
     textElements.forEach(el => observer.observe(el.nativeElement));
+  }
 
+  /**
+   * Registers window scroll and resize listeners to update text colors.
+   *
+   * @param updateColors - Callback to update text colors
+   */
+  private registerWindowListeners(updateColors: () => void) {
     window.addEventListener('scroll', updateColors);
     window.addEventListener('resize', updateColors);
   }
@@ -55,11 +83,11 @@ export class TextOverlayService {
     overlapColor: string
   ) {
     const blueRect = blueElement.nativeElement.getBoundingClientRect();
+
     textElements.forEach(textEl => {
       const textRect = textEl.nativeElement.getBoundingClientRect();
-      const isMajorityOverlapping = this.isMajorOverlap(textRect, blueRect);
-      const color = isMajorityOverlapping ? overlapColor : defaultColor;
-      this.setTextColor(textEl, color);
+      const isOverlapping = this.isMajorOverlap(textRect, blueRect);
+      this.setTextColor(textEl, isOverlapping ? overlapColor : defaultColor);
     });
   }
 
@@ -72,6 +100,17 @@ export class TextOverlayService {
    */
   private isMajorOverlap(textRect: DOMRect, targetRect: DOMRect): boolean {
     const intersection = this.getIntersectionRect(textRect, targetRect);
+    return this.isAlmostFullOverlap(intersection, textRect);
+  }
+
+  /**
+   * Checks if the intersection rectangle covers nearly 100% of the text element.
+   *
+   * @param intersection - The intersection DOMRect
+   * @param textRect - The bounding DOMRect of the text element
+   * @returns true if intersection area / text area > 0.9999
+   */
+  private isAlmostFullOverlap(intersection: DOMRect, textRect: DOMRect): boolean {
     const intersectionArea = intersection.width * intersection.height;
     const textArea = textRect.width * textRect.height;
     return intersectionArea / textArea > 0.9999;
@@ -105,5 +144,3 @@ export class TextOverlayService {
     this.renderer.setStyle(el.nativeElement, 'color', color);
   }
 }
-
-

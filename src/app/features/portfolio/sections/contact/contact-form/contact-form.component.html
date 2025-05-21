@@ -107,7 +107,7 @@
                                [attr.aria-describedby]="(contactForm.get('agreedToTerms')?.touched && contactForm.get('agreedToTerms')?.invalid) ? 'privacy-error' : null">
                         <span class="custom__checkbox" aria-hidden="true"></span>
                         <span class="text">
-                            {{ 'contact.privacyPolicy_1' | translate }} <a href="/privacy-policy" target="_blank">{{ 'contact.privacyPolicy_2' | translate }}</a> {{ 'contact.privacyPolicy_3' | translate }}
+                            {{ 'contact.privacyPolicy_1' | translate }} <a href="/privacy-policy">{{ 'contact.privacyPolicy_2' | translate }}</a> {{ 'contact.privacyPolicy_3' | translate }}
                         </span>
                     </label>
                     <div class="error" *ngIf="contactForm.get('agreedToTerms')?.touched && contactForm.get('agreedToTerms')?.invalid" id="privacy-error">

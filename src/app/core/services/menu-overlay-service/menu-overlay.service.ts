@@ -1,50 +1,47 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ProjectService } from './../project-service/project.service';
-import { fixateScrollingOnBody, releaseScrollOnBody } from '../../../shared/utils/scroll-lock.utils';
+import { releaseScrollOnBody } from '../../../shared/utils/scroll-lock.utils';
+import { isPlatformBrowser } from '@angular/common';
 
-/**
- * Service to control the visibility of the mobile menu overlay.
- * It handles state changes and ensures proper scroll locking behavior on body.
- */
 @Injectable({
   providedIn: 'root'
 })
 export class MenuOverlayService {
-  /** Subject that tracks whether the menu overlay is active */
+  /**
+   * BehaviorSubject tracking whether the menu overlay is active.
+   */
   private menuOverlayActiveSubject = new BehaviorSubject<boolean>(false);
 
-  /** Observable stream exposing the current menu overlay active state */
+  /**
+   * Observable that emits the current state of the menu overlay (active/inactive).
+   */
   menuOverlayActive$ = this.menuOverlayActiveSubject.asObservable();
 
   /**
-   * Initializes the menu overlay state and registers a window resize listener
-   * to deactivate the overlay on non-mobile viewports.
-   *
-   * @param projectService - Service used to determine the current viewport size
+   * Creates an instance of MenuOverlayService.
+   * Initializes overlay state and sets up resize event listener for desktop/mobile responsiveness.
+   * 
+   * @param projectService - Service to check project-related states like screen size
+   * @param platformId - Platform identifier used to detect if running in a browser
    */
-  constructor(private projectService: ProjectService) {
-    if (!this.projectService.isMobileWide()) {
-      this.menuOverlayActiveSubject.next(false);
-      releaseScrollOnBody();
-    }
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', () => {
-        if (!this.projectService.isMobileWide()) {
-          this.menuOverlayActiveSubject.next(false);
-          releaseScrollOnBody();
-        }
-      });
+  constructor(
+    private projectService: ProjectService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    if (this.isBrowser()) {
+      this.initializeMenuOverlayState();
+      this.registerResizeListener();
     }
   }
 
   /**
    * Sets the active state of the menu overlay.
-   * Only activates the overlay on mobile-wide viewports.
-   *
-   * @param isActive - Whether the menu overlay should be active
+   * Only activates the overlay if the device screen is considered mobile-wide.
+   * 
+   * @param isActive - Desired active state of the menu overlay
    */
-  setMenuOverlayActive(isActive: boolean) {
+  setMenuOverlayActive(isActive: boolean): void {
     if (isActive && this.projectService.isMobileWide()) {
       this.menuOverlayActiveSubject.next(true);
     } else if (!isActive) {
@@ -53,13 +50,48 @@ export class MenuOverlayService {
   }
 
   /**
-   * Returns an observable of the current menu overlay active state.
-   *
-   * @returns Observable that emits a boolean indicating overlay visibility
+   * Returns an observable to subscribe to the current active state of the menu overlay.
+   * 
+   * @returns Observable emitting boolean values indicating overlay active state
    */
   getMenuOverlayActive(): Observable<boolean> {
     return this.menuOverlayActive$;
   }
+
+  /**
+   * Checks if the current platform is a browser.
+   * 
+   * @returns true if running in browser, false otherwise
+   */
+  private isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
+
+  /**
+   * Initializes the menu overlay state based on screen size.
+   */
+  private initializeMenuOverlayState(): void {
+    if (!this.projectService.isMobileWide()) {
+      this.deactivateMenuOverlay();
+    }
+  }
+
+  /**
+   * Registers a window resize event listener to update overlay state accordingly.
+   */
+  private registerResizeListener(): void {
+    window.addEventListener('resize', () => {
+      if (!this.projectService.isMobileWide()) {
+        this.deactivateMenuOverlay();
+      }
+    });
+  }
+
+  /**
+   * Deactivates the menu overlay and releases the scroll lock on the body.
+   */
+  private deactivateMenuOverlay(): void {
+    this.menuOverlayActiveSubject.next(false);
+    releaseScrollOnBody();
+  }
 }
-
-
