@@ -212,10 +212,17 @@ h1, h2, h3
         width: 100%
         gap: 32px
 
+@media screen and (max-width: 1000px)
+    .scroll__box
+        display: none
+        width: 0
+        height: 0
+        opacity: 0
+        
 @media screen and (max-width: 768px)
     h1, h2, h3
         color: white
-        
+
     .ellipse__3
         width: 612px
         height: 612px

@@ -8,6 +8,7 @@ import { ContactService } from '../../../../../core/services/contact-service/con
 import { ContactData } from '../../../../../core/models/contact-data.interface';
 import { fixateScrollingOnBody, releaseScrollOnBody } from '../../../../../shared/utils/scroll-lock.utils';
 import { ContactFormOverlayComponent } from './contact-form-overlay/contact-form-overlay.component';
+import { RouterModule } from '@angular/router';
 
 /**
  * Contact form component that handles user contact requests.
@@ -18,7 +19,7 @@ import { ContactFormOverlayComponent } from './contact-form-overlay/contact-form
 @Component({
   selector: 'app-contact-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, ContactFormOverlayComponent],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, ContactFormOverlayComponent, RouterModule],
   templateUrl: './contact-form.component.html',
   styleUrl: './contact-form.component.sass',
 })

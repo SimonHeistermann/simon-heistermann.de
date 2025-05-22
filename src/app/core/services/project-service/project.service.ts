@@ -51,16 +51,23 @@ export class ProjectService {
   }
 
   /**
-   * Navigates to the homepage. If already on the homepage, reloads the page.
-   * Only executes if running in the browser environment.
-   */
-  navigateHome(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
+   * Navigates the user to the home page ('/').
+   * 
+   * If running outside the browser, the method resolves with `false`.
+   * If the user is already on the home page, the page reloads and resolves with `true`.
+  * Otherwise, navigates programmatically to the home page URL.
+  * 
+  * @returns A Promise that resolves to `true` if the page reloads,
+  *          or resolves/rejects based on the router navigation outcome.
+  */
+  navigateHome(): Promise<boolean> {
+    if (!isPlatformBrowser(this.platformId)) return Promise.resolve(false);
     const currentUrl = this.router.url;
     if (currentUrl === '/' || currentUrl === '') {
       window.location.reload();
+      return Promise.resolve(true);
     } else {
-      this.router.navigateByUrl('/');
+      return this.router.navigateByUrl('/');
     }
   }
 

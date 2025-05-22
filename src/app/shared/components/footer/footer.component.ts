@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { TranslationService } from '../../../core/services/translation-service/translation.service';
+import { ProjectService } from '../../../core/services/project-service/project.service';
 
 @Component({
   selector: 'app-footer',
@@ -26,7 +27,10 @@ export class FooterComponent implements OnInit, OnDestroy {
    * Constructor to inject TranslationService.
    * @param translationService Service to handle language translations.
    */
-  constructor(private translationService: TranslationService) {}
+  constructor(
+    private translationService: TranslationService,
+    private projectService: ProjectService
+  ) {}
 
   /**
    * Angular lifecycle hook called on component initialization.
@@ -46,5 +50,13 @@ export class FooterComponent implements OnInit, OnDestroy {
     if (this.langSubscription) {
       this.langSubscription.unsubscribe();
     }
+  }
+
+  /**
+   * Navigates to home page
+   * Uses project service for navigation
+   */
+  openHome() {
+    this.projectService.navigateHome();
   }
 }

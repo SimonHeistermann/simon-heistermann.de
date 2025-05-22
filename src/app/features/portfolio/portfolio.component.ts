@@ -9,6 +9,8 @@ import { ProjectsComponent } from './sections/projects/projects.component';
 import { ReferencesComponent } from "./sections/references/references.component";
 import { ContactComponent } from "./sections/contact/contact.component";
 import { ProjectService } from '../../core/services/project-service/project.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 /**
  * Type defining the status of a form overlay.
@@ -45,7 +47,7 @@ type FormOverlayStatus = {
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.sass']
 })
-export class PortfolioComponent implements OnInit {
+export class PortfolioComponent {
   /**
    * Tracks the current status of the contact form overlay.
    */
@@ -68,46 +70,10 @@ export class PortfolioComponent implements OnInit {
    */
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private router: Router
   ) {
     this.platformId = platformId;
-  }
-
-  /**
-   * Angular lifecycle hook that runs after the component is initialized.
-   * 
-   * If in the browser, disables automatic scroll restoration and performs
-   * smooth scrolling to the anchor section based on the current URL hash.
-   */
-  ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-      }
-      const hash = window.location.hash.replace('#', '');
-      if (hash) {
-        history.replaceState(null, '', window.location.pathname + window.location.search);
-        setTimeout(() => {
-          this.smoothScrollToSection(hash);
-        }, 250);
-      }
-    }
-  }
-
-  /**
-   * Smoothly scrolls to a section identified by its DOM element ID.
-   * 
-   * Accounts for fixed header offset on desktop devices.
-   * 
-   * @param sectionId The ID of the target section element.
-   */
-  private smoothScrollToSection(sectionId: string): void {
-    const element = document.getElementById(sectionId);
-    if (!element) return;
-    const isMobile = this.projectService.isMobileWide();
-    const yOffset = isMobile ? 0 : 117;
-    const y = element.getBoundingClientRect().top + window.scrollY - yOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
   }
 
   /**

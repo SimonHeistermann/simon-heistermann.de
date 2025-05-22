@@ -8,6 +8,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
 import { MenuOverlayService } from '../../../core/services/menu-overlay-service/menu-overlay.service';
 import { fixateScrollingOnBody, releaseScrollOnBody } from '../../utils/scroll-lock.utils';
 import { ProjectService } from '../../../core/services/project-service/project.service';
+import { Router } from '@angular/router';
 
 /**
  * Header component responsible for displaying the site header
@@ -112,7 +113,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) platformId: Object, 
     private translationService: TranslationService,
     private menuOverlayService: MenuOverlayService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private router: Router
   ) {
     this.platformId = platformId;
     this.isBrowser = isPlatformBrowser(platformId);
@@ -272,33 +274,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.projectService.navigateHome();
   }
 
-  /**
-  * Scrolls to a specified section of the page.
-  * 
-  * Prevents default anchor behavior. If not running in the browser, the method exits early.
-  * Uses full page reload with hash-based navigation or smooth scrolling based on the `isSimpleNavigation` flag.
-  * 
-  * @param event The click event triggering the scroll.
-  * @param sectionId The ID of the section to scroll to.
-  */
-  scrollToSection(event: Event, sectionId: string): void {
+  async scrollToSection(event: Event, sectionId: string): Promise<void> {
     event.preventDefault();
     if (!isPlatformBrowser(this.platformId)) return;
     if (this.isSimpleNavigation) {
-      this.navigateWithHash(sectionId);
+      const navigated = await this.projectService.navigateHome();
+      if (navigated && this.router.url === '/') {
+        setTimeout(() => this.smoothScrollToSection(sectionId), 300);
+      }
     } else {
       this.smoothScrollToSection(sectionId);
     }
-  }
-
-  /**
-   * Navigates to the specified section using a hash-based URL,
-   * triggering a full page reload.
-   * 
-   * @param sectionId The ID of the section to navigate to.
-   */
-  private navigateWithHash(sectionId: string): void {
-    window.location.href = `/#${sectionId}`;
   }
 
   /**

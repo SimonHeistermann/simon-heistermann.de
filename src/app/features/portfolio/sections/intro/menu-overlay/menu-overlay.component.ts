@@ -6,6 +6,7 @@ import { TranslationService } from '../../../../../core/services/translation-ser
 import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProjectService } from '../../../../../core/services/project-service/project.service';
+import { Router } from '@angular/router';
 
 /**
  * Menu Overlay Component
@@ -52,7 +53,8 @@ export class MenuOverlayComponent implements OnInit, OnDestroy {
     private menuOverlayService: MenuOverlayService,
     private translationService: TranslationService,
     private projectService: ProjectService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router
   ) {}
   
   /**
@@ -111,36 +113,30 @@ export class MenuOverlayComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * Navigates to a specific section on the page.
-  * 
-  * Closes any active overlay before navigation.
-  * 
-  * If running outside the browser (e.g., server-side), navigation is aborted.
+   * Navigates to a specific section on the page.
+   * 
+   * Closes any active overlay before navigation.
+   * 
+   * If running outside the browser (e.g., server-side), navigation is aborted.
   * 
   * Depending on the `isSimpleNavigation` flag, navigation either triggers a full page reload 
   * with the hash fragment or performs a smooth scroll to the target section.
   * 
   * @param sectionId The ID of the target section to navigate to.
   */
-  navigateTo(sectionId: string): void {
+  async navigateTo(sectionId: string): Promise<void> {
     this.closeOverlay();
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
     if (this.isSimpleNavigation) {
-      this.navigateWithPageReload(sectionId);
+      const navigated = await this.projectService.navigateHome();
+      if (navigated && this.router.routerState.snapshot.url === '/') {
+        setTimeout(() => this.smoothScrollToSection(sectionId), 300);
+      }
     } else {
       this.smoothScrollToSection(sectionId);
     }
-  }
-
-  /**
-  * Navigates by reloading the page with the hash URL pointing to the specified section.
-  * 
-  * @param sectionId The ID of the section to navigate to.
-  */
-  private navigateWithPageReload(sectionId: string): void {
-    window.location.href = `/#${sectionId}`;
   }
 
   /**
