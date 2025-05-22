@@ -221,7 +221,15 @@ button:disabled
             display: inline-flex
             text-decoration: none
             transition: all 125ms ease
-            width: 160px
+            position: relative
+
+            &::after
+                content: attr(data-text)
+                font-weight: 700
+                visibility: hidden
+                height: 0
+                overflow: hidden
+                display: inline-flex
 
             &:hover
                 color: #0043F0

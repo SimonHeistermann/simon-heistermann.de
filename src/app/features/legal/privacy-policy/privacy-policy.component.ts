@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { TranslationService } from '../../../core/services/translation-service/translation.service';
@@ -67,7 +67,8 @@ export class PrivacyPolicyComponent implements OnInit, OnDestroy {
   constructor(
     private translationService: TranslationService,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private menuOverlayService: MenuOverlayService
+    private menuOverlayService: MenuOverlayService,
+    private ngZone: NgZone
   ) {}
 
   /**
@@ -78,7 +79,11 @@ export class PrivacyPolicyComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.ngZone.runOutsideAngular(() => {
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 0);
+      });
     }
     this.langSubscription = this.translationService.currentLang$.subscribe((lang: string) => {
       this.currentLang = lang;
