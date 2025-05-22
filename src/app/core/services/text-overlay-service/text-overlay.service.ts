@@ -1,4 +1,4 @@
-import { Injectable, ElementRef, Renderer2, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, ElementRef, Renderer2, Inject, PLATFORM_ID, NgZone } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
@@ -6,141 +6,286 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class TextOverlayService {
   private isBrowser: boolean;
+  private observers: ResizeObserver[] = [];
+  private intersectionObserver?: IntersectionObserver;
+  private animationFrameId?: number;
+  private isUpdating = false;
 
-  /**
-   * Creates an instance of TextOverlayService.
-   * Checks if the platform is a browser.
-   *
-   * @param renderer - Angular Renderer2 for DOM manipulation
-   * @param platformId - Platform identifier to detect browser environment
-   */
-  constructor(private renderer: Renderer2, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    private renderer: Renderer2, 
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private ngZone: NgZone
+  ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-  /**
-   * Observes the position and size of given text elements and a target element.
-   * Updates the text color based on whether each text element significantly overlaps the target element.
-   *
-   * @param textElements - Array of ElementRefs to the text elements to monitor
-   * @param blueElement - ElementRef to the element whose overlap should change the text color
-   * @param defaultColor - Color to apply when not overlapping (default: `var(--color-primary)`)
-   * @param overlapColor - Color to apply when overlapping (default: `'white'`)
-   */
   watchTextOverlap(
     textElements: ElementRef[],
-    blueElement: ElementRef,
+    targetElement: ElementRef,
     defaultColor: string = 'var(--color-primary)',
-    overlapColor: string = 'white'
+    overlapColor: string = 'white',
+    overlapThreshold: number = 0.8
   ) {
-    if (!this.isBrowser) return;
-    const updateColors = () => 
-      this.updateTextColors(textElements, blueElement, defaultColor, overlapColor);
-    this.initializeObservers(textElements, blueElement, updateColors);
-    this.registerWindowListeners(updateColors);
-    updateColors();
+    if (!this.shouldInitialize(textElements, targetElement)) return;
+    this.cleanup();
+    this.scheduleInitialization(textElements, targetElement, defaultColor, overlapColor, overlapThreshold);
   }
 
-  /**
-   * Initializes ResizeObserver for the target and text elements.
-   *
-   * @param textElements - Array of ElementRefs to observe
-   * @param blueElement - ElementRef to observe
-   * @param updateColors - Callback to update text colors
-   */
-  private initializeObservers(
+  private shouldInitialize(textElements: ElementRef[], targetElement: ElementRef): boolean {
+    return this.isBrowser && textElements.length > 0 && !!targetElement;
+  }
+
+  private scheduleInitialization(
     textElements: ElementRef[],
-    blueElement: ElementRef,
-    updateColors: () => void
-  ) {
-    const observer = new ResizeObserver(updateColors);
-    observer.observe(blueElement.nativeElement);
-    textElements.forEach(el => observer.observe(el.nativeElement));
-  }
-
-  /**
-   * Registers window scroll and resize listeners to update text colors.
-   *
-   * @param updateColors - Callback to update text colors
-   */
-  private registerWindowListeners(updateColors: () => void) {
-    window.addEventListener('scroll', updateColors);
-    window.addEventListener('resize', updateColors);
-  }
-
-  /**
-   * Updates the color of each text element based on whether it overlaps the target element.
-   *
-   * @param textElements - Array of text ElementRefs
-   * @param blueElement - ElementRef of the target background element
-   * @param defaultColor - Color to use if no overlap is detected
-   * @param overlapColor - Color to use if overlap is detected
-   */
-  private updateTextColors(
-    textElements: ElementRef[],
-    blueElement: ElementRef,
+    targetElement: ElementRef,
     defaultColor: string,
-    overlapColor: string
+    overlapColor: string,
+    overlapThreshold: number
   ) {
-    const blueRect = blueElement.nativeElement.getBoundingClientRect();
-
-    textElements.forEach(textEl => {
-      const textRect = textEl.nativeElement.getBoundingClientRect();
-      const isOverlapping = this.isMajorOverlap(textRect, blueRect);
-      this.setTextColor(textEl, isOverlapping ? overlapColor : defaultColor);
+    this.scheduleUpdate(() => {
+      this.initializeAllObservers(textElements, targetElement, defaultColor, overlapColor, overlapThreshold);
+      this.registerEventListeners(textElements, targetElement, defaultColor, overlapColor, overlapThreshold);
+      this.updateTextColors(textElements, targetElement, defaultColor, overlapColor, overlapThreshold);
     });
   }
 
-  /**
-   * Determines whether two rectangles have a near-total overlap.
-   *
-   * @param textRect - The bounding rectangle of the text element
-   * @param targetRect - The bounding rectangle of the target element
-   * @returns `true` if the overlap covers ~100% of the text element
-   */
-  private isMajorOverlap(textRect: DOMRect, targetRect: DOMRect): boolean {
+  private initializeAllObservers(
+    textElements: ElementRef[],
+    targetElement: ElementRef,
+    defaultColor: string,
+    overlapColor: string,
+    overlapThreshold: number
+  ) {
+    this.createIntersectionObserver(textElements, targetElement, defaultColor, overlapColor, overlapThreshold);
+    this.createResizeObserver(textElements, targetElement, defaultColor, overlapColor, overlapThreshold);
+  }
+
+  private createIntersectionObserver(
+    textElements: ElementRef[],
+    targetElement: ElementRef,
+    defaultColor: string,
+    overlapColor: string,
+    overlapThreshold: number
+  ) {
+    const config = this.getIntersectionObserverConfig();
+    const callback = () => this.scheduleColorUpdate(textElements, targetElement, defaultColor, overlapColor, overlapThreshold);
+    this.intersectionObserver = new IntersectionObserver(callback, config);
+    this.observeAllElements([...textElements, targetElement]);
+  }
+
+  private getIntersectionObserverConfig() {
+    const thresholds = Array.from({ length: 21 }, (_, i) => i * 0.05);
+    return { threshold: thresholds, rootMargin: '10px' };
+  }
+
+  private observeAllElements(elements: ElementRef[]) {
+    elements.forEach(el => {
+      if (el?.nativeElement) {
+        this.intersectionObserver!.observe(el.nativeElement);
+      }
+    });
+  }
+
+  private createResizeObserver(
+    textElements: ElementRef[],
+    targetElement: ElementRef,
+    defaultColor: string,
+    overlapColor: string,
+    overlapThreshold: number
+  ) {
+    const callback = () => this.scheduleColorUpdate(textElements, targetElement, defaultColor, overlapColor, overlapThreshold);
+    const resizeObserver = new ResizeObserver(callback);
+    this.observers.push(resizeObserver);
+    this.observeElementsForResize(resizeObserver, [...textElements, targetElement]);
+  }
+
+  private observeElementsForResize(observer: ResizeObserver, elements: ElementRef[]) {
+    elements.forEach(el => {
+      if (el?.nativeElement) {
+        observer.observe(el.nativeElement);
+      }
+    });
+  }
+
+  private registerEventListeners(
+    textElements: ElementRef[],
+    targetElement: ElementRef,
+    defaultColor: string,
+    overlapColor: string,
+    overlapThreshold: number
+  ) {
+    const callback = () => this.scheduleColorUpdate(textElements, targetElement, defaultColor, overlapColor, overlapThreshold);
+    const events = ['scroll', 'resize', 'orientationchange'];
+    
+    this.ngZone.runOutsideAngular(() => {
+      events.forEach(event => window.addEventListener(event, callback, { passive: true }));
+    });
+  }
+
+  private scheduleColorUpdate(
+    textElements: ElementRef[],
+    targetElement: ElementRef,
+    defaultColor: string,
+    overlapColor: string,
+    overlapThreshold: number
+  ) {
+    this.scheduleUpdate(() => {
+      this.updateTextColors(textElements, targetElement, defaultColor, overlapColor, overlapThreshold);
+    });
+  }
+
+  private scheduleUpdate(callback: () => void) {
+    if (this.isUpdating) return;
+    this.isUpdating = true;
+    this.cancelPendingUpdate();
+    this.animationFrameId = requestAnimationFrame(() => {
+      this.executeUpdate(callback);
+    });
+  }
+
+  private cancelPendingUpdate() {
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+    }
+  }
+
+  private executeUpdate(callback: () => void) {
+    try {
+      callback();
+    } finally {
+      this.isUpdating = false;
+    }
+  }
+
+  private updateTextColors(
+    textElements: ElementRef[],
+    targetElement: ElementRef,
+    defaultColor: string,
+    overlapColor: string,
+    overlapThreshold: number
+  ) {
+    const targetRect = this.getElementRect(targetElement);
+    if (!targetRect) return;
+    textElements.forEach(textEl => {
+      this.updateSingleTextColor(textEl, targetRect, defaultColor, overlapColor, overlapThreshold);
+    });
+  }
+
+  private updateSingleTextColor(
+    textElement: ElementRef,
+    targetRect: DOMRect,
+    defaultColor: string,
+    overlapColor: string,
+    overlapThreshold: number
+  ) {
+    const textRect = this.getElementRect(textElement);
+    if (!textRect) return;
+    const shouldUseOverlapColor = this.isElementOverlapping(textRect, targetRect, overlapThreshold);
+    const color = shouldUseOverlapColor ? overlapColor : defaultColor;
+    this.setElementColor(textElement, color);
+  }
+
+  private isElementOverlapping(textRect: DOMRect, targetRect: DOMRect, threshold: number): boolean {
+    const overlapRatio = this.calculateOverlapRatio(textRect, targetRect);
+    return overlapRatio >= threshold;
+  }
+
+  private calculateOverlapRatio(textRect: DOMRect, targetRect: DOMRect): number {
     const intersection = this.getIntersectionRect(textRect, targetRect);
-    return this.isAlmostFullOverlap(intersection, textRect);
-  }
-
-  /**
-   * Checks if the intersection rectangle covers nearly 100% of the text element.
-   *
-   * @param intersection - The intersection DOMRect
-   * @param textRect - The bounding DOMRect of the text element
-   * @returns true if intersection area / text area > 0.9999
-   */
-  private isAlmostFullOverlap(intersection: DOMRect, textRect: DOMRect): boolean {
-    const intersectionArea = intersection.width * intersection.height;
     const textArea = textRect.width * textRect.height;
-    return intersectionArea / textArea > 0.9999;
+    
+    if (textArea === 0) return 0;
+    
+    const intersectionArea = intersection.width * intersection.height;
+    return intersectionArea / textArea;
   }
 
-  /**
-   * Calculates the intersection rectangle between two bounding rectangles.
-   *
-   * @param a - First DOMRect
-   * @param b - Second DOMRect
-   * @returns A DOMRect representing the intersection area; zero-sized if there's no overlap
-   */
   private getIntersectionRect(a: DOMRect, b: DOMRect): DOMRect {
     const left = Math.max(a.left, b.left);
     const right = Math.min(a.right, b.right);
     const top = Math.max(a.top, b.top);
     const bottom = Math.min(a.bottom, b.bottom);
-    if (right < left || bottom < top) {
-      return new DOMRect(0, 0, 0, 0);
-    }
-    return new DOMRect(left, top, right - left, bottom - top);
+    const width = Math.max(0, right - left);
+    const height = Math.max(0, bottom - top);
+    return new DOMRect(left, top, width, height);
   }
 
-  /**
-   * Sets the text color of a given element using Angular's Renderer2.
-   *
-   * @param el - The ElementRef to update
-   * @param color - The color to apply
-   */
-  private setTextColor(el: ElementRef, color: string) {
-    this.renderer.setStyle(el.nativeElement, 'color', color);
+  private getElementRect(element: ElementRef): DOMRect | null {
+    try {
+      if (!element?.nativeElement) return null;
+      const rect = element.nativeElement.getBoundingClientRect();
+      return this.isRectValid(rect) ? rect : null;
+    } catch (error) {
+      console.warn('Error getting element rect:', error);
+      return null;
+    }
+  }
+
+  private isRectValid(rect: DOMRect): boolean {
+    return rect.width > 0 && rect.height > 0;
+  }
+
+  private setElementColor(element: ElementRef, color: string) {
+    if (!element?.nativeElement) return;
+    try {
+      const shouldUpdate = this.shouldUpdateColor(element, color);
+      if (shouldUpdate) {
+        this.applyColorChange(element, color);
+      }
+    } catch (error) {
+      console.warn('Error setting element color:', error);
+    }
+  }
+
+  private shouldUpdateColor(element: ElementRef, newColor: string): boolean {
+    const currentColor = getComputedStyle(element.nativeElement).color;
+    const resolvedNewColor = this.resolveColorValue(newColor);
+    return currentColor !== resolvedNewColor;
+  }
+
+  private applyColorChange(element: ElementRef, color: string) {
+    this.ngZone.run(() => {
+      this.renderer.setStyle(element.nativeElement, 'color', color);
+    });
+  }
+
+  private resolveColorValue(color: string): string {
+    if (!color.startsWith('var(')) return color;
+    try {
+      return this.getComputedColorValue(color);
+    } catch {
+      return color;
+    }
+  }
+
+  private getComputedColorValue(color: string): string {
+    const tempElement = document.createElement('div');
+    tempElement.style.color = color;
+    document.body.appendChild(tempElement);
+    const computedColor = getComputedStyle(tempElement).color;
+    document.body.removeChild(tempElement);
+    return computedColor;
+  }
+
+  cleanup() {
+    this.cancelPendingUpdate();
+    this.disconnectIntersectionObserver();
+    this.disconnectResizeObservers();
+  }
+
+  private disconnectIntersectionObserver() {
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
+      this.intersectionObserver = undefined;
+    }
+  }
+
+  private disconnectResizeObservers() {
+    this.observers.forEach(observer => observer.disconnect());
+    this.observers = [];
+  }
+
+  ngOnDestroy() {
+    this.cleanup();
   }
 }

@@ -10,8 +10,22 @@
       <p class="project__description" [ngClass]="{'text__align__end': layout === 'left'}">{{ localizedDescription }}</p>
     </div>
     <div class="github__btn__box">
-      <button class="livetest__btn" (click)="navigateToProject()">Live test</button>
-      <button class="github__btn" (click)="openGithub()">GitHub</button>
+      <a
+        *ngIf="project?.projectUrl"
+        class="livetest__btn"
+        [href]="project.projectUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Live test</a
+      >
+      <a
+        *ngIf="project?.githubUrl"
+        class="github__btn"
+        [href]="project.githubUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        >GitHub</a
+      >
     </div>
   </div>
   <div class="project__media" 

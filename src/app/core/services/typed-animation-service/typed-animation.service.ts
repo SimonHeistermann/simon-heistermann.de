@@ -38,8 +38,18 @@ export class TypedAnimationService {
       return Promise.resolve();
     }
 
+    // Sicherstellen, dass das Element leer ist und bereit für neue Animation
+    this.prepareElement(element);
+    
+    // Alte Instanz zerstören falls vorhanden
     this.destroyInstance(instanceId);
-    return this.createTypedPromise(element, text, options, instanceId);
+    
+    // Kurze Verzögerung um sicherzustellen, dass DOM bereit ist
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        this.createTypedPromise(element, text, options, instanceId).then(resolve);
+      }, 50);
+    });
   }
 
   /**
@@ -58,6 +68,12 @@ export class TypedAnimationService {
       return Promise.resolve();
     }
 
+    // Alle Elemente vorbereiten
+    animations.forEach(animation => {
+      this.prepareElement(animation.element);
+    });
+
+    // Sequenziell animieren
     for (const animation of animations) {
       await this.animateText(
         animation.element,
@@ -65,6 +81,9 @@ export class TypedAnimationService {
         animation.options || {},
         animation.instanceId
       );
+      
+      // Kleine Verzögerung zwischen Animationen
+      await this.delay(100);
     }
   }
 
@@ -76,7 +95,11 @@ export class TypedAnimationService {
   destroyInstance(instanceId: string): void {
     const typedInstance = this.getTypedInstance(instanceId);
     if (typedInstance) {
-      typedInstance.destroy();
+      try {
+        typedInstance.destroy();
+      } catch (error) {
+        console.warn(`Error destroying typed instance ${instanceId}:`, error);
+      }
     }
     this.typedInstances.delete(instanceId);
   }
@@ -101,6 +124,30 @@ export class TypedAnimationService {
   }
 
   /**
+   * Prepares an element for animation by clearing its content and resetting styles.
+   *
+   * @param element - DOM element to prepare
+   */
+  private prepareElement(element: ElementRef): void {
+    if (element?.nativeElement) {
+      const el = element.nativeElement;
+      el.innerHTML = '';
+      el.style.opacity = '1';
+      el.style.visibility = 'visible';
+    }
+  }
+
+  /**
+   * Creates a delay using Promise.
+   *
+   * @param ms - Milliseconds to delay
+   * @returns Promise that resolves after the delay
+   */
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  /**
    * Creates a new Typed.js instance and resolves a promise when the animation is complete.
    *
    * @param element - DOM element to animate
@@ -115,10 +162,21 @@ export class TypedAnimationService {
     options: Partial<TypedOptions>,
     instanceId: string
   ): Promise<void> {
-    return new Promise<void>((resolve) => {
-      const mergedOptions = this.getMergedOptions(options, text, resolve);
-      const typedInstance = new Typed(element.nativeElement, mergedOptions);
-      this.typedInstances.set(instanceId, typedInstance);
+    return new Promise<void>((resolve, reject) => {
+      try {
+        if (!element?.nativeElement) {
+          console.warn(`Element for instance ${instanceId} not found`);
+          resolve();
+          return;
+        }
+
+        const mergedOptions = this.getMergedOptions(options, text, resolve);
+        const typedInstance = new Typed(element.nativeElement, mergedOptions);
+        this.typedInstances.set(instanceId, typedInstance);
+      } catch (error) {
+        console.error(`Error creating typed instance ${instanceId}:`, error);
+        resolve(); // Resolve anyway to not break the sequence
+      }
     });
   }
 
@@ -148,6 +206,9 @@ export class TypedAnimationService {
       typeSpeed: 70,
       showCursor: false,
       loop: false,
+      fadeOut: false,
+      fadeOutClass: 'typed-fade-out',
+      fadeOutDelay: 0,
       onComplete: () => this.onComplete(resolve)
     };
   }
@@ -158,7 +219,10 @@ export class TypedAnimationService {
    * @param resolve - Callback function to resolve the promise
    */
   private onComplete(resolve: () => void): void {
-    resolve();
+    // Kleine Verzögerung um sicherzustellen, dass Animation vollständig ist
+    setTimeout(() => {
+      resolve();
+    }, 50);
   }
 
   /**

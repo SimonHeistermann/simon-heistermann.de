@@ -7,6 +7,8 @@ import { SocialButtonComponent } from '../../../../shared/components/social-butt
 import { TypedAnimationService } from '../../../../core/services/typed-animation-service/typed-animation.service';
 import { MenuOverlayComponent } from './menu-overlay/menu-overlay.component';
 import { MenuOverlayService } from './../../../../core/services/menu-overlay-service/menu-overlay.service';
+import { ProjectService } from '../../../../core/services/project-service/project.service';
+import { TypedOptions } from './../../../../core/models/typed-options.interface';
 
 /**
  * Introduction Component
@@ -48,12 +50,6 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
   
   /** Flag indicating whether text color change feature is active */
   private textColorChangeActive: boolean = false;
-  
-  /** Default text color (CSS variable) */
-  private defaultTextColor: string = 'var(--color-primary)';
-  
-  /** Text color when overlapping with the ellipse element */
-  private overlayTextColor: string = 'white';
 
   /** Flag indicating whether the menu overlay is active */
   isOverlayActive = false;
@@ -95,6 +91,7 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param renderer - Angular's renderer for DOM manipulation
    * @param el - Reference to the component's host element
    * @param menuOverlayService - Service to manage menu overlay state
+   * @param projectService - Service providing utility methods for device detection and DOM manipulation
    */
   constructor(
     @Inject(TranslationService) private translationService: TranslationService,
@@ -103,7 +100,8 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
     private typedAnimationService: TypedAnimationService,
     private renderer: Renderer2,
     private el: ElementRef, 
-    private menuOverlayService: MenuOverlayService
+    private menuOverlayService: MenuOverlayService,
+    private projectService: ProjectService
   ) {}
 
   /**
@@ -120,16 +118,16 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * Lifecycle hook that is called after the component's view has been initialized.
-   * Initializes animations, scroll behaviors, and text color change functionality.
-   */
+  * Lifecycle hook that is called after the component's view has been initialized.
+  * Initializes animations, scroll behaviors, and text color change functionality.
+  */
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
         this.startAnimations();
         this.initScrollAnimation();
         this.initTextColorChange();
-      }, 200);
+      }, 500);
     }
   }
 
@@ -148,13 +146,16 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * Subscribes to language change events and updates animations when language changes.
-   */
+  * Subscribes to language change events and updates animations when language changes.
+  */
   private subscribeToLanguageChanges(): void {
     this.langSubscription = this.translationService.currentLang$.subscribe(lang => {
       this.selectedLanguage = lang;
       if (isPlatformBrowser(this.platformId)) {
-        setTimeout(() => this.startAnimations(), 100);
+        this.typedAnimationService.destroyAllInstances();
+        setTimeout(() => {
+          this.startAnimations();
+        }, 300);
       }
     });
   }
@@ -169,43 +170,65 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * Starts the typing animations sequence for title and subtitle elements.
+  * Starts the typing animations sequence for title and subtitle elements.
    * Clears previous animations before starting new ones.
-   */
-  private startAnimations(): void {
+  */
+  private async startAnimations(): Promise<void> {
+    if (!this.areAnimationElementsAvailable()) {
+      console.warn('Animation elements not yet available, retrying...');
+      setTimeout(() => this.startAnimations(), 200);
+      return;
+    }
     this.clearPreviousAnimations();
+    await this.projectService.delay(100);
     const animations = this.getAnimations();
-    this.typedAnimationService.animateSequence(animations);
+    try {
+      await this.typedAnimationService.animateSequence(animations);
+    } catch (error) {
+      console.error('Error in animation sequence:', error);
+    }
+  }
+
+  /**
+  * Checks if all animation elements are available.
+  * 
+  * @returns Boolean indicating whether required animation elements exist
+  */
+  private areAnimationElementsAvailable(): boolean {
+    return !!(
+      this.subtitleElement?.nativeElement &&
+      this.titleElement1?.nativeElement &&
+      this.titleElement2?.nativeElement
+    );
   }
   
   /**
-   * Clears all previous typing animations.
+  * Clears all previous typing animations and prepares elements.
    */
   private clearPreviousAnimations(): void {
     this.typedAnimationService.destroyAllInstances();
+    if (this.subtitleElement?.nativeElement) {
+      this.subtitleElement.nativeElement.innerHTML = '';
+    }
+    if (this.titleElement1?.nativeElement) {
+      this.titleElement1.nativeElement.innerHTML = '';
+    }
+    if (this.titleElement2?.nativeElement) {
+      this.titleElement2.nativeElement.innerHTML = '';
+    }
   }
   
   /**
    * Gets the configuration for all text animations.
-   * 
-   * @returns Array of animation configurations containing element references, text content, and instance IDs
-   */
-  private getAnimations(): Array<{ element: ElementRef, text: string, instanceId: string }> {
+  * 
+  * @returns Array of animation configurations containing element references, text content, and instance IDs
+  */
+  private getAnimations(): Array<{ element: ElementRef, text: string, instanceId: string, options?: Partial<TypedOptions> }> {
     return [
-      { element: this.subtitleElement, text: this.getTranslatedText('intro.subtitle'), instanceId: 'intro-subtitle' },
-      { element: this.titleElement1, text: this.getTranslatedText('intro.title1'), instanceId: 'intro-title1' },
-      { element: this.titleElement2, text: this.getTranslatedText('intro.title2'), instanceId: 'intro-title2' }
+      this.projectService.createAnimationConfig(this.subtitleElement, 'intro.subtitle', 'intro-subtitle', 60, this.translateService),
+      this.projectService.createAnimationConfig(this.titleElement1, 'intro.title1', 'intro-title1', 70, this.translateService),
+      this.projectService.createAnimationConfig(this.titleElement2, 'intro.title2', 'intro-title2', 70, this.translateService),
     ];
-  }
-  
-  /**
-   * Gets translated text for a given translation key.
-   * 
-   * @param key - Translation key to retrieve
-   * @returns Translated text string
-   */
-  private getTranslatedText(key: string): string {
-    return this.translateService.instant(key);
   }
 
   /**
@@ -217,20 +240,8 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
       this.introSectionHeight = this.introSection.nativeElement.offsetHeight;
       this.scrollBoxInitialPosition = this.scrollBox.nativeElement.offsetTop;
       
-      this.findNextSectionOffset();
+      this.nextSectionOffset = this.projectService.findNextSectionOffset(this.el, this.introSectionHeight);
       this.addScrollListener();
-    }
-  }
-
-  /**
-   * Finds the vertical offset position of the next section in the document.
-   */
-  private findNextSectionOffset(): void {
-    const nextSection = this.el.nativeElement.parentElement.querySelector('section:nth-child(2)');
-    if (nextSection) {
-      this.nextSectionOffset = nextSection.offsetTop;
-    } else {
-      this.nextSectionOffset = this.introSectionHeight;
     }
   }
 
@@ -266,9 +277,9 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
     const scrollY = window.scrollY;
     const fadeThreshold = this.nextSectionOffset * this.fadeOutThreshold;
     
-    this.moveScrollBox(scrollY, fadeThreshold);
-    this.updateScrollLine(scrollY);
-    this.updateScrollTextOpacity(scrollY, fadeThreshold);
+    this.projectService.moveScrollBox(this.scrollBox, this.renderer, scrollY, fadeThreshold, this.scrollMovementFactor);
+    this.projectService.updateScrollLine(this.scrollLine, this.renderer, scrollY, this.introSectionHeight, this.scrollMovementFactor);
+    this.projectService.updateScrollTextOpacity(this.scrollText, this.renderer, scrollY, fadeThreshold);
     
     if (this.textColorChangeActive) {
       this.updateTextColors();
@@ -285,48 +296,12 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   
   /**
-   * Moves the scroll box element based on scroll position.
-   * 
-   * @param scrollY - Current vertical scroll position in pixels
-   * @param fadeThreshold - Threshold position for maximum movement
-   */
-  private moveScrollBox(scrollY: number, fadeThreshold: number): void {
-    const scrollBoxElement = this.scrollBox.nativeElement;
-    const translation = Math.min(scrollY * this.scrollMovementFactor, fadeThreshold * this.scrollMovementFactor);
-    this.renderer.setStyle(scrollBoxElement, 'transform', `translateY(${translation}px)`);
-  }
-  
-  /**
-   * Updates the scroll line height based on scroll position.
-   * 
-   * @param scrollY - Current vertical scroll position in pixels
-   */
-  private updateScrollLine(scrollY: number): void {
-    const scrollLineElement = this.scrollLine.nativeElement;
-    const lineHeight = this.introSectionHeight * 0.3056;
-    const remainingLineHeight = Math.max(lineHeight - scrollY * this.scrollMovementFactor, 0);
-    this.renderer.setStyle(scrollLineElement, 'height', `${remainingLineHeight}px`);
-  }
-  
-  /**
-   * Updates the scroll text opacity based on scroll position.
-   * 
-   * @param scrollY - Current vertical scroll position in pixels
-   * @param fadeThreshold - Threshold position for complete fade-out
-   */
-  private updateScrollTextOpacity(scrollY: number, fadeThreshold: number): void {
-    const scrollTextElement = this.scrollText.nativeElement;
-    const textOpacity = Math.max(1 - (scrollY / fadeThreshold), 0);
-    this.renderer.setStyle(scrollTextElement, 'opacity', textOpacity.toString());
-  }
-  
-  /**
    * Initializes the text color change feature that updates text colors
    * based on overlapping with the ellipse element.
    */
   private initTextColorChange(): void {
     if (isPlatformBrowser(this.platformId) && this.areTextElementsAvailable()) {
-      if (this.isFeatureSupported()) {
+      if (this.projectService.isFeatureSupported(this.el)) {
         this.updateTextColors();
         this.addTextColorChangeListeners();
         this.textColorChangeActive = true;
@@ -390,60 +365,9 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.areTextElementsAvailable()) return;
     
     const blueRect = this.ellipseElement.nativeElement.getBoundingClientRect();
-    const textElements = [
-      this.subtitleElement,
-      this.titleElement1,
-      this.titleElement2
-    ];
+    const textElements = this.getTextElements();
     
-    this.updateTextElementColors(textElements, blueRect);
-  }
-  
-  /**
-   * Updates the color of each text element based on its overlap with the ellipse.
-   * 
-   * @param elements - Array of text element references to update
-   * @param blueRect - Bounding rectangle of the ellipse element
-   */
-  private updateTextElementColors(elements: ElementRef[], blueRect: DOMRect): void {
-    elements.forEach(textEl => {
-      const textRect = textEl.nativeElement.getBoundingClientRect();
-      const isOverlapping = this.isOverlapping(textRect, blueRect);
-      const color = isOverlapping ? this.overlayTextColor : this.defaultTextColor;
-      this.renderer.setStyle(textEl.nativeElement, 'color', color);
-    });
-  }
-  
-  /**
-   * Determines if two DOM rectangles are overlapping by a significant amount.
-   * 
-   * @param rect1 - First DOM rectangle (typically a text element)
-   * @param rect2 - Second DOM rectangle (typically the ellipse)
-   * @returns Boolean indicating significant overlap (>= 20% of text area)
-   */
-  private isOverlapping(rect1: DOMRect, rect2: DOMRect): boolean {
-    const xOverlap = Math.max(0, Math.min(rect1.right, rect2.right) - Math.max(rect1.left, rect2.left));
-    const yOverlap = Math.max(0, Math.min(rect1.bottom, rect2.bottom) - Math.max(rect1.top, rect2.top));
-    const overlapArea = xOverlap * yOverlap;
-    
-    const textArea = rect1.width * rect1.height;
-    const overlapRatio = textArea > 0 ? overlapArea / textArea : 0;
-    
-    return overlapRatio >= 0.2;
-  }
-
-  /**
-   * Checks if required browser features for text color changes are supported.
-   * 
-   * @returns Boolean indicating whether required features are available
-   */
-  private isFeatureSupported(): boolean {
-    if (!isPlatformBrowser(this.platformId)) return false;
-    
-    const hasResizeObserver = 'ResizeObserver' in window;
-    const hasGetBoundingClientRect = typeof this.el.nativeElement.getBoundingClientRect === 'function';
-    
-    return hasResizeObserver && hasGetBoundingClientRect;
+    this.projectService.updateTextElementColors(textElements, blueRect, this.renderer);
   }
 
   /**
@@ -456,8 +380,8 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
     const mediaQuery = window.matchMedia('(max-width: 424px)');
     const textElements = this.getTextElements();
     
-    this.applyColorsBasedOnMediaQuery(mediaQuery, textElements);
-    this.setupMediaQueryListener(mediaQuery, textElements);
+    this.projectService.applyColorsBasedOnMediaQuery(mediaQuery, textElements, this.renderer);
+    this.projectService.setupMediaQueryListener(mediaQuery, textElements, this.renderer);
   }
   
   /**
@@ -471,33 +395,5 @@ export class IntroComponent implements OnInit, OnDestroy, AfterViewInit {
       this.titleElement1,
       this.titleElement2
     ];
-  }
-  
-  /**
-   * Applies text colors based on a media query match.
-   * 
-   * @param mediaQuery - Media query to evaluate
-   * @param elements - Array of text element references to update
-   */
-  private applyColorsBasedOnMediaQuery(mediaQuery: MediaQueryList, elements: ElementRef[]): void {
-    const textColor = mediaQuery.matches ? 'white' : this.defaultTextColor;
-    elements.forEach(textEl => {
-      this.renderer.setStyle(textEl.nativeElement, 'color', textColor);
-    });
-  }
-  
-  /**
-   * Sets up a media query change listener for fallback text color updates.
-   * 
-   * @param mediaQuery - Media query to monitor
-   * @param elements - Array of text element references to update on changes
-   */
-  private setupMediaQueryListener(mediaQuery: MediaQueryList, elements: ElementRef[]): void {
-    mediaQuery.addEventListener('change', (e) => {
-      const newColor = e.matches ? 'white' : this.defaultTextColor;
-      elements.forEach(textEl => {
-        this.renderer.setStyle(textEl.nativeElement, 'color', newColor);
-      });
-    });
   }
 }

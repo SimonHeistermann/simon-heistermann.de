@@ -339,15 +339,6 @@ export class ProjectComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Opens the project's GitHub page in a new tab if available.
-   */
-  openGithub(): void {
-    if (this.project.githubUrl) {
-      this.openExternalUrl(this.project.githubUrl);
-    }
-  }
-
-  /**
    * Opens an external URL in a new browser tab.
    * 
    * @param url - The URL to open
