@@ -106,6 +106,7 @@ export class MenuOverlayComponent implements OnInit, OnDestroy {
    * Navigates to the home page via the project service.
    */
   openHome() {
+    this.closeOverlay();
     this.projectService.navigateHome();
   }
 
