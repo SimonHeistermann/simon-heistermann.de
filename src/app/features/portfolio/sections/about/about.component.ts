@@ -47,4 +47,11 @@ export class AboutComponent implements OnInit, OnDestroy {
       this.langSubscription.unsubscribe();
     }
   }
+
+  scrollToContactSection() { 
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 }
