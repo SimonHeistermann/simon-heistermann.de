@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, Output, EventEmitter, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, OnDestroy, Inject, PLATFORM_ID, Input } from '@angular/core';
 import { MenuOverlayService } from '../../../../../core/services/menu-overlay-service/menu-overlay.service';
 import { fixateScrollingOnBody, releaseScrollOnBody } from '../../../../../shared/utils/scroll-lock.utils';
 import { TranslationService } from '../../../../../core/services/translation-service/translation.service';
@@ -32,6 +32,13 @@ export class MenuOverlayComponent implements OnInit, OnDestroy {
   
   /** Subscription for menu overlay state changes */
   private subscription: Subscription = new Subscription();
+
+  /**
+  * Input flag to determine if simple navigation should be used.
+  * When `true`, navigation triggers a full page reload to the section.
+  * When `false`, navigation uses smooth scrolling within the page.
+  */
+  @Input() isSimpleNavigation = false;
   
   /**
    * Creates an instance of MenuOverlayComponent.
@@ -103,21 +110,49 @@ export class MenuOverlayComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Navigates to a specific section on the page by ID.
-   * Closes the overlay first, then smoothly scrolls to the target element.
-   * Only executes in browser environments.
-   * 
-   * @param sectionId - HTML element ID of the section to navigate to
-   */
-  navigateTo(sectionId: string) {
+  * Navigates to a specific section on the page.
+  * 
+  * Closes any active overlay before navigation.
+  * 
+  * If running outside the browser (e.g., server-side), navigation is aborted.
+  * 
+  * Depending on the `isSimpleNavigation` flag, navigation either triggers a full page reload 
+  * with the hash fragment or performs a smooth scroll to the target section.
+  * 
+  * @param sectionId The ID of the target section to navigate to.
+  */
+  navigateTo(sectionId: string): void {
     this.closeOverlay();
-    if (isPlatformBrowser(this.platformId)) {
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 200);
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
     }
+    if (this.isSimpleNavigation) {
+      this.navigateWithPageReload(sectionId);
+    } else {
+      this.smoothScrollToSection(sectionId);
+    }
+  }
+
+  /**
+  * Navigates by reloading the page with the hash URL pointing to the specified section.
+  * 
+  * @param sectionId The ID of the section to navigate to.
+  */
+  private navigateWithPageReload(sectionId: string): void {
+    window.location.href = `/#${sectionId}`;
+  }
+
+  /**
+   * Smoothly scrolls the viewport to the specified section element after a short delay.
+  * 
+  * @param sectionId The ID of the section element to scroll to.
+  */
+  private smoothScrollToSection(sectionId: string): void {
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 200);
   }
 }

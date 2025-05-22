@@ -9,8 +9,8 @@
         <div class="ellipse__12"></div>
         <div class="content">
             <div class="title__and__text">
-                <h2>My work</h2>
-                <p>Explore a selection of my work here - Interact with projects to see my skills in action.</p>
+                <h2>{{ 'projects.title' | translate }}</h2>
+                <p>{{ 'projects.subtitle' | translate }}</p>
             </div>
             <div class="projects">
                 @for (project of projects; let index = $index; track index) {

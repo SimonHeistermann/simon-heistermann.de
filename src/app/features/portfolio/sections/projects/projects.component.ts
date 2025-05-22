@@ -5,10 +5,12 @@ import { Project } from '../../../../core/models/project.interface';
 import { Subscription } from 'rxjs';
 import { FirebaseService } from '../../../../core/services/firebase-service/firebase.service';
 import { isPlatformBrowser } from '@angular/common';
+import { TranslationService } from '../../../../core/services/translation-service/translation.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-projects',
-  imports: [CommonModule, ProjectComponent],
+  imports: [CommonModule, ProjectComponent, TranslateModule],
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.sass']
 })
@@ -52,18 +54,28 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Reference to the projects section element */
   @ViewChild('projectsSection') projectsSection!: ElementRef;
 
+  /** Currently selected language code */
+  selectedLanguage: string = 'de';
+
+  /** Subscription to language changes */
+  private langSubscription!: Subscription;
+
   /**
    * Constructor injecting required services and platform identifier.
    * @param firebaseService Service to fetch projects data
    * @param renderer Angular Renderer2 to manipulate DOM safely
    * @param el ElementRef for the host element
    * @param platformId Platform identifier to check if running in browser
+   * @param translationService Custom translation service managing language changes.
+   * @param translateService ngx-translate service for translations.
    */
   constructor(
     private firebaseService: FirebaseService, 
     private renderer: Renderer2, 
     private el: ElementRef, 
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(TranslationService) private translationService: TranslationService,
+    private translateService: TranslateService,
   ) {}
 
   /**
@@ -73,6 +85,9 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.projectsSubscription = this.firebaseService.projects$.subscribe((projects: Project[]) => {
       this.projects = projects;
     });
+    this.langSubscription = this.translationService.currentLang$.subscribe(lang => {
+      this.selectedLanguage = lang;
+    });
   }
 
   /**
@@ -81,6 +96,9 @@ export class ProjectsComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.projectsSubscription?.unsubscribe();
     this.removeScrollListener();
+    if (this.langSubscription) {
+      this.langSubscription.unsubscribe();
+    }
   }
 
   /**

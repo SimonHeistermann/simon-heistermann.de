@@ -88,6 +88,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
   /**
+  * Platform identifier used to determine whether the code is running
+  * in a browser or on the server (for platform-specific behavior).
+  */
+  private platformId: Object;
+
+  /**
+  * Input flag to control navigation behavior.
+  * 
+  * When `true`, navigation uses a full page reload with hash-based anchors.
+  * When `false`, navigation performs smooth in-page scrolling.
+  */
+  @Input() isSimpleNavigation: boolean = false;
+
+  /**
    * Creates an instance of HeaderComponent
    * @param platformId - Injection token to determine platform environment
    * @param translationService - Service for handling language translations
@@ -100,6 +114,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private menuOverlayService: MenuOverlayService,
     private projectService: ProjectService
   ) {
+    this.platformId = platformId;
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
@@ -255,6 +270,49 @@ export class HeaderComponent implements OnInit, OnDestroy {
    */
   openHome() {
     this.projectService.navigateHome();
+  }
+
+  /**
+  * Scrolls to a specified section of the page.
+  * 
+  * Prevents default anchor behavior. If not running in the browser, the method exits early.
+  * Uses full page reload with hash-based navigation or smooth scrolling based on the `isSimpleNavigation` flag.
+  * 
+  * @param event The click event triggering the scroll.
+  * @param sectionId The ID of the section to scroll to.
+  */
+  scrollToSection(event: Event, sectionId: string): void {
+    event.preventDefault();
+    if (!isPlatformBrowser(this.platformId)) return;
+    if (this.isSimpleNavigation) {
+      this.navigateWithHash(sectionId);
+    } else {
+      this.smoothScrollToSection(sectionId);
+    }
+  }
+
+  /**
+   * Navigates to the specified section using a hash-based URL,
+   * triggering a full page reload.
+   * 
+   * @param sectionId The ID of the section to navigate to.
+   */
+  private navigateWithHash(sectionId: string): void {
+    window.location.href = `/#${sectionId}`;
+  }
+
+  /**
+  * Smoothly scrolls to the specified section within the current page.
+  * Accounts for a fixed vertical offset (e.g., header height).
+  * 
+  * @param sectionId The ID of the DOM element to scroll to.
+  */
+  private smoothScrollToSection(sectionId: string): void {
+    const element = document.getElementById(sectionId);
+    if (!element) return;
+    const yOffset = 117;
+    const y = element.getBoundingClientRect().top + window.scrollY - yOffset;
+    window.scrollTo({ top: y, behavior: 'smooth' });
   }
 }
 

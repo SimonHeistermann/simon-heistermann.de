@@ -1,5 +1,5 @@
 <app-mouse-follower></app-mouse-follower>
-<app-header [alwaysShowHoverStyle]="true"></app-header>
+<app-header [alwaysShowHoverStyle]="true" [isSimpleNavigation]="isSimpleNavigation"></app-header>
 <div class="legal__notice__container">
     <div *ngIf="currentLang === 'en'" class="legal__content">
       <h1>Legal Notice</h1>
@@ -177,3 +177,4 @@
       </div>
     </div>
 </div>
+<app-menu-overlay class="menu__overlay" [class.active]="isOverlayActive" [isSimpleNavigation]="isSimpleNavigation"></app-menu-overlay>

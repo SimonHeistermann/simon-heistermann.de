@@ -250,10 +250,8 @@ export class ProjectService {
    */
   isFeatureSupported(el: ElementRef): boolean {
     if (!isPlatformBrowser(this.platformId)) return false;
-    
     const hasResizeObserver = 'ResizeObserver' in window;
     const hasGetBoundingClientRect = typeof el.nativeElement.getBoundingClientRect === 'function';
-    
     return hasResizeObserver && hasGetBoundingClientRect;
   }
 }
