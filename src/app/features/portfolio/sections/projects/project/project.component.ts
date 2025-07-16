@@ -269,9 +269,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
    * @private
    */
   private playVideo(videoEl: HTMLVideoElement): void {
-    // Only attempt to play if still hovering
     if (!this.isHovering) return;
-    
     videoEl.play().catch(err => {
       console.warn('Autoplay not allowed:', err);
       this.playMutedFallback(videoEl);
@@ -296,9 +294,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
    * @private
    */
   private playMutedFallback(videoEl: HTMLVideoElement): void {
-    // Check if still hovering and element exists before attempting to play
     if (!this.isHovering || !videoEl) return;
-    
     if (!videoEl.muted) {
       videoEl.muted = true;
       videoEl.play().catch(err => {

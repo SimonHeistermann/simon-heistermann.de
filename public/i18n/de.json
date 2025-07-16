@@ -16,7 +16,7 @@
         "location": "aktuell in Borken (Wesftfalen)",
         "workStyle": "verfügbar für Teilzeit Remote-Jobs",
         "lifeStyle": "bald auf Weltreise",
-        "description1": "Ich bin 18 Jahre jung, motiviert und technikbegeistert. Nach meinem Abi und Praktika im Bereich Anwendungsentwicklung mache ich aktuell eine Weiterbildung, um meine Programmierkenntnisse zu vertiefen.",
+        "description1": "Ich bin 19 Jahre jung, motiviert und technikbegeistert. Nach meinem Abi und Praktika im Bereich Anwendungsentwicklung mache ich aktuell eine Weiterbildung, um meine Programmierkenntnisse zu vertiefen.",
         "description2": "Analytisches und kritisches Denken liegen mir besonders, denn ich löse gerne komplexe Probleme strukturiert und kreativ. Dabei lerne ich ständig dazu, um effizientere und elegantere Lösungen zu finden – mit Neugier, Durchhaltevermögen und Teamgeist",
         "buttonText": "Kontaktiere mich"
     },
@@ -33,6 +33,16 @@
         "title": "Auf der Suche nach einem Teamplayer?",
         "subtitle": "Das sagen Kollegen über mich",
         "1": {
+            "name": "Jana Schüler",
+            "project": "Projekt Kochwelt",
+            "text": "Simon ist eine freundliche, aufgeschlossene und äußerst verlässliche Person. Seine Kommunikation ist stets ruhig, strukturiert und produktiv. Dank seines engagierten Einsatzes konnten wir unser Projekt termingerecht, reibungslos und ohne unnötigen Stress abschließen. Ich würde ihn jederzeit wieder für ein Gruppenprojekt wählen."
+        },
+        "2": {
+            "name": "Eid Aden",
+            "project": "Projekt Join",
+            "text": "Die Zusammenarbeit mit Simon war immer konstruktiv und inspirierend. Er bringt fundiertes technisches Verständnis mit, kreative Ideen und eine lösungsorientierte Denkweise. Zuverlässig, teamfähig und engagiert – mit ihm wird jedes Projekt ein Erfolg."
+        },
+        "3": {
             "name": "Jana Schüler",
             "project": "Projekt Kochwelt",
             "text": "Simon ist eine freundliche, aufgeschlossene und äußerst verlässliche Person. Seine Kommunikation ist stets ruhig, strukturiert und produktiv. Dank seines engagierten Einsatzes konnten wir unser Projekt termingerecht, reibungslos und ohne unnötigen Stress abschließen. Ich würde ihn jederzeit wieder für ein Gruppenprojekt wählen."
@@ -54,13 +64,13 @@
         "privacyPolicy_2": "Datenschutzerklärung",
         "privacyPolicy_3": "gelesen und stimme zu.",
         "errors": {
-            "name": "Ihr Name ist erforderlich.",
-            "nameToShort": "Mindestens 2 Zeichen.",
-            "email": "Ihre E-Mail-Adresse ist erforderlich.",
-            "emailInvalid": "Ungültiges E-Mail-Format.",
-            "message": "Ihre Nachricht ist erforderlich.",
-            "messageToShort": "Mindestens 10 Zeichen.",
-            "privacyPolicy": "Bitte akzeptieren Sie die Datenschutzerklärung."
+            "name": "*Ihr Name ist erforderlich.",
+            "nameToShort": "*Mindestens 2 Zeichen.",
+            "email": "*Ihre E-Mail-Adresse ist erforderlich.",
+            "emailInvalid": "*Ungültiges E-Mail-Format.",
+            "message": "*Ihre Nachricht ist erforderlich.",
+            "messageToShort": "*Mindestens 10 Zeichen.",
+            "privacyPolicy": "*Bitte akzeptieren Sie die Datenschutzerklärung."
         },
         "successMessage": "Ihre Nachricht wurde erfolgreich gesendet!",
         "errorMessage": "Es gab einen Fehler beim Senden Ihrer Nachricht.",

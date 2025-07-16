@@ -1,21 +1,89 @@
 :root
-    --color-primary: #5988FF
-    --color-primary-dark: #0043F0
-    --color-primary-light: #EAF0FF
+  --color-primary: hsl(160, 35%, 45%)
+  --color-primary-dark: hsl(160, 35%, 38%)
+  --color-primary-light: hsl(160, 25%, 95%)
 
-    --gradient-intro: linear-gradient(to top, #EAF0FF 40%, #FFFFFF 100%)
-    --gradient-project: linear-gradient(to bottom, #5988FF 0%, #336CFD 50%, #0043F0 100%)
-    --gradient-radial-project-old: radial-gradient(circle in oklab, #5988FF 0%, #5988FF 40%, #4A73F5 60%, #0043F0 100%)
-    --gradient-radial-project: radial-gradient(circle at 15% 15%, #5988FF 0%, #5988FF 40%, #0043F0 95%)
-    --gradient-footer:  radial-gradient(circle, #5988FF 0%, #5988FF 50%, #0043F0 100%)
+  --color-secondary: hsl(215, 50%, 40%)
+  --color-secondary-dark: hsl(215, 50%, 35%)
+  --color-secondary-light: hsl(215, 30%, 95%)
 
+  --gradient-intro: linear-gradient(to top, hsl(160, 25%, 95%) 40%, hsl(210, 20%, 98%) 100%)
+  --gradient-project: linear-gradient(
+  160deg,
+  hsl(160, 35%, 45%) 0%,
+  hsl(170, 38%, 48%) 30%,
+  hsl(190, 42%, 50%) 60%,
+  hsl(215, 50%, 40%) 100%
+)
+  --gradient-radial-project: radial-gradient(circle at 15% 15%, hsl(160, 35%, 45%) 0%, hsl(180, 35%, 48%) 40%, hsl(215, 50%, 40%) 95%)
+  --gradient-footer: radial-gradient(circle, hsl(160, 35%, 45%) 0%, hsl(180, 35%, 48%) 50%, hsl(215, 50%, 40%) 100%)
+  --gradient-hero: linear-gradient(135deg, hsl(210, 25%, 97%) 0%, hsl(200, 30%, 95%) 30%, hsl(180, 25%, 96%) 70%, hsl(160, 20%, 97%) 100%)
 
-    --color-text: #000000
-    --color-background: #FFFFFF
-    --color-muted: #F5F5F5
-    --color-border: #E0E0E0
-    --color-accent: #FF4081
-    --color-success: #4CAF50
-    --color-warning: #FFC107
-    --color-error: #E61C40
+  --color-text: hsl(215, 25%, 27%)
+  --color-text-secondary: black
+  --color-background: hsl(210, 20%, 98%)
+  --color-muted: hsl(210, 15%, 95%)
+  --color-muted-foreground: hsl(215, 16%, 47%)
+  --color-border: hsl(210, 15%, 90%)
+  --color-accent: hsl(200, 40%, 60%)
+  --color-accent-foreground: hsl(0, 0%, 98%)
+  --color-success: hsl(140, 45%, 50%)
+  --color-warning: hsl(35, 85%, 55%)
+  --color-error: hsl(0, 84%, 60%)
+  --color-card: hsl(210, 20%, 98%)
+  --color-card-foreground: hsl(215, 25%, 27%)
+  --color-input: white
+  --color-bg-white: white
 
+  --color-ring: hsl(215, 25%, 27%)
+  --color-radius: 0.5rem
+
+  --brand-primary: hsl(160, 35%, 45%)
+  --brand-secondary: hsl(215, 50%, 40%)
+  --brand-accent: hsl(200, 40%, 60%)
+  --brand-primary-dark: hsl(160, 35%, 38%)
+
+  --linkedin-blue: #0077B5
+  --youtube-red: #FF0000
+  --instagram-pink: #FC03D8
+  --tiktok-black: #010101
+
+@media (prefers-color-scheme: dark)
+  :root
+    --color-background: hsl(220, 18%, 12%)
+    --color-text: hsl(210, 20%, 92%)
+    --color-text-secondary: white
+    --color-muted: hsl(220, 16%, 18%)
+    --color-muted-foreground: hsl(215, 16%, 65%)
+    --color-border: hsl(220, 16%, 22%)
+    --color-input: hsl(220, 16%, 22%)
+    --color-bg-white: linear-gradient(to top, hsl(220, 18%, 24%) 40%, hsl(220, 18%, 22%) 100%);
+
+    --color-primary: hsl(160, 45%, 55%)
+    --color-primary-dark: hsl(160, 45%, 48%)
+    --color-primary-light: hsl(160, 30%, 20%)
+
+    --color-secondary: hsl(215, 50%, 55%)
+    --color-secondary-dark: hsl(215, 50%, 48%)
+    --color-secondary-light: hsl(215, 30%, 20%)
+
+    --color-card: hsl(220, 18%, 13%)
+    --color-card-foreground: hsl(210, 20%, 95%)
+
+    --color-accent: hsl(200, 45%, 65%)
+    --color-accent-foreground: hsl(220, 18%, 10%)
+    --color-success: hsl(140, 45%, 55%)
+    --color-warning: hsl(35, 80%, 60%)
+    --color-error: hsl(0, 80%, 60%)
+
+    --color-ring: hsl(210, 20%, 92%)
+
+    --gradient-intro: linear-gradient(to top, hsl(220, 18%, 14%) 40%, hsl(220, 18%, 12%) 100%)
+    --gradient-project: linear-gradient(to bottom, hsl(160, 45%, 55%) 0%, hsl(180, 45%, 58%) 50%, hsl(215, 50%, 55%) 100%)
+    --gradient-radial-project: radial-gradient(circle at 15% 15%, hsl(160, 45%, 55%) 0%, hsl(180, 45%, 58%) 40%, hsl(215, 50%, 55%) 95%)
+    --gradient-footer: radial-gradient(circle, hsl(160, 45%, 55%) 0%, hsl(180, 45%, 58%) 50%, hsl(215, 50%, 55%) 100%)
+    --gradient-hero: linear-gradient(135deg, hsl(220, 18%, 12%) 0%, hsl(215, 18%, 14%) 30%, hsl(210, 18%, 16%) 70%, hsl(205, 18%, 18%) 100%)
+
+    --brand-primary: hsl(160, 45%, 55%)
+    --brand-secondary: hsl(215, 50%, 55%)
+    --brand-accent: hsl(200, 45%, 65%)

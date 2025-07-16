@@ -38,7 +38,7 @@ input, textarea
     @include fontMontserrat($fs: 16px)
     color: var(--color-text)
     outline: none
-    background-color: white
+    background-color: var(--color-input)
     transition: border 125ms ease, padding 125ms ease
 
     &::placeholder
@@ -66,9 +66,9 @@ button
     line-height: 120%
     letter-spacing: 0
     font-weight: 300
-    color: #5988FF
+    color: var(--color-primary)
     background-color: transparent
-    border: 2px solid #5988FF
+    border: 2px solid var(--color-primary)
     border-radius: 10px
     overflow: hidden
     min-width: 200px
@@ -89,7 +89,7 @@ button
         left: -130%
         width: 120%
         height: 100%
-        background: linear-gradient(90deg, #5988FF 0%, #0043F0 100%)
+        background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%)
         transform: skewX(-30deg)
         transition: all 0.3s ease
         z-index: -1
@@ -109,7 +109,7 @@ button
                 top: calc(50% - 0.5rem)
                 right: 0.75rem
                 border: 2px solid rgba(89, 136, 255, 0.3)
-                border-top-color: #5988FF
+                border-top-color: var(--color-primary)
                 border-radius: 50%
                 animation: rotate 0.8s linear infinite
 
@@ -149,7 +149,7 @@ button:disabled
         top: -10px
         opacity: 0
         transition: opacity 125ms ease-in-out
-        color: var(--color-text)
+        color: var(--color-text-secondary)
         background: transparent
 
         &::before
@@ -159,7 +159,7 @@ button:disabled
             left: 0
             right:0
             height: 1px
-            background: white
+            background: var(--color-input)
             z-index: -1
 
     &:focus-within
@@ -217,7 +217,7 @@ button:disabled
             width: 100%
 
         a
-            color: #5988FF
+            color: var(--color-primary)
             display: inline-flex
             text-decoration: none
             transition: all 125ms ease
@@ -232,7 +232,7 @@ button:disabled
                 display: inline-flex
 
             &:hover
-                color: #0043F0
+                color: var(--color-primary-dark)
                 text-decoration: underline !important
                 font-weight: 700 !important
     
@@ -251,6 +251,7 @@ button:disabled
     background-image: url('/img/icons/checkbox_default.png')
     position: relative
     flex-shrink: 0
+    filter: hue-rotate(-80deg) saturate(60%) brightness(90%)
 
 .custom__checkbox:hover 
     background-image: url('/img/icons/checkbox_default_hover.png')

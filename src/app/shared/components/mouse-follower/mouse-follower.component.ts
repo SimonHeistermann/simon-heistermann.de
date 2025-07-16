@@ -258,8 +258,8 @@ export class MouseFollowerComponent implements OnInit, OnDestroy {
    */
   private getFollowerBackground(): string {
     return this.isOverBlueElement
-      ? 'radial-gradient(circle, rgba(82, 130, 255, 0.4) 0%, rgba(179, 206, 255, 0.2) 40%, rgba(255, 255, 255, 0) 70%)'
-      : 'radial-gradient(circle, rgba(100, 149, 237, 0.2) 0%, rgba(255, 255, 255, 0) 70%)';
+      ? 'radial-gradient(circle, rgba(56, 179, 104, 0.4) 0%, rgba(153, 225, 173, 0.2) 40%, rgba(255, 255, 255, 0) 70%)'
+      : 'radial-gradient(circle, rgba(100, 237, 148, 0.2) 0%, rgba(255, 255, 255, 0) 70%)';
   }
 }
 

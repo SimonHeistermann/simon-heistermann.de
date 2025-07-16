@@ -13,10 +13,17 @@ import { ReferenceComponent } from "./reference/reference.component";
   styleUrl: './references.component.sass'
 })
 export class ReferencesComponent implements OnInit, OnDestroy {
+
   /**
    * Holds the current language code. Defaults to 'de'.
    */
   currentLang: string = 'de';
+
+  /**
+   * Array of indices used to generate dynamic references.
+   * Each number corresponds to a translation key suffix (e.g., references.1, references.2).
+   */
+  referenceIndices: number[] = [1, 2, 3];
 
   /**
    * Subscription to track language changes.
@@ -33,7 +40,7 @@ export class ReferencesComponent implements OnInit, OnDestroy {
 
   /**
    * Angular lifecycle hook called on component initialization.
-   * Subscribes to language changes observable.
+   * Subscribes to language change observable and stores current language.
    */
   ngOnInit(): void {
     this.langSubscription = this.translationService.currentLang$.subscribe((lang: string) => {

@@ -37,6 +37,7 @@ header
             display: none
             opacity: 0
             transition: all 125ms ease-in-out
+            filter: hue-rotate(-80deg) saturate(60%) brightness(90%)
 
             &:active
                 background-image: url('/img/icons/burger_menu_icon_hover.png')
@@ -45,7 +46,7 @@ header
     transform: translateY(-100%)
 
 .header__hovered
-    background-color: rgba(61, 90, 254, 0.9)
+    background-color: var(--color-primary-dark)
     backdrop-filter: blur(8px)
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)
     
@@ -58,6 +59,7 @@ header
         background-color: white !important
 
     .burger__menu
+        filter: hue-rotate(-80deg) saturate(60%) brightness(90%)
         background-image: url('/img/icons/burger_menu_icon_white.png') !important
 
 .header__hidden--immediate
@@ -150,11 +152,13 @@ nav
         opacity: 0
 
     .burger__menu
+        filter: hue-rotate(-80deg) saturate(60%) brightness(90%)
         display: block !important
         opacity: 1 !important
 
 @media screen and (max-width: 350px)
     .burger__menu
+        filter: hue-rotate(-80deg) saturate(60%) brightness(90%)
         background-image: url('/img/icons/burger_menu_icon_white.png') !important
     
     

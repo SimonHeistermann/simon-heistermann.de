@@ -104,7 +104,7 @@ h2
 
     > .description
         @include fontMontserrat($fs: 16px)
-        color: black
+        color: var(--color-text)
         text-overflow: ellipsis
         overflow: hidden
 
@@ -144,6 +144,7 @@ button
     bottom: 40px
     width: 40px
     height: 40px
+    filter: hue-rotate(-80deg) saturate(60%) brightness(90%)
 
     &:hover, &:active
         background-image: url('./../../../../../../public/img/icons/go_up_arrow_hover_icon.png')

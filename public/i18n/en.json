@@ -16,7 +16,7 @@
         "location": "currently in Borken (Westphalia)",
         "workStyle": "available for part-time remote jobs",
         "lifeStyle": "soon traveling the world",
-        "description1": "I’m 18 years old, motivated, and passionate about technology. After finishing high school and internships in software development, I am currently pursuing further training to deepen my coding skills.",
+        "description1": "I’m 19 years old, motivated, and passionate about technology. After finishing high school and internships in software development, I am currently pursuing further training to deepen my coding skills.",
         "description2": "Analytical and critical thinking come naturally to me, as I enjoy solving complex problems in a structured and creative way. I continuously learn from each challenge to find more efficient and elegant solutions—driven by curiosity, persistence, and collaboration.",
         "buttonText": "Send a message"
     },
@@ -33,6 +33,16 @@
         "title": "Looking for a team player?",
         "subtitle": "Here’s what colleagues say about me",
         "1": {
+            "name": "Jana Schüler",
+            "project": "Project cooking world",
+            "text": "Simon is a friendly, approachable, and highly dependable individual. His communication is always calm, well-structured, and productive. Thanks to his dedicated contributions, we completed our project on time, seamlessly, and without unnecessary stress. I would gladly choose him for any group project again."
+        },
+        "2": {
+            "name": "Eid Aden",
+            "project": "Project Join",
+            "text": "Working with Simon was always constructive and inspiring. He brings solid technical expertise, creative ideas, and a solution-oriented mindset. Reliable, a team player, and highly committed – every project becomes a success with him."
+        },
+        "3": {
             "name": "Jana Schüler",
             "project": "Project cooking world",
             "text": "Simon is a friendly, approachable, and highly dependable individual. His communication is always calm, well-structured, and productive. Thanks to his dedicated contributions, we completed our project on time, seamlessly, and without unnecessary stress. I would gladly choose him for any group project again."
@@ -54,13 +64,13 @@
         "privacyPolicy_2": "privacy policy",
         "privacyPolicy_3": "and agree to the processing of my data as outlined.",
         "errors": {
-            "name": "Your name is required.",
-            "nameToShort": "At least 2 characters.",
-            "email": "Your email is required.",
-            "emailInvalid": "Invalid email format.",
-            "message": "Your message is required.",
-            "messageToShort": "At leats 10 characters.",
-            "privacyPolicy": "Please accept the privacy policy."
+            "name": "*Your name is required.",
+            "nameToShort": "*At least 2 characters.",
+            "email": "*Your email is required.",
+            "emailInvalid": "*Invalid email format.",
+            "message": "*Your message is required.",
+            "messageToShort": "*At leats 10 characters.",
+            "privacyPolicy": "*Please accept the privacy policy."
         },
         "successMessage": "Your message was sent successfully!",
         "errorMessage": "There was an error sending your message.",

@@ -10,7 +10,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class FaviconService {
   /** Path to the favicon for light mode */
-  private readonly LIGHT_FAVICON = 'favicon_blue.ico';
+  private readonly LIGHT_FAVICON = 'favicon_green.ico';
   
   /** Path to the favicon for dark mode */
   private readonly DARK_FAVICON = 'favicon_white.ico';

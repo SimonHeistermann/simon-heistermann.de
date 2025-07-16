@@ -49,7 +49,7 @@ h3
 
 .project__description
     @include fontMontserrat($fs: 16px)
-    color: black
+    color: var(--color-text)
     padding-left: 0px
     padding-right: 16px
     overflow: hidden
@@ -68,9 +68,9 @@ h3
     line-height: 120%
     letter-spacing: 0
     font-weight: 300
-    color: #5988FF
+    color: var(--color-primary)
     background-color: transparent
-    border: 2px solid #5988FF
+    border: 2px solid var(--color-primary)
     border-radius: 10px
     overflow: hidden
     min-width: 200px
@@ -93,7 +93,7 @@ h3
         left: -130%
         width: 120%
         height: 100%
-        background: linear-gradient(90deg, #5988FF 0%, #0043F0 100%)
+        background: linear-gradient(90deg, var(--color-primary) 0%,  var(--color-secondary) 100%)
         transform: skewX(-30deg)
         transition: all 0.3s ease
         z-index: -1
@@ -111,8 +111,8 @@ h3
     letter-spacing: 0
     font-weight: 300
     color: white
-    background-color: #5988FF
-    border: 2px solid #5988FF
+    background-color: var(--color-primary)
+    border: 2px solid var(--color-primary)
     border-radius: 10px
     overflow: hidden
     min-width: 200px
@@ -135,7 +135,7 @@ h3
         left: -130%
         width: 120%
         height: 100%
-        background: linear-gradient(90deg, #5988FF 0%, #0043F0 100%)
+        background: linear-gradient(90deg,  var(--color-primary) 0%,  var(--color-secondary) 100%)
         transform: skewX(-30deg)
         transition: all 0.3s ease
         z-index: -1
