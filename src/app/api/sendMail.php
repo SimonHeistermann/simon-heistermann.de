@@ -40,7 +40,7 @@ switch ($requestMethod) {
             $name = htmlspecialchars(trim($params->name));
             $messageContent = nl2br(htmlspecialchars(strip_tags(trim($params->message))));
             $agreedToTerms = 'Ja';
-            $recipient = 'buisness@heistermann-solutions.de';
+            $recipient = 'business@heistermann-solutions.de';
             $subject = "Neue Kontaktanfrage von $name";
             $messageBody = "
                 <html>
@@ -74,5 +74,3 @@ switch ($requestMethod) {
         echo json_encode(['error' => 'Methode nicht erlaubt']);
         exit;
 }
-
-
