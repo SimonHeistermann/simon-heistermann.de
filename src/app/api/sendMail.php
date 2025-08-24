@@ -45,6 +45,7 @@ switch ($requestMethod) {
             $messageBody = "
                 <html>
                     <body>
+                        <p><strong>Neue Kontaktanfrage auf simon-heistermann.de:</strong></p>
                         <p><strong>Von:</strong> $name &lt;$email&gt;</p>
                         <p><strong>Nachricht:</strong><br>$messageContent</p>
                         <p><strong>Datenschutzerklärung akzeptiert:</strong> $agreedToTerms</p>

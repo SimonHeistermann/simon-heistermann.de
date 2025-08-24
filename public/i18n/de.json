@@ -33,9 +33,9 @@
         "title": "Auf der Suche nach einem Teamplayer?",
         "subtitle": "Das sagen Kollegen über mich",
         "1": {
-            "name": "Jana Schüler",
-            "project": "Projekt Kochwelt",
-            "text": "Simon ist eine freundliche, aufgeschlossene und äußerst verlässliche Person. Seine Kommunikation ist stets ruhig, strukturiert und produktiv. Dank seines engagierten Einsatzes konnten wir unser Projekt termingerecht, reibungslos und ohne unnötigen Stress abschließen. Ich würde ihn jederzeit wieder für ein Gruppenprojekt wählen."
+            "name": "Gagandeep Singh",
+            "project": "Projekt DABubble",
+            "text": "Mit Simon im DAbubble Projekt zusammenzuarbeiten war eine sehr positive Erfahrung. Er ist ein echter Teamplayer, der die Situation schnell erfasst und in den meisten Fällen direkt passende Lösungen findet. Besonders schätze ich seine klare und offene Kommunikation sowie sein tiefes technisches Verständnis. Simon hat die Fähigkeit, auch komplexe Themen verständlich zu erklären, sodass das gesamte Team davon profitiert."
         },
         "2": {
             "name": "Eid Aden",
@@ -43,6 +43,11 @@
             "text": "Die Zusammenarbeit mit Simon war immer konstruktiv und inspirierend. Er bringt fundiertes technisches Verständnis mit, kreative Ideen und eine lösungsorientierte Denkweise. Zuverlässig, teamfähig und engagiert – mit ihm wird jedes Projekt ein Erfolg."
         },
         "3": {
+            "name": "Xin Yang",
+            "project": "Projekt DABubble",
+            "text": "Die Zusammenarbeit mit Simon war durchweg bereichernd. Er bringt nicht nur technisches Können, sondern auch eine klare Struktur in die gemeinsame Arbeit. Besonders beeindruckt hat mich, wie er komplexe Aufgaben in handhabbare Schritte herunterbricht und so für Tempo im Projekt sorgt. Mit seiner offenen Art schafft er ein Umfeld, in dem Ideen schnell Gestalt annehmen und umgesetzt werden können."
+        },
+        "4": {
             "name": "Jana Schüler",
             "project": "Projekt Kochwelt",
             "text": "Simon ist eine freundliche, aufgeschlossene und äußerst verlässliche Person. Seine Kommunikation ist stets ruhig, strukturiert und produktiv. Dank seines engagierten Einsatzes konnten wir unser Projekt termingerecht, reibungslos und ohne unnötigen Stress abschließen. Ich würde ihn jederzeit wieder für ein Gruppenprojekt wählen."

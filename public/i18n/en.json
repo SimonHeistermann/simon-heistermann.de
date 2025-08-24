@@ -33,9 +33,9 @@
         "title": "Looking for a team player?",
         "subtitle": "Here’s what colleagues say about me",
         "1": {
-            "name": "Jana Schüler",
-            "project": "Project cooking world",
-            "text": "Simon is a friendly, approachable, and highly dependable individual. His communication is always calm, well-structured, and productive. Thanks to his dedicated contributions, we completed our project on time, seamlessly, and without unnecessary stress. I would gladly choose him for any group project again."
+            "name": "Gagandeep Singh",
+            "project": "Project DABubble",
+            "text": "Working with Simon on the DAbubble project was a very positive experience. He is a true team player who quickly understands situations and usually finds the right solutions. I especially value his clear and open communication as well as his deep technical expertise. Simon has the ability to explain even complex topics in an understandable way, which benefits the entire team."
         },
         "2": {
             "name": "Eid Aden",
@@ -43,6 +43,11 @@
             "text": "Working with Simon was always constructive and inspiring. He brings solid technical expertise, creative ideas, and a solution-oriented mindset. Reliable, a team player, and highly committed – every project becomes a success with him."
         },
         "3": {
+            "name": "Xin Yang",
+            "project": "Project DABubble",
+            "text": "Working with Simon was consistently enriching. He not only brings technical expertise but also clear structure to the collaboration. What impressed me most was his ability to break down complex tasks into manageable steps, which helped drive the project forward. With his open approach, he creates an environment where ideas quickly take shape and move into action."
+        },
+        "4": {
             "name": "Jana Schüler",
             "project": "Project cooking world",
             "text": "Simon is a friendly, approachable, and highly dependable individual. His communication is always calm, well-structured, and productive. Thanks to his dedicated contributions, we completed our project on time, seamlessly, and without unnecessary stress. I would gladly choose him for any group project again."

@@ -23,7 +23,7 @@ export class ReferencesComponent implements OnInit, OnDestroy {
    * Array of indices used to generate dynamic references.
    * Each number corresponds to a translation key suffix (e.g., references.1, references.2).
    */
-  referenceIndices: number[] = [1, 2, 3];
+  referenceIndices: number[] = [1, 2, 3, 4];
 
   /**
    * Subscription to track language changes.
