@@ -37,14 +37,8 @@ export class TypedAnimationService {
     if (!this.isPlatformBrowser()) {
       return Promise.resolve();
     }
-
-    // Sicherstellen, dass das Element leer ist und bereit für neue Animation
     this.prepareElement(element);
-    
-    // Alte Instanz zerstören falls vorhanden
     this.destroyInstance(instanceId);
-    
-    // Kurze Verzögerung um sicherzustellen, dass DOM bereit ist
     return new Promise<void>((resolve) => {
       setTimeout(() => {
         this.createTypedPromise(element, text, options, instanceId).then(resolve);
@@ -67,13 +61,9 @@ export class TypedAnimationService {
     if (!this.isPlatformBrowser()) {
       return Promise.resolve();
     }
-
-    // Alle Elemente vorbereiten
     animations.forEach(animation => {
       this.prepareElement(animation.element);
     });
-
-    // Sequenziell animieren
     for (const animation of animations) {
       await this.animateText(
         animation.element,
@@ -81,8 +71,6 @@ export class TypedAnimationService {
         animation.options || {},
         animation.instanceId
       );
-      
-      // Kleine Verzögerung zwischen Animationen
       await this.delay(100);
     }
   }
@@ -175,7 +163,7 @@ export class TypedAnimationService {
         this.typedInstances.set(instanceId, typedInstance);
       } catch (error) {
         console.error(`Error creating typed instance ${instanceId}:`, error);
-        resolve(); // Resolve anyway to not break the sequence
+        resolve();
       }
     });
   }
