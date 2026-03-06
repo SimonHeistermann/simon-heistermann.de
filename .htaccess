@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Do not rewrite API requests (PHP scripts)
+  RewriteRule ^api/ - [L]
+
+  # Do not rewrite existing files or directories
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Route everything else to index.html (Angular SPA)
+  RewriteRule . /index.html [L]
+</IfModule>
