@@ -19,8 +19,7 @@ const firebaseConfig = {
   projectId: "portfolio-39f9d",
   storageBucket: "portfolio-39f9d.firebasestorage.app",
   messagingSenderId: "420353673541",
-  appId: "1:420353673541:web:b192e5c98b82d1b954562c",
-  measurementId: "G-Q0Q2QZHTRN"
+  appId: "1:420353673541:web:b192e5c98b82d1b954562c"
 };
 
 /**

@@ -16,7 +16,7 @@ export class ContactService {
    * - `options`: HTTP headers and response settings.
    */
   private post = {
-    endPoint: 'https://simon-heistermann.de/api/sendMail.php',
+    endPoint: 'https://portfolio.projects.simon-heistermann.de/api/sendMail.php',
     options: {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

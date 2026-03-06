@@ -1,59 +1,79 @@
-# Portfolio
+# Portfolio — portfolio.projects.simon-heistermann.de
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.7.
+> Personal developer portfolio built with Angular 19 — training project from Developer Akademie.
 
-## Development server
+## Disclaimer
 
-To start a local development server, run:
+This is a **training project** built as part of my education at [Developer Akademie](https://developerakademie.com/). It is not a commercial product and is not intended for real-world use as a service. The contact form is functional and forwards messages via email. No real transactions, orders, or services are processed through this website.
+
+## About
+
+A single-page portfolio website showcasing my projects, skills, references, and contact information. Built with Angular 19 featuring server-side rendering (SSR), bilingual support (German/English), and a custom mouse-follower animation. Project and skill data is loaded dynamically from Firebase Firestore.
+
+## Tech Stack
+
+- **Framework:** Angular 19 (standalone components, SSR)
+- **Language:** TypeScript
+- **Styling:** SASS
+- **Database:** Firebase Firestore (project & skill data)
+- **i18n:** @ngx-translate (German/English)
+- **Animations:** Typed.js, Angular Animations
+- **Hosting:** Firebase Hosting
+- **Fonts:** Self-hosted Montserrat
+
+## Features
+
+- Responsive single-page design with smooth scroll navigation
+- Bilingual UI (German/English) with language switcher
+- Dynamic project showcase loaded from Firestore
+- Skill set display with categorized skills
+- Colleague references/testimonials section
+- Contact form with validation, honeypot spam protection, and PHP mail backend
+- Custom mouse-follower cursor animation
+- Server-side rendering for SEO
+- Menu overlay for mobile navigation
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm
+
+### Installation
+
+```bash
+npm install
+```
+
+### Running
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open [http://localhost:4200](http://localhost:4200) in your browser.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Building
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Build artifacts are stored in `dist/portfolio/`.
 
-## Running unit tests
+## Legal
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- [Legal Notice / Impressum](https://portfolio.projects.simon-heistermann.de/legal-notice)
+- [Privacy Policy / Datenschutz](https://portfolio.projects.simon-heistermann.de/privacy-policy)
 
-```bash
-ng test
-```
+## Author
 
-## Running end-to-end tests
+**Simon Maximilian Heistermann**
+- Website: [simon-heistermann.de](https://simon-heistermann.de)
+- Email: simon@heistermann-solutions.de
+- LinkedIn: [Simon Heistermann](https://www.linkedin.com/in/simon-maximilian-heistermann-419531250/)
 
-For end-to-end (e2e) testing, run:
+## License
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is part of a training curriculum and is not licensed for commercial use.

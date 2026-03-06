@@ -82,7 +82,8 @@
         "retry": "Try again"
     },
     "footer": {
-        "legalNotice": "Legal notice"
+        "legalNotice": "Legal notice",
+        "privacyPolicy": "Privacy policy"
     }
 }
   

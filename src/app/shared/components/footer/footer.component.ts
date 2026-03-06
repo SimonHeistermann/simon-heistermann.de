@@ -17,6 +17,7 @@ export class FooterComponent implements OnInit, OnDestroy {
    * Current language code, initialized to 'de' by default.
    */
   currentLang: string = 'de';
+  currentYear: number = new Date().getFullYear();
 
   /**
    * Subscription to listen for language changes.

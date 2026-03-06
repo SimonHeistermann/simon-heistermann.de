@@ -1,9 +1,15 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+error_reporting(0);
 
-header("Access-Control-Allow-Origin: *");
+$allowedOrigins = ['https://simon-heistermann.de', 'https://www.simon-heistermann.de', 'https://portfolio.projects.simon-heistermann.de', 'http://localhost:4200'];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowedOrigins)) {
+    header("Access-Control-Allow-Origin: $origin");
+} else {
+    header("Access-Control-Allow-Origin: https://simon-heistermann.de");
+}
 header("Content-Type: application/json; charset=UTF-8");
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -45,7 +51,7 @@ switch ($requestMethod) {
             $messageBody = "
                 <html>
                     <body>
-                        <p><strong>Neue Kontaktanfrage auf simon-heistermann.de:</strong></p>
+                        <p><strong>Neue Kontaktanfrage auf portfolio.projects.simon-heistermann.de:</strong></p>
                         <p><strong>Von:</strong> $name &lt;$email&gt;</p>
                         <p><strong>Nachricht:</strong><br>$messageContent</p>
                         <p><strong>Datenschutzerklärung akzeptiert:</strong> $agreedToTerms</p>

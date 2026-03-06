@@ -57,26 +57,29 @@ a
 
             &:hover, &:active
                 transform: scale(1.25)
-    
+
 .github__btn
     background: url('/img/icons/github_footer_icon.png')
 
 .email__btn
     background: url('/img/icons/email_footer_icon.png')
-    
+
 .linkedin__btn
     background: url('/img/icons/linkedin_footer_icon.png')
 
-.legal__notice__a
+.legal__links
+    @include displayFlex($jc: center, $g: 24px)
     position: absolute
     bottom: 48px
+
+.legal__notice__a
     button
         @include displayFlex()
         @include fontMontserrat($fs: 16px)
         color: white
         text-align: center
         background: transparent
-        transition: al 0.2s ease-in-out
+        transition: all 0.2s ease-in-out
 
         &:hover, &:active
             font-weight: 700 !important
@@ -120,11 +123,11 @@ a
   h2
     font-size: 14px
 
-  .legal__notice__a
+  .legal__links
     bottom: 24px
 
-    button
-      font-size: 14px
+  .legal__notice__a button
+    font-size: 14px
 
 @media screen and (max-width: 768px) and (min-width: 425px)
     section
@@ -154,29 +157,26 @@ a
         display: none !important
 
     .mobile
-        display: block !important
+        display: flex !important
 
     h2
         position: relative
 
-    .legal__notice__a
+    .legal__links
         position: relative
         bottom: 0
+        flex-wrap: wrap
 
 @media screen and (max-width: 360px)
     .social__media
         gap: 24px
 
-        > a 
+        > a
             > button
                 width: 24px
                 height: 24px
 
-    .logo__container 
+    .logo__container
         > .logo
             width: 48px
             height: 52px
-
-
-
-

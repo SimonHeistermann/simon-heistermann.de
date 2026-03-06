@@ -83,6 +83,7 @@
 
     },
     "footer": {
-        "legalNotice": "Impressum"
+        "legalNotice": "Impressum",
+        "privacyPolicy": "Datenschutz"
     }
 }
